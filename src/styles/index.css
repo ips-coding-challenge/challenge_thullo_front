@@ -2,4 +2,33 @@
 
 @tailwind components;
 
+.lds-dual-ring {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+}
+.lds-dual-ring:after {
+  content: ' ';
+  display: block;
+  width: 24px;
+  height: 24px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+.lds-dual-ring-black:after {
+  border: 2px solid #000;
+  border-color: #000 transparent #000 transparent;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 @tailwind utilities;

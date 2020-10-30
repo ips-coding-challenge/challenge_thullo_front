@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@hookform/resolvers": "^1.0.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -11,13 +12,19 @@
     "@types/react": "^16.9.53",
     "@types/react-dom": "^16.9.8",
     "autoprefixer": "^10.0.1",
+    "axios": "^0.21.0",
+    "fontsource-noto-sans": "^3.0.10",
     "postcss-cli": "^8.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-hook-form": "^6.9.6",
+    "react-icons": "^3.11.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
+    "recoil": "^0.1.1",
     "typescript": "^4.0.3",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "yup": "^0.29.3"
   },
   "scripts": {
     "build:style": "tailwindcss build src/styles/index.css -o src/styles/tailwind.css",
@@ -46,6 +53,7 @@
   },
   "devDependencies": {
     "@types/react-router-dom": "^5.1.6",
+    "@types/yup": "^0.29.9",
     "tailwindcss": "^1.9.6"
   }
 }

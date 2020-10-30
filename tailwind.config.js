@@ -1,6 +1,6 @@
 module.exports = {
   purge: {
-    enabled: true,
+    enabled: false,
     content: [
       './src/**/*.html',
       './src/**/*.js',
@@ -12,7 +12,7 @@ module.exports = {
   },
   theme: {
     fontFamily: {
-      sans: ['Poppins', 'sans-serif'],
+      sans: ['Noto Sans', 'sans-serif'],
     },
     extend: {
       colors: {
