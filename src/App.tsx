@@ -19,7 +19,7 @@ function App() {
       try {
         const res = await client.get('/me')
         console.log('res fetchUser', res.data)
-        setUser(res.data)
+        setUser(res.data.data)
       } catch (e) {
         console.log('e', e)
       } finally {

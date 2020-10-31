@@ -21,8 +21,8 @@ module.exports = {
         green: '#219653',
         white: '#FFFFFF',
         danger: '#f44336',
-        'light-gray': '#FAFAFB',
-        gray2: '#4F4F4F',
+        gray1: '#F2F2F2',
+        gray2: '#E0E0E0',
         gray3: '#828282',
         gray4: '#BDBDBD',
         gray5: '#F6F8FB',
@@ -38,6 +38,9 @@ module.exports = {
         container: '400px',
         containerBig: '800px',
       },
+      maxWidth: {
+        container: '1180px'
+      }
     },
   },
   variants: {},

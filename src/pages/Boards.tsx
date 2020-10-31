@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react'
+import { MdAdd } from 'react-icons/md'
 import client from '../api/client'
+import Button from '../components/Common/Button'
+import Layout from '../components/Layout'
 
 const Boards = () => {
   const [boards, setBoards] = useState<any>([])
@@ -19,16 +22,24 @@ const Boards = () => {
   }, [])
 
   return (
-    <div>
-      <h1>Boards</h1>
-      {boards.data && boards.data.length > 0 && (
-        <ul>
-          {boards.data.map((board: any) => {
-            return <li>{board.name}</li>
-          })}
-        </ul>
-      )}
-    </div>
+    <Layout>
+      <div className="flex justify-between items-center">
+        <h1 className="text-xl font-bold">All Boards</h1>
+        <Button
+          variant="primary"
+          icon={<MdAdd />}
+          text="Add"
+          alignment="left"
+        />
+        {boards.data && boards.data.length > 0 && (
+          <ul>
+            {boards.data.map((board: any) => {
+              return <li>{board.name}</li>
+            })}
+          </ul>
+        )}
+      </div>
+    </Layout>
   )
 }
 
