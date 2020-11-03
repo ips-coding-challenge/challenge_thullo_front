@@ -6,7 +6,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 import * as yup from 'yup'
 import client from '../api/client'
-import Input from '../components/Input'
+import Input from '../components/Form/Input'
 import LoadingButton from '../components/LoadingButton'
 import { userState } from '../state/userState'
 

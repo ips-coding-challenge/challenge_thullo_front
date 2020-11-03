@@ -11245,6 +11245,10 @@ video {
   max-width: 1280px;
 }
 
+.max-w-container {
+  max-width: 1180px;
+}
+
 .min-h-0 {
   min-height: 0;
 }
@@ -16483,8 +16487,8 @@ video {
   box-shadow: none;
 }
 
-.shadow-card {
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+.shadow-input {
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .hover\:shadow-xs:hover {
@@ -16527,8 +16531,8 @@ video {
   box-shadow: none;
 }
 
-.hover\:shadow-card:hover {
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+.hover\:shadow-input:hover {
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .focus\:shadow-xs:focus {
@@ -16571,8 +16575,8 @@ video {
   box-shadow: none;
 }
 
-.focus\:shadow-card:focus {
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+.focus\:shadow-input:focus {
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .fill-current {
@@ -32292,6 +32296,10 @@ video {
     max-width: 1280px;
   }
 
+  .sm\:max-w-container {
+    max-width: 1180px;
+  }
+
   .sm\:min-h-0 {
     min-height: 0;
   }
@@ -37530,8 +37538,8 @@ video {
     box-shadow: none;
   }
 
-  .sm\:shadow-card {
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  .sm\:shadow-input {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   .sm\:hover\:shadow-xs:hover {
@@ -37574,8 +37582,8 @@ video {
     box-shadow: none;
   }
 
-  .sm\:hover\:shadow-card:hover {
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  .sm\:hover\:shadow-input:hover {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   .sm\:focus\:shadow-xs:focus {
@@ -37618,8 +37626,8 @@ video {
     box-shadow: none;
   }
 
-  .sm\:focus\:shadow-card:focus {
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  .sm\:focus\:shadow-input:focus {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   .sm\:fill-current {
@@ -53274,6 +53282,10 @@ video {
     max-width: 1280px;
   }
 
+  .md\:max-w-container {
+    max-width: 1180px;
+  }
+
   .md\:min-h-0 {
     min-height: 0;
   }
@@ -58512,8 +58524,8 @@ video {
     box-shadow: none;
   }
 
-  .md\:shadow-card {
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  .md\:shadow-input {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   .md\:hover\:shadow-xs:hover {
@@ -58556,8 +58568,8 @@ video {
     box-shadow: none;
   }
 
-  .md\:hover\:shadow-card:hover {
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  .md\:hover\:shadow-input:hover {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   .md\:focus\:shadow-xs:focus {
@@ -58600,8 +58612,8 @@ video {
     box-shadow: none;
   }
 
-  .md\:focus\:shadow-card:focus {
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  .md\:focus\:shadow-input:focus {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   .md\:fill-current {
@@ -74256,6 +74268,10 @@ video {
     max-width: 1280px;
   }
 
+  .lg\:max-w-container {
+    max-width: 1180px;
+  }
+
   .lg\:min-h-0 {
     min-height: 0;
   }
@@ -79494,8 +79510,8 @@ video {
     box-shadow: none;
   }
 
-  .lg\:shadow-card {
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  .lg\:shadow-input {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   .lg\:hover\:shadow-xs:hover {
@@ -79538,8 +79554,8 @@ video {
     box-shadow: none;
   }
 
-  .lg\:hover\:shadow-card:hover {
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  .lg\:hover\:shadow-input:hover {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   .lg\:focus\:shadow-xs:focus {
@@ -79582,8 +79598,8 @@ video {
     box-shadow: none;
   }
 
-  .lg\:focus\:shadow-card:focus {
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  .lg\:focus\:shadow-input:focus {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   .lg\:fill-current {
@@ -95238,6 +95254,10 @@ video {
     max-width: 1280px;
   }
 
+  .xl\:max-w-container {
+    max-width: 1180px;
+  }
+
   .xl\:min-h-0 {
     min-height: 0;
   }
@@ -100476,8 +100496,8 @@ video {
     box-shadow: none;
   }
 
-  .xl\:shadow-card {
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  .xl\:shadow-input {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   .xl\:hover\:shadow-xs:hover {
@@ -100520,8 +100540,8 @@ video {
     box-shadow: none;
   }
 
-  .xl\:hover\:shadow-card:hover {
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  .xl\:hover\:shadow-input:hover {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   .xl\:focus\:shadow-xs:focus {
@@ -100564,8 +100584,8 @@ video {
     box-shadow: none;
   }
 
-  .xl\:focus\:shadow-card:focus {
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  .xl\:focus\:shadow-input:focus {
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
   }
 
   .xl\:fill-current {

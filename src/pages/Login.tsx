@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Input from '../components/Input'
+import Input from '../components/Form/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 import { useForm } from 'react-hook-form'

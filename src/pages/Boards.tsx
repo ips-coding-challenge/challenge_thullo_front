@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { MdAdd } from 'react-icons/md'
 import client from '../api/client'
+import CreateBoardModal from '../components/Boards/CreateBoardModal'
 import Button from '../components/Common/Button'
 import Layout from '../components/Layout'
 
 const Boards = () => {
   const [boards, setBoards] = useState<any>([])
+  const [showModal, setShowModal] = useState<boolean>(true)
 
   const fetchBoards = useCallback(async () => {
     try {
@@ -30,6 +32,7 @@ const Boards = () => {
           icon={<MdAdd />}
           text="Add"
           alignment="left"
+          onClick={() => setShowModal(true)}
         />
         {boards.data && boards.data.length > 0 && (
           <ul>
@@ -38,6 +41,10 @@ const Boards = () => {
             })}
           </ul>
         )}
+        <CreateBoardModal
+          isVisible={showModal}
+          onClose={() => setShowModal(false)}
+        />
       </div>
     </Layout>
   )
