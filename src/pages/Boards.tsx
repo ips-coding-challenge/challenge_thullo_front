@@ -3,6 +3,7 @@ import { MdAdd } from 'react-icons/md'
 import client from '../api/client'
 import CreateBoardModal from '../components/Boards/CreateBoardModal'
 import Button from '../components/Common/Button'
+import UnsplashModal from '../components/Common/UnsplashModal'
 import Layout from '../components/Layout'
 
 const Boards = () => {

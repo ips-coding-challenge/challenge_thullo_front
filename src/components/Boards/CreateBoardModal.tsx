@@ -21,6 +21,7 @@ const CreateBoardModal = ({ isVisible, onClose }: ModalProps) => {
   })
 
   const [serverErrors, setServerErrors] = useState<any>(null)
+  const [showUnsplashModal, setShowUnsplashModal] = useState<boolean>(false)
   const [cover, setCover] = useState<string | null>(null)
   const [visibility, setVisibility] = useState<string>('private')
 
@@ -52,15 +53,18 @@ const CreateBoardModal = ({ isVisible, onClose }: ModalProps) => {
             error={errors.name?.message}
           />
 
-          <div className="flex mb-6">
+          <div className="relative flex mb-6">
             <Button
-              className="relative w-1/2 mr-4"
+              className="w-1/2 mr-4"
               icon={<MdImage />}
               text="cover"
               alignment="left"
               variant="default"
-              onClick={() => {}}
+              onClick={() => {
+                setShowUnsplashModal((old) => !old)
+              }}
             />
+            <UnsplashModal isVisible={showUnsplashModal} />
             <Button
               className="w-1/2 ml-4"
               icon={<MdLock />}

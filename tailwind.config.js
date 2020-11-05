@@ -22,7 +22,7 @@ module.exports = {
         white: '#FFFFFF',
         danger: '#f44336',
         gray1: '#F2F2F2',
-        gray2: '#E0E0E0',
+        gray2: '#4F4F4F',
         gray3: '#828282',
         gray4: '#BDBDBD',
         gray5: '#F6F8FB',
