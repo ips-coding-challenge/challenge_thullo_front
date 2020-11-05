@@ -16,8 +16,8 @@ type ButtonProps = {
 const variants: any = {
   primary: 'bg-blue hover:bg-blue-darker text-white',
   secondary: '',
-  default: 'bg-gray1 hover:bg-gray2 text-gray3',
-  blank: 'bg-white hover:bg-gray2 text-gray3',
+  default: 'bg-gray1 hover:bg-gray5 text-gray3',
+  blank: 'bg-white hover:bg-gray5 text-gray3',
 }
 const Button = ({
   icon,
