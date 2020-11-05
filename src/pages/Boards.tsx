@@ -8,7 +8,7 @@ import Layout from '../components/Layout'
 
 const Boards = () => {
   const [boards, setBoards] = useState<any>([])
-  const [showModal, setShowModal] = useState<boolean>(true)
+  const [showModal, setShowModal] = useState<boolean>(false)
 
   const fetchBoards = useCallback(async () => {
     try {
@@ -24,27 +24,36 @@ const Boards = () => {
     fetchBoards()
   }, [])
 
+  const onCreated = (board: any) => {
+    console.log('board', board)
+    setShowModal(false)
+    setBoards((old: any) => old.concat(board))
+  }
+
   return (
     <Layout>
-      <div className="flex justify-between items-center">
-        <h1 className="text-xl font-bold">All Boards</h1>
-        <Button
-          variant="primary"
-          icon={<MdAdd />}
-          text="Add"
-          alignment="left"
-          onClick={() => setShowModal(true)}
-        />
-        {boards.data && boards.data.length > 0 && (
+      <div>
+        <div className="flex justify-between items-center">
+          <h1 className="text-xl font-bold">All Boards</h1>
+          <Button
+            variant="primary"
+            icon={<MdAdd />}
+            text="Add"
+            alignment="left"
+            onClick={() => setShowModal(true)}
+          />
+        </div>
+        {boards.length > 0 && (
           <ul>
-            {boards.data.map((board: any) => {
-              return <li>{board.name}</li>
+            {boards.map((board: any) => {
+              return <li key={board.id}>{board.name}</li>
             })}
           </ul>
         )}
         <CreateBoardModal
           isVisible={showModal}
           onClose={() => setShowModal(false)}
+          onCreated={onCreated}
         />
       </div>
     </Layout>

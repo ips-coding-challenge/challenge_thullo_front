@@ -14,14 +14,17 @@ const BasicInput = React.forwardRef(
     ref: any
   ) => {
     return (
-      <input
-        style={{ minWidth: 0 }}
-        className={`${className} bg-transparent w-full h-full p-2 border border-gray2 rounded-lg shadow-input`}
-        type={type}
-        name={name}
-        placeholder={placeholder}
-        ref={ref}
-      />
+      <div>
+        <input
+          style={{ minWidth: 0 }}
+          className={`${className} bg-transparent w-full h-full p-2 border border-gray2 rounded-lg shadow-input`}
+          type={type}
+          name={name}
+          placeholder={placeholder}
+          ref={ref}
+        />
+        {error && <p className="text-red-500 text-sm">{error}</p>}
+      </div>
     )
   }
 )

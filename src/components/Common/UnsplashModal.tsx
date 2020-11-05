@@ -33,6 +33,7 @@ const UnsplashModal = ({
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
+              e.preventDefault()
               searchPhotos(query)
             }
           }}
@@ -51,7 +52,10 @@ const UnsplashModal = ({
           return (
             <li
               className="cursor-pointer"
-              onClick={() => selectPhoto(photo)}
+              onClick={(e) => {
+                e.preventDefault()
+                selectPhoto(photo)
+              }}
               key={photo.id}
             >
               <img

@@ -6,12 +6,14 @@ type ButtonProps = {
   type?: 'button' | 'submit' | 'reset' | undefined
   alignment?: string
   className?: string
+  style?: React.CSSProperties
   onClick?:
     | ((
         event: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>
       ) => void)
     | undefined
   icon?: JSX.Element
+  disabled?: boolean
 }
 const variants: any = {
   primary: 'bg-blue hover:bg-blue-darker text-white',
@@ -26,13 +28,17 @@ const Button = ({
   alignment,
   variant,
   className,
+  style,
   onClick,
+  disabled,
 }: ButtonProps) => {
   return (
     <button
       type={type || 'button'}
+      style={style}
       className={`${variants[variant]} ${className} rounded-lg px-4 py-2 flex items-center justify-center`}
       onClick={onClick}
+      disabled={disabled}
     >
       {icon && alignment === 'left' ? <div className="mr-2">{icon}</div> : null}
       <p>{text}</p>
