@@ -7,7 +7,11 @@ import SearchInput from './SearchInput'
 import { User } from '../../types/types'
 import { MdExpandMore } from 'react-icons/md'
 
-const Navbar = () => {
+type NavbarProps = {
+  name?: string
+}
+
+const Navbar = ({ name }: NavbarProps) => {
   const user: User | null = useRecoilValue(userState)
 
   return (
@@ -15,6 +19,7 @@ const Navbar = () => {
       <div className="hidden md:flex">
         <img src={Logo} alt="Thullo logo" />
       </div>
+      {name && <div>{name}</div>}
       <div className="flex w-full md:w-auto justify-between">
         <SearchInput className="w-3/5 flex-auto mr-1" />
         <div className="ml-4 md:ml-16 flex-none flex items-center">
