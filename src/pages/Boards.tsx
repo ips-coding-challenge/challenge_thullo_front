@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { MdAdd } from 'react-icons/md'
 import client from '../api/client'
+import BasicLoader from '../components/BasicLoader'
 import BoardCard from '../components/Boards/BoardCard'
 import CreateBoardModal from '../components/Boards/CreateBoardModal'
 import Button from '../components/Common/Button'
@@ -8,6 +9,7 @@ import UnsplashModal from '../components/Common/UnsplashModal'
 import Layout from '../components/Layout'
 
 const Boards = () => {
+  const [loading, setLoading] = useState<boolean>(true)
   const [boards, setBoards] = useState<any>([])
   const [showModal, setShowModal] = useState<boolean>(false)
 
@@ -18,6 +20,8 @@ const Boards = () => {
       setBoards(res.data.data)
     } catch (e) {
       console.log('e', e)
+    } finally {
+      setLoading(false)
     }
   }, [])
 
@@ -29,6 +33,10 @@ const Boards = () => {
     console.log('board', board)
     setShowModal(false)
     setBoards((old: any) => old.concat(board))
+  }
+
+  if (loading) {
+    return <BasicLoader />
   }
 
   return (

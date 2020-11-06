@@ -41,7 +41,7 @@ const Button = ({
       disabled={disabled}
     >
       {icon && alignment === 'left' ? <div className="mr-2">{icon}</div> : null}
-      <p>{text}</p>
+      <p className="text-sm font-semibold">{text}</p>
       {icon && alignment === 'right' ? (
         <div className="ml-2">{icon}</div>
       ) : null}

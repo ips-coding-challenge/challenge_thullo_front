@@ -26,7 +26,9 @@ module.exports = {
         gray3: '#828282',
         gray4: '#BDBDBD',
         gray5: '#F6F8FB',
+        boardBg: '#F8F9FD',
         'light-blue': '#F6F8FB',
+        'blue-btn': '#DAE4FD'
       },
       borderRadius: {
         card: '12px',
@@ -37,6 +39,7 @@ module.exports = {
       width: {
         container: '400px',
         containerBig: '800px',
+        list: '250px'
       },
       maxWidth: {
         container: '1180px'
