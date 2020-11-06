@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { MdAdd } from 'react-icons/md'
 import client from '../api/client'
+import BoardCard from '../components/Boards/BoardCard'
 import CreateBoardModal from '../components/Boards/CreateBoardModal'
 import Button from '../components/Common/Button'
 import UnsplashModal from '../components/Common/UnsplashModal'
@@ -32,8 +33,8 @@ const Boards = () => {
 
   return (
     <Layout>
-      <div>
-        <div className="flex justify-between items-center">
+      <div className="w-full">
+        <div className="flex justify-between items-center mb-8">
           <h1 className="text-xl font-bold">All Boards</h1>
           <Button
             variant="primary"
@@ -44,9 +45,9 @@ const Boards = () => {
           />
         </div>
         {boards.length > 0 && (
-          <ul>
+          <ul className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {boards.map((board: any) => {
-              return <li key={board.id}>{board.name}</li>
+              return <BoardCard key={board.id} board={board} />
             })}
           </ul>
         )}

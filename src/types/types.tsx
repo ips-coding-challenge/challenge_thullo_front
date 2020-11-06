@@ -6,3 +6,14 @@ export type User = {
   created_at?: string | null
   updated_at?: string | null
 }
+
+export type Board = {
+  id: number
+  name: string
+  cover: string
+  user_id: number
+  username: string
+  members: User[]
+  created_at?: string | null
+  updated_at?: string | null
+}

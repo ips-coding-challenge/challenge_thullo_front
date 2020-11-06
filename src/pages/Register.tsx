@@ -38,7 +38,10 @@ const Register = () => {
       history.push('/')
     } catch (e) {
       console.log('register error', e)
-      setServerErrors(e.message)
+      if (e.response && e.response.data) {
+        setServerErrors({ message: e.response.data })
+      }
+      setLoading(false)
     }
   }
   return (

@@ -36,8 +36,13 @@ const Login = () => {
       setUserState(data.user)
       history.push('/')
     } catch (e) {
-      console.log('login error', e)
-      setServerErrors(e.message)
+      console.log('login error', e.response)
+      if (e.response && e.response.data) {
+        setServerErrors({ message: e.response.data })
+      } else {
+        setServerErrors({ message: e.message })
+      }
+      setLoading(false)
     }
   }
   return (

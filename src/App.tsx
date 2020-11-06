@@ -9,6 +9,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { userState } from './state/userState'
 import client from './api/client'
 import BasicLoader from './components/BasicLoader'
+import SingleBoard from './pages/SingleBoard'
 
 function App() {
   const [user, setUser] = useRecoilState(userState)
@@ -50,6 +51,9 @@ function App() {
         <PublicRoute path="/register">
           <Register />
         </PublicRoute>
+        <PrivateRoute exact path="/boards/:id">
+          <SingleBoard />
+        </PrivateRoute>
         <PrivateRoute exact path="/">
           <Boards />
         </PrivateRoute>

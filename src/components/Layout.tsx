@@ -7,7 +7,7 @@ type LayoutProps = {
 
 const Layout = ({ children }: LayoutProps) => {
   return (
-    <div>
+    <div className="w-full">
       <Navbar />
       <div className="container mx-auto mt-8 max-w-container px-8">
         {children}
