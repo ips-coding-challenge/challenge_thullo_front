@@ -1,11 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { MdMoreHoriz } from 'react-icons/md'
+import { ListOfTasks } from '../../types/types'
+import ListInput from './ListInput'
 
-const List = ({ list }: any) => {
+type ListProps = {
+  board_id: number
+  list: ListOfTasks
+  onSaved: (list: ListOfTasks) => void
+}
+
+const List = ({ board_id, list, onSaved }: ListProps) => {
+  const [edit, setEdit] = useState<boolean>(false)
   return (
     <div className="flex w-list justify-between items-center">
-      <h3>{list.name}</h3>
-      <MdMoreHoriz />
+      {edit ? (
+        <ListInput
+          board_id={board_id}
+          list={list}
+          setEdit={setEdit}
+          onSaved={onSaved}
+        />
+      ) : (
+        <>
+          <h3>{list.name}</h3>
+          <MdMoreHoriz
+            onClick={() => setEdit(true)}
+            className="cursor-pointer hover:text-blue transition-colors duration-300"
+          />
+        </>
+      )}
     </div>
   )
 }

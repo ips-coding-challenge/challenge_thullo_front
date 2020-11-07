@@ -40,6 +40,8 @@ const Register = () => {
       console.log('register error', e)
       if (e.response && e.response.data) {
         setServerErrors({ message: e.response.data })
+      } else {
+        setServerErrors({ message: e.message })
       }
       setLoading(false)
     }

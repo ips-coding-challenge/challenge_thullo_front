@@ -43,6 +43,9 @@ module.exports = {
       },
       maxWidth: {
         container: '1180px'
+      },
+      gridAutoColumns: {
+        'list': 'minmax(250px, 1fr)',
       }
     },
   },

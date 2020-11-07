@@ -17,3 +17,10 @@ export type Board = {
   created_at?: string | null
   updated_at?: string | null
 }
+
+export type ListOfTasks = {
+  id: number
+  name: string
+  created_at?: string | null
+  updated_at?: string | null
+}

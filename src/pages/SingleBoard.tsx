@@ -5,32 +5,45 @@ import client from '../api/client'
 import BasicLoader from '../components/BasicLoader'
 import Button from '../components/Common/Button'
 import Navbar from '../components/Header/Navbar'
-import Layout from '../components/Layout'
-import AddButton from '../components/Lists/AddButton'
+import AddList from '../components/Lists/AddList'
 import List from '../components/Lists/List'
-import { Board } from '../types/types'
+import { Board, ListOfTasks } from '../types/types'
 
 const SingleBoard = () => {
   const { id }: any = useParams()
   const [board, setBoard] = useState<Board | null>(null)
+  const [lists, setLists] = useState<ListOfTasks[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
   const fetchBoard = useCallback(async () => {
-    console.log('id', id)
+    const res = await client.get(`/boards/${id}`)
+    setBoard(res.data.data)
+  }, [])
+
+  const fetchLists = useCallback(async () => {
+    const res = await client.get(`/lists?board_id=${id}`)
+    setLists(res.data.data)
+  }, [])
+
+  const init = async () => {
     try {
-      const res = await client.get(`/boards/${id}`)
-      console.log('board', res.data.data)
-      setBoard(res.data.data)
+      await fetchBoard()
+      await fetchLists()
     } catch (e) {
-      console.log('Fetch Board error', e)
+      console.log('e', e)
     } finally {
       setLoading(false)
     }
-  }, [])
+  }
 
   useEffect(() => {
-    fetchBoard()
+    init()
   }, [])
+
+  const onListSaved = (list: ListOfTasks) => {
+    console.log('list saved')
+    setLists((old) => old.concat(list))
+  }
 
   if (loading) {
     return <BasicLoader />
@@ -51,11 +64,19 @@ const SingleBoard = () => {
         </div>
 
         <div className="bg-boardBg rounded-lg h-full">
-          <div className="grid grid-flow-col gap-6">
-            <List list={{ name: 'List 1' }} />
-            <List list={{ name: 'List 2' }} />
-            <List list={{ name: 'List 3' }} />
-            <AddButton icon={<MdAdd />} text="Add a list" />
+          <div className="grid grid-flow-col gap-6 auto-cols-list">
+            {lists.length > 0 &&
+              lists.map((list: ListOfTasks) => {
+                return (
+                  <List
+                    key={list.id}
+                    board_id={board!.id}
+                    onSaved={onListSaved}
+                    list={list}
+                  />
+                )
+              })}
+            <AddList board_id={board!.id} onSaved={onListSaved} />
           </div>
         </div>
       </div>

@@ -19586,6 +19586,10 @@ video {
   grid-auto-columns: minmax(0, 1fr);
 }
 
+.auto-cols-list {
+  grid-auto-columns: minmax(250px, 1fr);
+}
+
 .col-auto {
   grid-column: auto;
 }
@@ -40941,6 +40945,10 @@ video {
     grid-auto-columns: minmax(0, 1fr);
   }
 
+  .sm\:auto-cols-list {
+    grid-auto-columns: minmax(250px, 1fr);
+  }
+
   .sm\:col-auto {
     grid-column: auto;
   }
@@ -62229,6 +62237,10 @@ video {
 
   .md\:auto-cols-fr {
     grid-auto-columns: minmax(0, 1fr);
+  }
+
+  .md\:auto-cols-list {
+    grid-auto-columns: minmax(250px, 1fr);
   }
 
   .md\:col-auto {
@@ -83521,6 +83533,10 @@ video {
     grid-auto-columns: minmax(0, 1fr);
   }
 
+  .lg\:auto-cols-list {
+    grid-auto-columns: minmax(250px, 1fr);
+  }
+
   .lg\:col-auto {
     grid-column: auto;
   }
@@ -104809,6 +104825,10 @@ video {
 
   .xl\:auto-cols-fr {
     grid-auto-columns: minmax(0, 1fr);
+  }
+
+  .xl\:auto-cols-list {
+    grid-auto-columns: minmax(250px, 1fr);
   }
 
   .xl\:col-auto {
