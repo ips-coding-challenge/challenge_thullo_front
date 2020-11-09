@@ -6,25 +6,22 @@ import ListInput from './ListInput'
 type ListProps = {
   board_id: number
   list: ListOfTasks
-  onSaved: (list: ListOfTasks) => void
 }
 
-const List = ({ board_id, list, onSaved }: ListProps) => {
+const List = ({ board_id, list }: ListProps) => {
   const [edit, setEdit] = useState<boolean>(false)
+
   return (
     <div className="flex w-list justify-between items-center">
       {edit ? (
-        <ListInput
-          board_id={board_id}
-          list={list}
-          setEdit={setEdit}
-          onSaved={onSaved}
-        />
+        <ListInput board_id={board_id} list={list} setEdit={setEdit} />
       ) : (
         <>
           <h3>{list.name}</h3>
           <MdMoreHoriz
-            onClick={() => setEdit(true)}
+            onClick={() => {
+              setEdit(true)
+            }}
             className="cursor-pointer hover:text-blue transition-colors duration-300"
           />
         </>
@@ -33,4 +30,4 @@ const List = ({ board_id, list, onSaved }: ListProps) => {
   )
 }
 
-export default List
+export default React.memo(List)

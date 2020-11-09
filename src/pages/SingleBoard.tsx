@@ -1,18 +1,21 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { MdAdd, MdMoreHoriz } from 'react-icons/md'
 import { useParams } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
 import client from '../api/client'
 import BasicLoader from '../components/BasicLoader'
 import Button from '../components/Common/Button'
 import Navbar from '../components/Header/Navbar'
 import AddList from '../components/Lists/AddList'
 import List from '../components/Lists/List'
+import { listState } from '../state/listState'
 import { Board, ListOfTasks } from '../types/types'
 
 const SingleBoard = () => {
   const { id }: any = useParams()
   const [board, setBoard] = useState<Board | null>(null)
-  const [lists, setLists] = useState<ListOfTasks[]>([])
+  const [lists, setLists] = useRecoilState(listState)
+  // const [lists, setLists] = useState<ListOfTasks[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
   const fetchBoard = useCallback(async () => {
@@ -40,11 +43,6 @@ const SingleBoard = () => {
     init()
   }, [])
 
-  const onListSaved = (list: ListOfTasks) => {
-    console.log('list saved')
-    setLists((old) => old.concat(list))
-  }
-
   if (loading) {
     return <BasicLoader />
   }
@@ -67,16 +65,9 @@ const SingleBoard = () => {
           <div className="grid grid-flow-col gap-6 auto-cols-list">
             {lists.length > 0 &&
               lists.map((list: ListOfTasks) => {
-                return (
-                  <List
-                    key={list.id}
-                    board_id={board!.id}
-                    onSaved={onListSaved}
-                    list={list}
-                  />
-                )
+                return <List key={list.id} board_id={board!.id} list={list} />
               })}
-            <AddList board_id={board!.id} onSaved={onListSaved} />
+            <AddList board_id={board!.id} />
           </div>
         </div>
       </div>

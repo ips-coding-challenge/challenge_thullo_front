@@ -6,22 +6,16 @@ import ListInput from './ListInput'
 
 type AddListProps = {
   board_id: number
-  onSaved: (list: ListOfTasks) => void
   list?: ListOfTasks | null
 }
 
-const AddList = ({ board_id, list, onSaved }: AddListProps) => {
+const AddList = ({ board_id, list }: AddListProps) => {
   const [edit, setEdit] = useState<boolean>(false)
 
   return (
     <div className="w-full">
       {edit ? (
-        <ListInput
-          board_id={board_id}
-          setEdit={setEdit}
-          list={list}
-          onSaved={onSaved}
-        />
+        <ListInput board_id={board_id} setEdit={setEdit} list={list} />
       ) : (
         <AddButton
           icon={<MdAdd />}
