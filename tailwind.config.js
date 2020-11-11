@@ -41,6 +41,9 @@ module.exports = {
         containerBig: '800px',
         list: '250px'
       },
+      height: {
+        "board": "calc(100vh - 64px)"
+      },
       maxWidth: {
         container: '1180px'
       },

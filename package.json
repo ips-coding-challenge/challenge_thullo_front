@@ -14,6 +14,7 @@
     "autoprefixer": "^10.0.1",
     "axios": "^0.21.0",
     "fontsource-noto-sans": "^3.0.10",
+    "nanoid": "^3.1.16",
     "postcss-cli": "^8.1.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
