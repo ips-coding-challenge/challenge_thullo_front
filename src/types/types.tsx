@@ -25,3 +25,14 @@ export type ListOfTasks = {
   created_at?: string | null
   updated_at?: string | null
 }
+
+export type TaskType = {
+  id?: number | null
+  title: string
+  board_id: number
+  list_id: number
+  position: number
+  cover?: string
+  created_at?: string | null
+  updated_at?: string | null
+}

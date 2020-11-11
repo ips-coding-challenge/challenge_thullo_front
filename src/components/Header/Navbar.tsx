@@ -17,7 +17,7 @@ const Navbar = ({ name }: NavbarProps) => {
   const user: User | null = useRecoilValue(userState)
 
   return (
-    <div className="w-full h-16 shadow-md flex px-2 md:px-6 justify-between items-center">
+    <div className="w-full h-16 shadow-md flex flex-none px-2 md:px-6 justify-between items-center">
       <div className="hidden md:flex">
         <img src={Logo} alt="Thullo logo" />
         {name && (

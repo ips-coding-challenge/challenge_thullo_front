@@ -48,10 +48,10 @@ const SingleBoard = () => {
   }
 
   return (
-    <>
+    <div className="flex flex-col">
       <Navbar name={board!.name} />
-      <div className="px-6">
-        <div className="flex w-full justify-between my-8">
+      <div className="flex-auto h-full px-6 mt-8">
+        <div className="flex w-full justify-between mb-8">
           <div></div>
           <Button
             icon={<MdMoreHoriz />}
@@ -61,17 +61,19 @@ const SingleBoard = () => {
           />
         </div>
 
-        <div className="bg-boardBg rounded-lg h-full">
-          <div className="grid grid-flow-col gap-6 auto-cols-list">
-            {lists.length > 0 &&
-              lists.map((list: ListOfTasks) => {
-                return <List key={list.id} board_id={board!.id} list={list} />
-              })}
-            <AddList board_id={board!.id} />
+        <div className="bg-boardBg rounded-lg h-full p-4">
+          <div className="h-full w-full overflow-x-auto">
+            <div className="grid grid-flow-col gap-6 auto-cols-list pb-6">
+              {lists.length > 0 &&
+                lists.map((list: ListOfTasks) => {
+                  return <List key={list.id} board_id={board!.id} list={list} />
+                })}
+              <AddList board_id={board!.id} />
+            </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
