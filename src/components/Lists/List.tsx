@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { MdAdd, MdMoreHoriz } from 'react-icons/md'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
 import { listState } from '../../state/listState'
 import { ListOfTasks, TaskType } from '../../types/types'
@@ -8,6 +8,7 @@ import ListInput from './ListInput'
 import Task from '../Tasks/Task'
 import { nanoid } from 'nanoid'
 import AddButton from './AddButton'
+import { newTaskState } from '../../state/taskState'
 
 type ListProps = {
   board_id: number
@@ -15,6 +16,7 @@ type ListProps = {
 }
 
 const List = ({ board_id, list }: ListProps) => {
+  const [newTask, setNewTask] = useRecoilState<TaskType | null>(newTaskState)
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [edit, setEdit] = useState<boolean>(false)
   const menuRef = useRef<HTMLDivElement>(null)
@@ -88,9 +90,16 @@ const List = ({ board_id, list }: ListProps) => {
       board_id: list.board_id,
     }
 
-    setFakeTasks((old: TaskType[]) => {
-      return old.concat(newTask)
+    setNewTask((oldTask: any) => {
+      if (oldTask !== newTask) {
+        return newTask
+      }
+      return oldTask
     })
+
+    // setFakeTasks((old: TaskType[]) => {
+    //   return old.concat(newTask)
+    // })
   }
 
   const onTaskSaved = (task: TaskType, action: string) => {
@@ -156,6 +165,12 @@ const List = ({ board_id, list }: ListProps) => {
             />
           )
         })}
+
+        {/* Add another task */}
+        {newTask && newTask.list_id === list.id && (
+          <Task onTaskSaved={onTaskSaved} task={newTask} />
+        )}
+
         <AddButton
           onClick={addTask}
           text="Add another task"
