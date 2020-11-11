@@ -80,7 +80,6 @@ const List = ({ board_id, list }: ListProps) => {
     if (fakeTasks.findIndex((t) => t.id === null) > -1) {
       return
     }
-    console.log('in here')
     // Need the list_id and the last task in the list
     const newTask: TaskType = {
       id: null,
@@ -96,24 +95,26 @@ const List = ({ board_id, list }: ListProps) => {
       }
       return oldTask
     })
-
-    // setFakeTasks((old: TaskType[]) => {
-    //   return old.concat(newTask)
-    // })
   }
 
   const onTaskSaved = (task: TaskType, action: string) => {
-    if (action === 'create') {
-      setFakeTasks((old: TaskType[]) => {
-        const index = old.findIndex((t) => t.id === null)
-        if (index > -1) {
-          const copy = [...old]
-          copy[index] = task
-          return copy
+    setFakeTasks((old: TaskType[]) => {
+      const index = old.findIndex((t) => {
+        if (action === 'create') {
+          return t.id === null
         }
-        return old
+        if (newTask && action === 'update') {
+          return t.id === newTask.id
+        }
       })
-    }
+      if (index > -1) {
+        const copy = [...old]
+        copy[index] = task
+        return copy
+      }
+      return old
+    })
+    setNewTask(null)
     console.log('task saved', task)
   }
 
@@ -167,7 +168,7 @@ const List = ({ board_id, list }: ListProps) => {
         })}
 
         {/* Add another task */}
-        {newTask && newTask.list_id === list.id && (
+        {newTask && newTask.list_id === list.id && newTask.id === null && (
           <Task onTaskSaved={onTaskSaved} task={newTask} />
         )}
 

@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { MdCancel } from 'react-icons/md'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
 import { newTaskState } from '../../state/taskState'
 import { TaskType } from '../../types/types'
@@ -12,34 +12,52 @@ type TaskProps = {
 }
 
 const Task = ({ task, onTaskSaved }: TaskProps) => {
-  const setNewTask = useSetRecoilState(newTaskState)
+  const [newTask, setNewTask] = useRecoilState(newTaskState)
   const [title, setTitle] = useState<string>(task.id ? task.title : '')
   const [error, setError] = useState<string | null>(null)
 
   const saveTask = async () => {
     setError(null)
+    if (!newTask) {
+      return
+    }
     if (title.trim().length < 2) {
       setError('The title should have 2 characters minimum')
       return
     }
     try {
-      const res = await client.post('/tasks', {
-        title: title,
-        position: task.position,
-        list_id: task.list_id,
-        board_id: task.board_id,
-      })
+      let res: any
+      if (newTask.id === null) {
+        res = await client.post('/tasks', {
+          title: title,
+          position: task.position,
+          list_id: task.list_id,
+          board_id: task.board_id,
+        })
+        onTaskSaved(res.data.data, 'create')
+      } else {
+        res = await client.put(`/tasks/${task.id}`, {
+          title: title,
+          position: task.position,
+          list_id: task.list_id,
+          board_id: task.board_id,
+        })
+        onTaskSaved(res.data.data, 'update')
+      }
 
       console.log('res', res.data)
-      onTaskSaved(res.data.data, 'create')
     } catch (e) {
-      setError(e.message)
       console.log('Save task error', e)
+      if (e.response && e.response.data) {
+        setError(e.response.data)
+      } else {
+        setError(e.message)
+      }
     }
   }
   // Creation of a task
   // Add also an edit mode ( TODO )
-  if (task.id === null) {
+  if (task.id === null || (newTask && task === newTask)) {
     return (
       <div>
         <textarea
@@ -70,7 +88,14 @@ const Task = ({ task, onTaskSaved }: TaskProps) => {
   return (
     <div className="w-full my-4 bg-white rounded-lg p-4 shadow-md">
       {task.cover && <img src={task.cover} alt="cover" />}
-      <h3>{task.title}</h3>
+      <h3
+        onClick={() => {
+          setError(null)
+          setNewTask(task)
+        }}
+      >
+        {task.title}
+      </h3>
     </div>
   )
 }

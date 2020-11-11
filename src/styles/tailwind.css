@@ -19591,7 +19591,7 @@ video {
 }
 
 .auto-cols-list {
-  grid-auto-columns: minmax(250px, 1fr);
+  grid-auto-columns: 250px;
 }
 
 .col-auto {
@@ -40954,7 +40954,7 @@ video {
   }
 
   .sm\:auto-cols-list {
-    grid-auto-columns: minmax(250px, 1fr);
+    grid-auto-columns: 250px;
   }
 
   .sm\:col-auto {
@@ -62252,7 +62252,7 @@ video {
   }
 
   .md\:auto-cols-list {
-    grid-auto-columns: minmax(250px, 1fr);
+    grid-auto-columns: 250px;
   }
 
   .md\:col-auto {
@@ -83550,7 +83550,7 @@ video {
   }
 
   .lg\:auto-cols-list {
-    grid-auto-columns: minmax(250px, 1fr);
+    grid-auto-columns: 250px;
   }
 
   .lg\:col-auto {
@@ -104848,7 +104848,7 @@ video {
   }
 
   .xl\:auto-cols-list {
-    grid-auto-columns: minmax(250px, 1fr);
+    grid-auto-columns: 250px;
   }
 
   .xl\:col-auto {
