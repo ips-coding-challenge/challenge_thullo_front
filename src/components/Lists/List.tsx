@@ -21,22 +21,7 @@ const List = ({ board_id, list }: ListProps) => {
   const [edit, setEdit] = useState<boolean>(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const setLists = useSetRecoilState(listState)
-  const [fakeTasks, setFakeTasks] = useState<TaskType[]>([
-    {
-      id: 1,
-      title: 'First task',
-      board_id: 1,
-      list_id: 1,
-      position: 65565,
-    },
-    {
-      id: 2,
-      title: 'Second task',
-      board_id: 1,
-      list_id: 1,
-      position: 65565 * 2,
-    },
-  ])
+  const [tasks, setTasks] = useState<TaskType[]>(list.tasks)
 
   useEffect(() => {
     window.addEventListener('mousedown', onClickOutside)
@@ -77,14 +62,14 @@ const List = ({ board_id, list }: ListProps) => {
 
   const addTask = () => {
     // If I already have a task waiting to be created I just return
-    if (fakeTasks.findIndex((t) => t.id === null) > -1) {
+    if (tasks.findIndex((t) => t.id === null) > -1) {
       return
     }
     // Need the list_id and the last task in the list
     const newTask: TaskType = {
       id: null,
       title: '',
-      position: fakeTasks[fakeTasks.length - 1].position,
+      position: tasks.length > 0 ? tasks[tasks.length - 1].position : 65565,
       list_id: list.id,
       board_id: list.board_id,
     }
@@ -98,21 +83,21 @@ const List = ({ board_id, list }: ListProps) => {
   }
 
   const onTaskSaved = (task: TaskType, action: string) => {
-    setFakeTasks((old: TaskType[]) => {
-      const index = old.findIndex((t) => {
-        if (action === 'create') {
-          return t.id === null
-        }
-        if (newTask && action === 'update') {
-          return t.id === newTask.id
-        }
-      })
-      if (index > -1) {
-        const copy = [...old]
-        copy[index] = task
-        return copy
+    setTasks((old: TaskType[]) => {
+      switch (action) {
+        case 'create':
+          return old.concat(task)
+        case 'update':
+          const index = old.findIndex((t) => t.id === newTask!.id)
+          if (index > -1) {
+            const copy = [...old]
+            copy[index] = task
+            return copy
+          }
+          return old
+        default:
+          return old
       }
-      return old
     })
     setNewTask(null)
     console.log('task saved', task)
@@ -124,7 +109,7 @@ const List = ({ board_id, list }: ListProps) => {
         <ListInput board_id={board_id} list={list} setEdit={setEdit} />
       ) : (
         <>
-          <div className="flex justify-between w-full items-center">
+          <div className="flex justify-between w-full items-center mb-4">
             <h3>{list.name}</h3>
             <MdMoreHoriz
               onClick={() => {
@@ -157,7 +142,7 @@ const List = ({ board_id, list }: ListProps) => {
 
       {/* List of tasks */}
       <div className="w-full h-full">
-        {fakeTasks.map((task: TaskType, index: number) => {
+        {tasks.map((task: TaskType, index: number) => {
           return (
             <Task
               onTaskSaved={onTaskSaved}

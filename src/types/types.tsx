@@ -22,6 +22,7 @@ export type ListOfTasks = {
   id: number
   name: string
   board_id: number
+  tasks: TaskType[]
   created_at?: string | null
   updated_at?: string | null
 }

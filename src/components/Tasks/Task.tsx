@@ -86,22 +86,22 @@ const Task = ({ task, onTaskSaved }: TaskProps) => {
     )
   }
   return (
-    <div className="w-full my-4 bg-white rounded-lg p-4 shadow-md">
+    <div className="w-full mb-4 bg-white rounded-lg p-4 shadow-md">
       {task.cover && <img src={task.cover} alt="cover" />}
       <div className="group flex justify-between transition-opacity duration-300 cursor-pointer">
         <h3
           onClick={() => {
-            setError(null)
-            setNewTask(task)
+            // TODO open a modal with the task
           }}
         >
           {task.title}
         </h3>
         <MdEdit
           onClick={() => {
+            setError(null)
             setNewTask(task)
           }}
-          className="opacity-0 group-hover:opacity-100"
+          className="opacity-0 group-hover:opacity-100 flex-none"
         />
       </div>
     </div>
