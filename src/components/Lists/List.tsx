@@ -8,7 +8,7 @@ import ListInput from './ListInput'
 import Task from '../Tasks/Task'
 import AddButton from './AddButton'
 import { newTaskState } from '../../state/taskState'
-import { Draggable } from 'react-beautiful-dnd'
+import { Draggable, Droppable } from 'react-beautiful-dnd'
 
 type ListProps = {
   board_id: number
@@ -119,7 +119,7 @@ const List = ({ board_id, list }: ListProps) => {
   }
 
   return (
-    <div className="relative flex flex-col w-list justify-between items-center">
+    <div className="relative flex flex-col w-list items-center">
       {edit ? (
         <ListInput board_id={board_id} list={list} setEdit={setEdit} />
       ) : (
@@ -156,37 +156,52 @@ const List = ({ board_id, list }: ListProps) => {
       )}
 
       {/* List of tasks */}
-      <div className="w-full h-full">
-        {list.tasks.map((task: TaskType, index: number) => {
-          return (
-            <Draggable key={task.id} draggableId={`${task.id}`} index={index}>
-              {(provided, snapshot) => (
-                <div
-                  ref={provided.innerRef}
-                  {...provided.draggableProps}
-                  {...provided.dragHandleProps}
-                >
-                  <Task onTaskSaved={onTaskSaved} task={task} />
-                </div>
-              )}
-            </Draggable>
-          )
-        })}
+      <div className="w-full h-auto">
+        <Droppable key={list.id} droppableId={`${list.id}`}>
+          {(provided, snapshot) => (
+            <div
+              style={{ minHeight: '50px' }}
+              className={`${snapshot.isDraggingOver ? 'bg-orange-100' : ''}`}
+              ref={provided.innerRef}
+              {...provided.droppableProps}
+            >
+              {list.tasks.map((task: TaskType, index: number) => {
+                return (
+                  <Draggable
+                    key={task.id}
+                    draggableId={`${task.id}`}
+                    index={index}
+                  >
+                    {(provided, snapshot) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        <Task onTaskSaved={onTaskSaved} task={task} />
+                      </div>
+                    )}
+                  </Draggable>
+                )
+              })}
+              {provided.placeholder}
+            </div>
+          )}
+        </Droppable>
 
         {/* Add another task */}
         {newTask && newTask.list_id === list.id && newTask.id === null && (
           <Task onTaskSaved={onTaskSaved} task={newTask} />
         )}
-
-        <AddButton
-          onClick={addTask}
-          text="Add another task"
-          icon={<MdAdd />}
-          className="w-full"
-        />
       </div>
+      <AddButton
+        onClick={addTask}
+        text="Add another task"
+        icon={<MdAdd />}
+        className="flex-none w-full"
+      />
     </div>
   )
 }
 
-export default List
+export default React.memo(List)

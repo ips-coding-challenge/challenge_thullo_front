@@ -10,7 +10,7 @@ import AddList from '../components/Lists/AddList'
 import List from '../components/Lists/List'
 import { listState } from '../state/listState'
 import { Board, ListOfTasks } from '../types/types'
-import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
+import { DragDropContext, DropResult } from 'react-beautiful-dnd'
 
 const SingleBoard = () => {
   const { id }: any = useParams()
@@ -55,23 +55,12 @@ const SingleBoard = () => {
     const destinationListIndex = lists.findIndex(
       (l) => l.id === +destination.droppableId
     )
-    const taskId = +result.draggableId
-
-    // const task = lists[sourceListIndex].tasks.find((t) => t.id === taskId)
-
-    // if (!task) {
-    //   console.log('no task found')
-    //   return
-    // }
 
     const sourceTasks = Array.from(lists[sourceListIndex].tasks)
     const destinationTasks = Array.from(lists[destinationListIndex].tasks)
 
     const [removed] = sourceTasks.splice(+source.index, 1)
     destinationTasks.splice(+destination.index, 0, removed)
-
-    console.log('sourceTasks', sourceTasks)
-    console.log('destTasks', destinationTasks)
 
     setLists((old: ListOfTasks[]) => {
       const copy = [...old]
@@ -103,33 +92,21 @@ const SingleBoard = () => {
           />
         </div>
 
-        <div className="bg-boardBg rounded-lg h-full p-4">
-          <div className="h-full w-full overflow-x-auto">
-            <DragDropContext onDragEnd={onDragEnd}>
-              <div className="grid grid-flow-col gap-6 auto-cols-list pb-6">
-                {lists.length > 0 &&
-                  lists.map((list: ListOfTasks) => {
-                    return (
-                      <Droppable key={list.id} droppableId={`${list.id}`}>
-                        {(provided, snapshot) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.droppableProps}
-                          >
-                            <List
-                              key={list.id}
-                              board_id={board!.id}
-                              list={list}
-                            />
-                            {provided.placeholder}
-                          </div>
-                        )}
-                      </Droppable>
-                    )
-                  })}
-                <AddList board_id={board!.id} />
-              </div>
-            </DragDropContext>
+        <div>
+          <div className="bg-boardBg rounded-lg p-4">
+            <div className="h-full w-full overflow-x-auto">
+              <DragDropContext onDragEnd={onDragEnd}>
+                <div className="grid grid-flow-col gap-6 auto-cols-list pb-6">
+                  {lists.length > 0 &&
+                    lists.map((list: ListOfTasks) => {
+                      return (
+                        <List key={list.id} board_id={board!.id} list={list} />
+                      )
+                    })}
+                  <AddList board_id={board!.id} />
+                </div>
+              </DragDropContext>
+            </div>
           </div>
         </div>
       </div>
@@ -137,4 +114,4 @@ const SingleBoard = () => {
   )
 }
 
-export default SingleBoard
+export default React.memo(SingleBoard)
