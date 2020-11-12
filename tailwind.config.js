@@ -52,6 +52,8 @@ module.exports = {
       }
     },
   },
-  variants: {},
+  variants: {
+    opacity: ['responsive', 'hover', 'focus', 'group-hover']
+  },
   plugins: [],
 }

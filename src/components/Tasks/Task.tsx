@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { MdCancel } from 'react-icons/md'
+import { MdCancel, MdEdit } from 'react-icons/md'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
 import { newTaskState } from '../../state/taskState'
@@ -88,14 +88,22 @@ const Task = ({ task, onTaskSaved }: TaskProps) => {
   return (
     <div className="w-full my-4 bg-white rounded-lg p-4 shadow-md">
       {task.cover && <img src={task.cover} alt="cover" />}
-      <h3
-        onClick={() => {
-          setError(null)
-          setNewTask(task)
-        }}
-      >
-        {task.title}
-      </h3>
+      <div className="group flex justify-between transition-opacity duration-300 cursor-pointer">
+        <h3
+          onClick={() => {
+            setError(null)
+            setNewTask(task)
+          }}
+        >
+          {task.title}
+        </h3>
+        <MdEdit
+          onClick={() => {
+            setNewTask(task)
+          }}
+          className="opacity-0 group-hover:opacity-100"
+        />
+      </div>
     </div>
   )
 }
