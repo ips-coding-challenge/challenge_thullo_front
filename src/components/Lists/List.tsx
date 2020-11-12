@@ -6,9 +6,9 @@ import { listState } from '../../state/listState'
 import { ListOfTasks, TaskType } from '../../types/types'
 import ListInput from './ListInput'
 import Task from '../Tasks/Task'
-import { nanoid } from 'nanoid'
 import AddButton from './AddButton'
 import { newTaskState } from '../../state/taskState'
+import { Draggable } from 'react-beautiful-dnd'
 
 type ListProps = {
   board_id: number
@@ -21,7 +21,6 @@ const List = ({ board_id, list }: ListProps) => {
   const [edit, setEdit] = useState<boolean>(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const setLists = useSetRecoilState(listState)
-  const [tasks, setTasks] = useState<TaskType[]>(list.tasks)
 
   useEffect(() => {
     window.addEventListener('mousedown', onClickOutside)
@@ -62,36 +61,52 @@ const List = ({ board_id, list }: ListProps) => {
 
   const addTask = () => {
     // If I already have a task waiting to be created I just return
-    if (tasks.findIndex((t) => t.id === null) > -1) {
+    if (newTask) {
       return
     }
     // Need the list_id and the last task in the list
-    const newTask: TaskType = {
+    const taskToAdd: TaskType = {
       id: null,
       title: '',
-      position: tasks.length > 0 ? tasks[tasks.length - 1].position : 65565,
+      position:
+        list.tasks.length > 0
+          ? list.tasks[list.tasks.length - 1].position
+          : 65565,
       list_id: list.id,
       board_id: list.board_id,
     }
 
     setNewTask((oldTask: any) => {
-      if (oldTask !== newTask) {
-        return newTask
+      if (oldTask !== taskToAdd) {
+        return taskToAdd
       }
       return oldTask
     })
   }
 
   const onTaskSaved = (task: TaskType, action: string) => {
-    setTasks((old: TaskType[]) => {
+    setLists((old: ListOfTasks[]) => {
+      const listIndex = old.findIndex((l) => l.id === list.id)
+      if (listIndex === -1) {
+        return old
+      }
+
+      const copy = [...old]
       switch (action) {
         case 'create':
-          return old.concat(task)
+          copy[listIndex] = {
+            ...copy[listIndex],
+            tasks: copy[listIndex].tasks.concat(task),
+          }
+          return copy
         case 'update':
-          const index = old.findIndex((t) => t.id === newTask!.id)
-          if (index > -1) {
-            const copy = [...old]
-            copy[index] = task
+          const taskIndex = old[listIndex].tasks.findIndex(
+            (t) => t.id === newTask!.id
+          )
+          if (taskIndex > -1) {
+            const oldTasks = Array.from(old[listIndex].tasks)
+            oldTasks[taskIndex] = task
+            copy[listIndex] = { ...copy[listIndex], tasks: oldTasks }
             return copy
           }
           return old
@@ -142,13 +157,19 @@ const List = ({ board_id, list }: ListProps) => {
 
       {/* List of tasks */}
       <div className="w-full h-full">
-        {tasks.map((task: TaskType, index: number) => {
+        {list.tasks.map((task: TaskType, index: number) => {
           return (
-            <Task
-              onTaskSaved={onTaskSaved}
-              key={task.id || nanoid()}
-              task={task}
-            />
+            <Draggable key={task.id} draggableId={`${task.id}`} index={index}>
+              {(provided, snapshot) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                >
+                  <Task onTaskSaved={onTaskSaved} task={task} />
+                </div>
+              )}
+            </Draggable>
           )
         })}
 
@@ -168,4 +189,4 @@ const List = ({ board_id, list }: ListProps) => {
   )
 }
 
-export default React.memo(List)
+export default List

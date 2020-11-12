@@ -10,12 +10,12 @@ import AddList from '../components/Lists/AddList'
 import List from '../components/Lists/List'
 import { listState } from '../state/listState'
 import { Board, ListOfTasks } from '../types/types'
+import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd'
 
 const SingleBoard = () => {
   const { id }: any = useParams()
   const [board, setBoard] = useState<Board | null>(null)
   const [lists, setLists] = useRecoilState(listState)
-  // const [lists, setLists] = useState<ListOfTasks[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
   const fetchBoard = useCallback(async () => {
@@ -43,6 +43,48 @@ const SingleBoard = () => {
     init()
   }, [])
 
+  const onDragEnd = (result: DropResult) => {
+    console.log('dropped?', result)
+    const { source, destination } = result
+
+    if (!destination) {
+      return
+    }
+
+    const sourceListIndex = lists.findIndex((l) => l.id === +source.droppableId)
+    const destinationListIndex = lists.findIndex(
+      (l) => l.id === +destination.droppableId
+    )
+    const taskId = +result.draggableId
+
+    // const task = lists[sourceListIndex].tasks.find((t) => t.id === taskId)
+
+    // if (!task) {
+    //   console.log('no task found')
+    //   return
+    // }
+
+    const sourceTasks = Array.from(lists[sourceListIndex].tasks)
+    const destinationTasks = Array.from(lists[destinationListIndex].tasks)
+
+    const [removed] = sourceTasks.splice(+source.index, 1)
+    destinationTasks.splice(+destination.index, 0, removed)
+
+    console.log('sourceTasks', sourceTasks)
+    console.log('destTasks', destinationTasks)
+
+    setLists((old: ListOfTasks[]) => {
+      const copy = [...old]
+      copy[sourceListIndex] = { ...copy[sourceListIndex], tasks: sourceTasks }
+      copy[destinationListIndex] = {
+        ...copy[destinationListIndex],
+        tasks: destinationTasks,
+      }
+      console.log('copy', copy)
+      return copy
+    })
+  }
+
   if (loading) {
     return <BasicLoader />
   }
@@ -63,13 +105,31 @@ const SingleBoard = () => {
 
         <div className="bg-boardBg rounded-lg h-full p-4">
           <div className="h-full w-full overflow-x-auto">
-            <div className="grid grid-flow-col gap-6 auto-cols-list pb-6">
-              {lists.length > 0 &&
-                lists.map((list: ListOfTasks) => {
-                  return <List key={list.id} board_id={board!.id} list={list} />
-                })}
-              <AddList board_id={board!.id} />
-            </div>
+            <DragDropContext onDragEnd={onDragEnd}>
+              <div className="grid grid-flow-col gap-6 auto-cols-list pb-6">
+                {lists.length > 0 &&
+                  lists.map((list: ListOfTasks) => {
+                    return (
+                      <Droppable key={list.id} droppableId={`${list.id}`}>
+                        {(provided, snapshot) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                          >
+                            <List
+                              key={list.id}
+                              board_id={board!.id}
+                              list={list}
+                            />
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
+                    )
+                  })}
+                <AddList board_id={board!.id} />
+              </div>
+            </DragDropContext>
           </div>
         </div>
       </div>

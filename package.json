@@ -17,6 +17,7 @@
     "nanoid": "^3.1.16",
     "postcss-cli": "^8.1.0",
     "react": "^17.0.1",
+    "react-beautiful-dnd": "^13.0.0",
     "react-dom": "^17.0.1",
     "react-hook-form": "^6.9.6",
     "react-icons": "^3.11.0",
@@ -53,6 +54,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-router-dom": "^5.1.6",
     "@types/yup": "^0.29.9",
     "tailwindcss": "^1.9.6"
