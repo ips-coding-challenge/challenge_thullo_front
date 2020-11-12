@@ -48,10 +48,12 @@ module.exports = {
         container: '1180px'
       },
       gridAutoColumns: {
-        'list': 'minmax(250px, 1fr)',
+        'list': '250px',
       }
     },
   },
-  variants: {},
+  variants: {
+    opacity: ['responsive', 'hover', 'focus', 'group-hover']
+  },
   plugins: [],
 }
