@@ -70,7 +70,7 @@ const List = ({ board_id, list }: ListProps) => {
       title: '',
       position:
         list.tasks.length > 0
-          ? list.tasks[list.tasks.length - 1].position
+          ? list.tasks[list.tasks.length - 1].position + 65565
           : 65565,
       list_id: list.id,
       board_id: list.board_id,

@@ -11,6 +11,7 @@ import List from '../components/Lists/List'
 import { listState } from '../state/listState'
 import { Board, ListOfTasks } from '../types/types'
 import { DragDropContext, DropResult } from 'react-beautiful-dnd'
+import Lists from '../components/Lists/Lists'
 
 const SingleBoard = () => {
   const { id }: any = useParams()
@@ -43,37 +44,6 @@ const SingleBoard = () => {
     init()
   }, [])
 
-  const onDragEnd = (result: DropResult) => {
-    console.log('dropped?', result)
-    const { source, destination } = result
-
-    if (!destination) {
-      return
-    }
-
-    const sourceListIndex = lists.findIndex((l) => l.id === +source.droppableId)
-    const destinationListIndex = lists.findIndex(
-      (l) => l.id === +destination.droppableId
-    )
-
-    const sourceTasks = Array.from(lists[sourceListIndex].tasks)
-    const destinationTasks = Array.from(lists[destinationListIndex].tasks)
-
-    const [removed] = sourceTasks.splice(+source.index, 1)
-    destinationTasks.splice(+destination.index, 0, removed)
-
-    setLists((old: ListOfTasks[]) => {
-      const copy = [...old]
-      copy[sourceListIndex] = { ...copy[sourceListIndex], tasks: sourceTasks }
-      copy[destinationListIndex] = {
-        ...copy[destinationListIndex],
-        tasks: destinationTasks,
-      }
-      console.log('copy', copy)
-      return copy
-    })
-  }
-
   if (loading) {
     return <BasicLoader />
   }
@@ -95,17 +65,7 @@ const SingleBoard = () => {
         <div>
           <div className="bg-boardBg rounded-lg p-4">
             <div className="h-full w-full overflow-x-auto">
-              <DragDropContext onDragEnd={onDragEnd}>
-                <div className="grid grid-flow-col gap-6 auto-cols-list pb-6">
-                  {lists.length > 0 &&
-                    lists.map((list: ListOfTasks) => {
-                      return (
-                        <List key={list.id} board_id={board!.id} list={list} />
-                      )
-                    })}
-                  <AddList board_id={board!.id} />
-                </div>
-              </DragDropContext>
+              <Lists board={board!} />
             </div>
           </div>
         </div>
