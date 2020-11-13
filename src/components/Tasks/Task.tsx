@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { DraggableStateSnapshot } from 'react-beautiful-dnd'
 import { MdCancel, MdEdit } from 'react-icons/md'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
@@ -9,9 +10,10 @@ import Button from '../Common/Button'
 type TaskProps = {
   task: TaskType
   onTaskSaved: (task: TaskType, action: string) => void
+  snapshot?: DraggableStateSnapshot
 }
 
-const Task = ({ task, onTaskSaved }: TaskProps) => {
+const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
   const [newTask, setNewTask] = useRecoilState(newTaskState)
   const [title, setTitle] = useState<string>(task.id ? task.title : '')
   const [error, setError] = useState<string | null>(null)
@@ -86,7 +88,11 @@ const Task = ({ task, onTaskSaved }: TaskProps) => {
     )
   }
   return (
-    <div className="w-full mb-4 bg-white rounded-lg p-4 shadow-md">
+    <div
+      className={`w-full mb-4 rounded-lg p-4 shadow-md ${
+        snapshot?.isDragging ? 'bg-gray-200' : 'bg-white'
+      }`}
+    >
       {task.cover && <img src={task.cover} alt="cover" />}
       <div className="group flex justify-between transition-opacity duration-300 cursor-pointer">
         <h3

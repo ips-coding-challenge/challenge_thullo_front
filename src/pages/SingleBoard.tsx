@@ -10,12 +10,13 @@ import AddList from '../components/Lists/AddList'
 import List from '../components/Lists/List'
 import { listState } from '../state/listState'
 import { Board, ListOfTasks } from '../types/types'
+import { DragDropContext, DropResult } from 'react-beautiful-dnd'
+import Lists from '../components/Lists/Lists'
 
 const SingleBoard = () => {
   const { id }: any = useParams()
   const [board, setBoard] = useState<Board | null>(null)
   const [lists, setLists] = useRecoilState(listState)
-  // const [lists, setLists] = useState<ListOfTasks[]>([])
   const [loading, setLoading] = useState<boolean>(true)
 
   const fetchBoard = useCallback(async () => {
@@ -61,14 +62,10 @@ const SingleBoard = () => {
           />
         </div>
 
-        <div className="bg-boardBg rounded-lg h-full p-4">
-          <div className="h-full w-full overflow-x-auto">
-            <div className="grid grid-flow-col gap-6 auto-cols-list pb-6">
-              {lists.length > 0 &&
-                lists.map((list: ListOfTasks) => {
-                  return <List key={list.id} board_id={board!.id} list={list} />
-                })}
-              <AddList board_id={board!.id} />
+        <div>
+          <div className="bg-boardBg rounded-lg p-4">
+            <div className="h-full w-full overflow-x-auto">
+              <Lists board={board!} />
             </div>
           </div>
         </div>
@@ -77,4 +74,4 @@ const SingleBoard = () => {
   )
 }
 
-export default SingleBoard
+export default React.memo(SingleBoard)
