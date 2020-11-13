@@ -16,6 +16,13 @@ type ListsProps = {
   board: Board
 }
 
+type InitialData = {
+  sourceTasks: TaskType[]
+  source: DraggableLocation
+  destination: DraggableLocation
+  destTasks?: TaskType[]
+}
+
 const Lists = ({ board }: ListsProps) => {
   const [lists, setLists] = useRecoilState(listState)
 
@@ -26,6 +33,11 @@ const Lists = ({ board }: ListsProps) => {
       sourceTasks: TaskType[],
       sourceListIndex: number
     ) => {
+      const initialData: InitialData = {
+        sourceTasks: Array.from(sourceTasks),
+        source,
+        destination,
+      }
       const [removed] = sourceTasks.splice(source.index, 1)
       const updatedTask = {
         ...removed,
@@ -41,7 +53,7 @@ const Lists = ({ board }: ListsProps) => {
         return copy
       })
 
-      await updateTask(updatedTask, +destination.droppableId)
+      await updateTask(updatedTask, +destination.droppableId, initialData)
     },
     []
   )
@@ -55,6 +67,12 @@ const Lists = ({ board }: ListsProps) => {
       sourceListIndex: number,
       destListIndex: number
     ) => {
+      const initialData: InitialData = {
+        sourceTasks: Array.from(sourceTasks),
+        destTasks: Array.from(destinationTasks),
+        source,
+        destination,
+      }
       const [removed] = sourceTasks.splice(+source.index, 1)
       const updatedTask = {
         ...removed,
@@ -73,7 +91,7 @@ const Lists = ({ board }: ListsProps) => {
         console.log('copy', copy)
         return copy
       })
-      await updateTask(updatedTask, +destination.droppableId)
+      await updateTask(updatedTask, +destination.droppableId, initialData)
     },
     []
   )
@@ -149,20 +167,53 @@ const Lists = ({ board }: ListsProps) => {
     }
   }
 
-  const updateTask = useCallback(async (task: TaskType, listId: number) => {
-    try {
-      const res = await client.put(`/tasks/${task.id}`, {
-        title: task.title,
-        position: task.position,
-        board_id: task.board_id,
-        list_id: listId ? listId : task.list_id,
-      })
+  const updateTask = useCallback(
+    async (task: TaskType, listId: number, initialData: InitialData) => {
+      try {
+        const res = await client.put(`/tasks/${task.id}`, {
+          title: task.title,
+          position: task.position,
+          board_id: task.board_id,
+          list_id: listId ? listId : task.list_id,
+        })
 
-      console.log('updateTask res', res.data.data)
-    } catch (e) {
-      console.log('Updating task on drag end', e)
-    }
-  }, [])
+        console.log('updateTask res', res.data.data)
+      } catch (e) {
+        setLists((old: ListOfTasks[]) => {
+          console.log('Updating task on drag end', e)
+          console.log('InitialData', initialData)
+          let copy = [...old]
+          const { source, destination, sourceTasks, destTasks } = initialData
+          if (destTasks) {
+            const sourceListIndex = copy.findIndex(
+              (l) => l.id === +source.droppableId
+            )
+            const destListIndex = copy.findIndex(
+              (l) => l.id === +destination.droppableId
+            )
+            copy[sourceListIndex] = {
+              ...copy[sourceListIndex],
+              tasks: sourceTasks,
+            }
+            copy[destListIndex] = {
+              ...copy[destListIndex],
+              tasks: destTasks,
+            }
+          } else {
+            const sourceListIndex = copy.findIndex(
+              (l) => l.id === +source.droppableId
+            )
+            copy[sourceListIndex] = {
+              ...copy[sourceListIndex],
+              tasks: sourceTasks,
+            }
+          }
+          return copy
+        })
+      }
+    },
+    []
+  )
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>

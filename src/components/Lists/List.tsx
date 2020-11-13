@@ -178,7 +178,11 @@ const List = ({ board_id, list }: ListProps) => {
                         {...provided.draggableProps}
                         {...provided.dragHandleProps}
                       >
-                        <Task onTaskSaved={onTaskSaved} task={task} />
+                        <Task
+                          onTaskSaved={onTaskSaved}
+                          task={task}
+                          snapshot={snapshot}
+                        />
                       </div>
                     )}
                   </Draggable>
