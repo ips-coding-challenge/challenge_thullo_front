@@ -28,7 +28,8 @@ module.exports = {
         gray5: '#F6F8FB',
         boardBg: '#F8F9FD',
         'light-blue': '#F6F8FB',
-        'blue-btn': '#DAE4FD'
+        'blue-btn': '#DAE4FD',
+        'gray-border': '#E0E0E0'
       },
       borderRadius: {
         card: '12px',

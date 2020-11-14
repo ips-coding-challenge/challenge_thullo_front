@@ -71,6 +71,7 @@ const ListInput = ({ board_id, setEdit, list }: ListInputProps) => {
       name="list"
       type="text"
       placeholder="Enter the list name"
+      className="mb-4"
       value={name}
       onChange={(e) => setName(e.target.value)}
       error={error || ''}

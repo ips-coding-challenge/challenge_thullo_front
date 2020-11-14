@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { MdAdd, MdMoreHoriz } from 'react-icons/md'
 import { useRecoilState, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
@@ -9,6 +9,7 @@ import Task from '../Tasks/Task'
 import AddButton from './AddButton'
 import { newTaskState } from '../../state/taskState'
 import { Draggable, Droppable } from 'react-beautiful-dnd'
+import ListDropdown from './ListDropdown'
 
 type ListProps = {
   board_id: number
@@ -19,23 +20,9 @@ const List = ({ board_id, list }: ListProps) => {
   const [newTask, setNewTask] = useRecoilState<TaskType | null>(newTaskState)
   const [showMenu, setShowMenu] = useState<boolean>(false)
   const [edit, setEdit] = useState<boolean>(false)
-  const menuRef = useRef<HTMLDivElement>(null)
   const setLists = useSetRecoilState(listState)
 
-  useEffect(() => {
-    window.addEventListener('mousedown', onClickOutside)
-    return () => {
-      window.removeEventListener('mousedown', onClickOutside)
-    }
-  }, [menuRef])
-
-  const onClickOutside = (e: any) => {
-    if (menuRef && !menuRef.current?.contains(e.target)) {
-      setShowMenu(false)
-    }
-  }
-
-  const deleteList = async () => {
+  const deleteList = useCallback(async () => {
     try {
       await client.delete(`/lists/${list.id}`, {
         data: {
@@ -57,9 +44,9 @@ const List = ({ board_id, list }: ListProps) => {
     } catch (e) {
       console.log('Delete list error', e)
     }
-  }
+  }, [])
 
-  const addTask = () => {
+  const addTask = useCallback(() => {
     // If I already have a task waiting to be created I just return
     if (newTask) {
       return
@@ -82,9 +69,9 @@ const List = ({ board_id, list }: ListProps) => {
       }
       return oldTask
     })
-  }
+  }, [])
 
-  const onTaskSaved = (task: TaskType, action: string) => {
+  const onTaskSaved = useCallback((task: TaskType, action: string) => {
     setLists((old: ListOfTasks[]) => {
       const listIndex = old.findIndex((l) => l.id === list.id)
       if (listIndex === -1) {
@@ -116,7 +103,7 @@ const List = ({ board_id, list }: ListProps) => {
     })
     setNewTask(null)
     console.log('task saved', task)
-  }
+  }, [])
 
   return (
     <div className="relative flex flex-col w-list items-center">
@@ -128,29 +115,19 @@ const List = ({ board_id, list }: ListProps) => {
             <h3>{list.name}</h3>
             <MdMoreHoriz
               onClick={() => {
-                setShowMenu(true)
+                if (showMenu === false) {
+                  setShowMenu(true)
+                }
               }}
               className="cursor-pointer hover:text-blue transition-colors duration-300"
             />
           </div>
           {showMenu && (
-            <div
-              ref={menuRef}
-              className="absolute top-0 right-0 bg-white rounded-lg shadow-lg mt-6 py-3 px-4 z-10"
-            >
-              <div
-                onClick={() => setEdit(true)}
-                className="cursor-pointer text-gray2 hover:text-black duration-300 transition-colors"
-              >
-                Edit
-              </div>
-              <div
-                onClick={deleteList}
-                className="cursor-pointer text-danger hover:text-red-700 duration-300 transition-colors"
-              >
-                Delete
-              </div>
-            </div>
+            <ListDropdown
+              setShowMenu={setShowMenu}
+              setEdit={setEdit}
+              deleteList={deleteList}
+            />
           )}
         </>
       )}
