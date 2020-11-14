@@ -10,6 +10,7 @@ import AddButton from './AddButton'
 import { newTaskState } from '../../state/taskState'
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 import ListDropdown from './ListDropdown'
+import ListHeading from './ListHeading'
 
 type ListProps = {
   board_id: number
@@ -18,33 +19,7 @@ type ListProps = {
 
 const List = ({ board_id, list }: ListProps) => {
   const [newTask, setNewTask] = useRecoilState<TaskType | null>(newTaskState)
-  const [showMenu, setShowMenu] = useState<boolean>(false)
-  const [edit, setEdit] = useState<boolean>(false)
   const setLists = useSetRecoilState(listState)
-
-  const deleteList = useCallback(async () => {
-    try {
-      await client.delete(`/lists/${list.id}`, {
-        data: {
-          board_id: list.board_id,
-        },
-      })
-
-      setLists((old: ListOfTasks[]) => {
-        const index = old.findIndex((el: ListOfTasks) => el.id === list.id)
-        if (index > -1) {
-          const copy = [...old]
-
-          copy.splice(index, 1)
-          return copy
-        } else {
-          return old
-        }
-      })
-    } catch (e) {
-      console.log('Delete list error', e)
-    }
-  }, [])
 
   const addTask = useCallback(() => {
     // If I already have a task waiting to be created I just return
@@ -107,37 +82,14 @@ const List = ({ board_id, list }: ListProps) => {
 
   return (
     <div className="relative flex flex-col w-list items-center">
-      {edit ? (
-        <ListInput board_id={board_id} list={list} setEdit={setEdit} />
-      ) : (
-        <>
-          <div className="flex justify-between w-full items-center mb-4">
-            <h3>{list.name}</h3>
-            <MdMoreHoriz
-              onClick={() => {
-                if (showMenu === false) {
-                  setShowMenu(true)
-                }
-              }}
-              className="cursor-pointer hover:text-blue transition-colors duration-300"
-            />
-          </div>
-          {showMenu && (
-            <ListDropdown
-              setShowMenu={setShowMenu}
-              setEdit={setEdit}
-              deleteList={deleteList}
-            />
-          )}
-        </>
-      )}
+      <ListHeading board_id={board_id} list={list} />
 
       {/* List of tasks */}
       <div className="w-full h-auto">
         <Droppable key={list.id} droppableId={`${list.id}`}>
           {(provided, snapshot) => (
             <div
-              style={{ minHeight: '50px' }}
+              style={{ minHeight: '30px' }}
               className={`${snapshot.isDraggingOver ? 'bg-orange-100' : ''}`}
               ref={provided.innerRef}
               {...provided.droppableProps}

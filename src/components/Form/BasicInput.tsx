@@ -30,10 +30,10 @@ const BasicInput = React.forwardRef(
     ref: any
   ) => {
     return (
-      <div>
+      <>
         <input
           style={{ minWidth: 0 }}
-          className={`${className} bg-transparent w-full h-full p-2 border border-gray2 rounded-lg shadow-input`}
+          className={`${className} bg-transparent w-full p-2 border border-gray2 rounded-lg shadow-input`}
           type={type}
           name={name}
           value={value}
@@ -45,7 +45,7 @@ const BasicInput = React.forwardRef(
           autoFocus={autoFocus}
         />
         {error && <p className="text-red-500 text-sm">{error}</p>}
-      </div>
+      </>
     )
   }
 )
