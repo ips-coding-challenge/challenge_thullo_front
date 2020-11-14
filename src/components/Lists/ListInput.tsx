@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
-import { currentListState, listState } from '../../state/listState'
+import {
+  currentListState,
+  listItemState,
+  listState,
+} from '../../state/listState'
 import { ListOfTasks } from '../../types/types'
 import BasicInput from '../Form/BasicInput'
 
@@ -12,7 +16,7 @@ type ListInputProps = {
 }
 
 const ListInput = ({ board_id, setEdit, list }: ListInputProps) => {
-  const currentList = useRecoilValue(currentListState(list?.id))
+  const [currentList, setCurrentList] = useRecoilState(listItemState(list))
   const [name, setName] = useState<string>(currentList ? currentList.name : '')
   const [error, setError] = useState<string | null>(null)
   const setLists = useSetRecoilState(listState)
@@ -38,17 +42,7 @@ const ListInput = ({ board_id, setEdit, list }: ListInputProps) => {
       }
 
       if (list) {
-        setLists((old: ListOfTasks[]) => {
-          const index = old.findIndex((el: ListOfTasks) => el.id === list.id)
-          if (index > -1) {
-            const copy = [...old]
-
-            copy[index] = { ...copy[index], name }
-            console.log('copy', copy[index])
-            return copy
-          }
-          return old
-        })
+        setCurrentList({ id: list.id, name })
       } else {
         setLists((old: ListOfTasks[]) => {
           return old.concat(res.data.data)
@@ -71,12 +65,13 @@ const ListInput = ({ board_id, setEdit, list }: ListInputProps) => {
       name="list"
       type="text"
       placeholder="Enter the list name"
+      className="mb-4 w-full"
       value={name}
       onChange={(e) => setName(e.target.value)}
       error={error || ''}
       onBlur={() => {
-        setEdit(false)
-        setError(null)
+        // setEdit(false)
+        // setError(null)
       }}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {

@@ -1,7 +1,6 @@
 import React, { useCallback } from 'react'
 import {
   DragDropContext,
-  Draggable,
   DraggableLocation,
   DropResult,
 } from 'react-beautiful-dnd'
@@ -25,6 +24,8 @@ type InitialData = {
 
 const Lists = ({ board }: ListsProps) => {
   const [lists, setLists] = useRecoilState(listState)
+
+  console.log('lists', lists)
 
   const reorder = useCallback(
     async (
