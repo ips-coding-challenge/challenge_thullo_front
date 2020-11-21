@@ -81,7 +81,7 @@ const List = ({ board_id, list }: ListProps) => {
   }, [])
 
   return (
-    <div className="relative flex flex-col w-list items-center">
+    <div className="relative flex flex-col w-list items-center px-1">
       <ListHeading board_id={board_id} list={list} />
 
       {/* List of tasks */}
