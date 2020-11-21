@@ -8,6 +8,7 @@ type VisibilityItemProps = {
   subtitle: string
   icon: JSX.Element
   onClick: (e: React.MouseEvent) => void
+  selected: boolean
 }
 
 const VisibilityItem = ({
@@ -15,9 +16,13 @@ const VisibilityItem = ({
   subtitle,
   icon,
   onClick,
+  selected,
 }: VisibilityItemProps) => {
   return (
-    <div className="dropdown-item" onClick={onClick}>
+    <div
+      className={`dropdown-item ${selected ? 'bg-gray1' : ''}`}
+      onClick={onClick}
+    >
       <div className="flex items-center mb-2">
         <div className="mr-4">{icon}</div>
         <p className="text-sm">{title}</p>

@@ -38,7 +38,6 @@ const CreateBoardModal = ({
 
   const [serverErrors, setServerErrors] = useState<any>(null)
   const [showUnsplashModal, setShowUnsplashModal] = useState<boolean>(false)
-  const [showVisibility, setShowVisibility] = useState<boolean>(false)
   const [cover, setCover] = useState<string | null>(null)
   const [visibility, setVisibility] = useState<string>('private')
   const [photos, setPhotos] = useState<any[]>([])
@@ -147,7 +146,10 @@ const CreateBoardModal = ({
               searchPhotos={searchPhotos}
             />
             <div className="relative flex flex-col ml-4 w-1/2">
-              <VisibilityDropdown />
+              <VisibilityDropdown
+                visibility={visibility}
+                setVisibility={setVisibility}
+              />
             </div>
           </div>
 

@@ -1,11 +1,19 @@
 import React, { useState } from 'react'
 import { MdLock, MdLockOpen, MdPublic } from 'react-icons/md'
+import { toCamelCase } from '../../../utils/utils'
 import BaseDropdown from '../BaseDropdown'
 import Button from '../Button'
 import VisibilityItem from './VisibilityItem'
 
-const VisibilityDropdown = () => {
-  const [visibility, setVisibility] = useState<string>('Private')
+type VisibilityDropdownProps = {
+  visibility: string
+  setVisibility: (visibility: string) => void
+}
+const VisibilityDropdown = ({
+  visibility,
+  setVisibility,
+}: VisibilityDropdownProps) => {
+  // const [visibility, setVisibility] = useState<string>('private')
 
   return (
     <BaseDropdown>
@@ -13,8 +21,8 @@ const VisibilityDropdown = () => {
         <div>
           <Button
             className="w-full"
-            text={visibility}
-            icon={visibility === 'private' ? <MdLock /> : <MdLockOpen />}
+            text={toCamelCase(visibility)}
+            icon={visibility === 'private' ? <MdLock /> : <MdPublic />}
             variant="default"
             alignment="left"
             onClick={(e) => onTrigger(e)}
@@ -29,32 +37,22 @@ const VisibilityDropdown = () => {
                 title="Public"
                 subtitle="Anyone on the internet can see this."
                 icon={<MdPublic />}
-                onClick={() => setVisibility('public')}
+                onClick={(e) => {
+                  setVisibility('public')
+                  onTrigger(e)
+                }}
+                selected={visibility === 'public'}
               />
               <VisibilityItem
                 title="Private"
                 subtitle="Only board members can see this"
-                icon={<MdPublic />}
-                onClick={() => setVisibility('private')}
+                icon={<MdLock />}
+                onClick={(e) => {
+                  setVisibility('private')
+                  onTrigger(e)
+                }}
+                selected={visibility === 'private'}
               />
-              {/* <div className="dropdown-item">
-                <div className="flex items-center mb-2">
-                  <MdPublic className="mr-4" />
-                  <p className="text-sm">Public</p>
-                </div>
-                <p className="text-gray3 text-xs">
-                  Anyone on the internet can see this.
-                </p>
-              </div> */}
-              {/* <div className="dropdown-item">
-                <div className="flex items-center mb-2">
-                  <MdLock className="mr-4" />
-                  <p className="text-sm">Private</p>
-                </div>
-                <p className="text-gray3 text-xs">
-                  Only board members can see this
-                </p>
-              </div> */}
             </div>
           )}
         </div>

@@ -7,11 +7,21 @@ export type ModalProps = {
   onClose?: (
     event: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>
   ) => void
+  onClickOutside?: (event: React.MouseEvent) => void
 }
 
-const Modal = ({ isVisible, children, onDelete, onClose }: ModalProps) => {
+const Modal = ({
+  isVisible,
+  children,
+  onDelete,
+  onClose,
+  onClickOutside,
+}: ModalProps) => {
   return !isVisible ? null : (
-    <div className="fixed z-50 inset-0 overflow-y-auto" onClick={onClose}>
+    <div
+      className="fixed z-50 inset-0 overflow-y-auto"
+      onClick={onClickOutside}
+    >
       <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div className="fixed inset-0 transition-opacity">
           <div className="absolute inset-0 bg-gray3 opacity-50"></div>
