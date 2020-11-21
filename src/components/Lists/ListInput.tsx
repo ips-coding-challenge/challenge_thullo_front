@@ -70,8 +70,8 @@ const ListInput = ({ board_id, setEdit, list }: ListInputProps) => {
       onChange={(e) => setName(e.target.value)}
       error={error || ''}
       onBlur={() => {
-        // setEdit(false)
-        // setError(null)
+        setEdit(false)
+        setError(null)
       }}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {

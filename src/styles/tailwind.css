@@ -627,6 +627,27 @@ video {
   }
 }
 
+/* Dropdown */
+
+.dropdown-item:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgba(246, 248, 251, var(--tw-bg-opacity));
+}
+
+.dropdown-item {
+  border-radius: 0.5rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  --tw-text-opacity: 1;
+  color: rgba(79, 79, 79, var(--tw-text-opacity));
+  transition-property: background-color, border-color, color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+  transition-duration: 300ms;
+}
+
 /* Scrollbar */
 
 /* width */
