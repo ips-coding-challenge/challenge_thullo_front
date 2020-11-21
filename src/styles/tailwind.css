@@ -631,7 +631,7 @@ video {
 
 .dropdown-item:hover {
   --tw-bg-opacity: 1;
-  background-color: rgba(246, 248, 251, var(--tw-bg-opacity));
+  background-color: rgba(242, 242, 242, var(--tw-bg-opacity));
 }
 
 .dropdown-item {

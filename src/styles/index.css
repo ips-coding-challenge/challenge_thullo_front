@@ -33,7 +33,7 @@
 
 /* Dropdown */
 .dropdown-item {
-  @apply my-2 p-2 cursor-pointer text-gray2 hover:bg-gray5 duration-300 transition-colors rounded-lg;
+  @apply my-2 p-2 cursor-pointer text-gray2 hover:bg-gray1 duration-300 transition-colors rounded-lg;
 }
 
 /* Scrollbar */
