@@ -54,20 +54,12 @@ const ListHeading = ({ board_id, list }: ListHeadingProps) => {
         <>
           <div className="flex justify-between w-full items-center mb-4">
             <h3>{listItem?.name}</h3>
-            <MdMoreHoriz
-              onClick={() => {
-                setShowMenu(true)
-              }}
-              className="cursor-pointer hover:text-blue transition-colors duration-300"
-            />
-          </div>
-          {showMenu && (
             <ListDropdown
               setShowMenu={setShowMenu}
               setEdit={setEdit}
               deleteList={deleteList}
             />
-          )}
+          </div>
         </>
       )}
     </div>

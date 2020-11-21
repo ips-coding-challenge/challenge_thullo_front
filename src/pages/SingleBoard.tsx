@@ -62,11 +62,12 @@ const SingleBoard = () => {
           />
         </div>
 
-        <div className="flex-auto overflow-hidden">
+        <div className="flex-auto overflow-hidden px-6">
           <div className="bg-boardBg rounded-lg h-full">
-            <div className="h-full w-full overflow-auto">
-              <Lists board={board!} />
-            </div>
+            <Lists board={board!} />
+            {/* <div className="h-full w-full overflow-auto">
+              
+            </div> */}
           </div>
         </div>
       </div>

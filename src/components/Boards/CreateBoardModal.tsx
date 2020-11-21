@@ -6,10 +6,11 @@ import * as yup from 'yup'
 import { useForm } from 'react-hook-form'
 import BasicInput from '../Form/BasicInput'
 import Button from '../Common/Button'
-import { MdAdd, MdImage, MdLock, MdLockOpen } from 'react-icons/md'
+import { MdAdd, MdImage } from 'react-icons/md'
 import UnsplashModal from '../Common/UnsplashModal'
 import Axios from 'axios'
 import client from '../../api/client'
+import VisibilityDropdown from '../Common/Visibility/VisibilityDropdown'
 
 const schema = yup.object().shape({
   name: yup.string().required(),
@@ -37,7 +38,6 @@ const CreateBoardModal = ({
 
   const [serverErrors, setServerErrors] = useState<any>(null)
   const [showUnsplashModal, setShowUnsplashModal] = useState<boolean>(false)
-  const [showVisibility, setShowVisibility] = useState<boolean>(false)
   const [cover, setCover] = useState<string | null>(null)
   const [visibility, setVisibility] = useState<string>('private')
   const [photos, setPhotos] = useState<any[]>([])
@@ -146,33 +146,10 @@ const CreateBoardModal = ({
               searchPhotos={searchPhotos}
             />
             <div className="relative flex flex-col ml-4 w-1/2">
-              <Button
-                className=""
-                icon={visibility === 'private' ? <MdLock /> : <MdLockOpen />}
-                text={visibility === 'private' ? 'Private' : 'Public'}
-                alignment="left"
-                variant="default"
-                onClick={() => {
-                  setShowVisibility(true)
-                }}
+              <VisibilityDropdown
+                visibility={visibility}
+                setVisibility={setVisibility}
               />
-
-              {showVisibility && (
-                <Button
-                  style={{ top: '50px' }}
-                  className="absolute left-0 right-0 w-full"
-                  icon={visibility === 'public' ? <MdLock /> : <MdLockOpen />}
-                  text={visibility === 'public' ? 'Private' : 'Public'}
-                  alignment="left"
-                  variant="default"
-                  onClick={() => {
-                    setVisibility((old) =>
-                      old === 'private' ? 'public' : 'private'
-                    )
-                    setShowVisibility(false)
-                  }}
-                />
-              )}
             </div>
           </div>
 
