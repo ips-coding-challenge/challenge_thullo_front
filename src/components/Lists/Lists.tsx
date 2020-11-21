@@ -218,7 +218,7 @@ const Lists = ({ board }: ListsProps) => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="grid grid-flow-col gap-6 auto-cols-list pb-6">
+      <div className="grid grid-flow-col gap-6 auto-cols-list p-6">
         {lists.length > 0 &&
           lists.map((list: ListOfTasks) => {
             return <List key={list.id} board_id={board!.id} list={list} />

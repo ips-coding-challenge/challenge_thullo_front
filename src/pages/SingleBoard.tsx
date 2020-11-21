@@ -51,8 +51,8 @@ const SingleBoard = () => {
   return (
     <div className="flex flex-col">
       <Navbar name={board!.name} />
-      <div className="flex-auto h-full px-6 mt-8">
-        <div className="flex w-full justify-between mb-8">
+      <div className="flex flex-col flex-auto h-board">
+        <div className="flex w-full justify-between p-8">
           <div></div>
           <Button
             icon={<MdMoreHoriz />}
@@ -62,9 +62,9 @@ const SingleBoard = () => {
           />
         </div>
 
-        <div>
-          <div className="bg-boardBg rounded-lg p-4">
-            <div className="h-full w-full overflow-x-auto">
+        <div className="flex-auto overflow-hidden">
+          <div className="bg-boardBg rounded-lg h-full">
+            <div className="h-full w-full overflow-auto">
               <Lists board={board!} />
             </div>
           </div>
