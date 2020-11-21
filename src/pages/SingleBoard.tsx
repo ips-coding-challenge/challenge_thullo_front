@@ -12,16 +12,28 @@ import { listState } from '../state/listState'
 import { Board, ListOfTasks } from '../types/types'
 import { DragDropContext, DropResult } from 'react-beautiful-dnd'
 import Lists from '../components/Lists/Lists'
+import VisibilityDropdown from '../components/Common/Visibility/VisibilityDropdown'
+import { formatServerErrors, toCamelCase } from '../utils/utils'
+import { AxiosError } from 'axios'
+import BasicError from '../components/Common/BasicError'
 
 const SingleBoard = () => {
   const { id }: any = useParams()
   const [board, setBoard] = useState<Board | null>(null)
   const [lists, setLists] = useRecoilState(listState)
   const [loading, setLoading] = useState<boolean>(true)
+  const [visibility, setVisibility] = useState<string | null>(null)
+  const [serverErrors, setServerErrors] = useState<string | null>(null)
 
   const fetchBoard = useCallback(async () => {
-    const res = await client.get(`/boards/${id}`)
-    setBoard(res.data.data)
+    try {
+      const res = await client.get(`/boards/${id}`)
+      const board: Board = res.data.data
+      setBoard(board)
+      setVisibility(board.visibility)
+    } catch (e) {
+      console.log('fetchBoard error', e)
+    }
   }, [])
 
   const fetchLists = useCallback(async () => {
@@ -44,6 +56,32 @@ const SingleBoard = () => {
     init()
   }, [])
 
+  const updateVisibility = useCallback(
+    async (vis: string) => {
+      if (vis === board?.visibility) {
+        return
+      }
+
+      setServerErrors(null)
+
+      try {
+        setVisibility(vis)
+        const res = await client.put(`boards/${board?.id}`, {
+          visibility: vis,
+        })
+        setBoard((old: Board | null) =>
+          old ? { ...old, visibility: res.data.data.visibility } : old
+        )
+      } catch (e) {
+        const error = e as AxiosError
+        setServerErrors(formatServerErrors(error))
+
+        setVisibility(board!.visibility)
+      }
+    },
+    [board]
+  )
+
   if (loading) {
     return <BasicLoader />
   }
@@ -52,8 +90,18 @@ const SingleBoard = () => {
     <div className="flex flex-col">
       <Navbar name={board!.name} />
       <div className="flex flex-col flex-auto h-board">
+        {serverErrors && <BasicError message={serverErrors} />}
         <div className="flex w-full justify-between p-8">
-          <div></div>
+          <div>
+            {board && (
+              <>
+                <VisibilityDropdown
+                  visibility={visibility!}
+                  setVisibility={updateVisibility}
+                />
+              </>
+            )}
+          </div>
           <Button
             icon={<MdMoreHoriz />}
             text="Show menu"
@@ -65,9 +113,6 @@ const SingleBoard = () => {
         <div className="flex-auto overflow-hidden px-6">
           <div className="bg-boardBg rounded-lg h-full">
             <Lists board={board!} />
-            {/* <div className="h-full w-full overflow-auto">
-              
-            </div> */}
           </div>
         </div>
       </div>

@@ -1,3 +1,13 @@
+import { AxiosError } from 'axios'
+
+export const formatServerErrors = (error: AxiosError): string => {
+  if (error.response && error.response.data) {
+    return error.response.data
+  } else {
+    return error.message
+  }
+}
+
 export const avatarInitials = (username: string) => {
   const split = username.split(' ')
   if (split.length === 1) {

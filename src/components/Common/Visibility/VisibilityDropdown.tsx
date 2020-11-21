@@ -13,8 +13,6 @@ const VisibilityDropdown = ({
   visibility,
   setVisibility,
 }: VisibilityDropdownProps) => {
-  // const [visibility, setVisibility] = useState<string>('private')
-
   return (
     <BaseDropdown>
       {(onTrigger, show) => (

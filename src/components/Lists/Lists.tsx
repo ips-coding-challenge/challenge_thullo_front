@@ -25,8 +25,6 @@ type InitialData = {
 const Lists = ({ board }: ListsProps) => {
   const [lists, setLists] = useRecoilState(listState)
 
-  console.log('lists', lists)
-
   const reorder = useCallback(
     async (
       source: DraggableLocation,
