@@ -16,6 +16,8 @@ type NavbarProps = {
 const Navbar = ({ name }: NavbarProps) => {
   const user: User | null = useRecoilValue(userState)
 
+  const search = (value: string) => {}
+
   return (
     <div className="w-full h-16 shadow-md flex flex-none px-2 md:px-6 justify-between items-center">
       <div className="hidden md:flex">
@@ -37,7 +39,11 @@ const Navbar = ({ name }: NavbarProps) => {
       </div>
 
       <div className="flex w-full md:w-auto justify-between">
-        <SearchInput className="w-3/5 flex-auto mr-1" />
+        <SearchInput
+          className="w-3/5 flex-auto mr-1"
+          placeholder="Keywords..."
+          search={search}
+        />
         <div className="ml-4 md:ml-16 flex-none flex items-center">
           <Avatar username={user!.username} />
 

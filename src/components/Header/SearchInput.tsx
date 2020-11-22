@@ -2,10 +2,12 @@ import React, { useState } from 'react'
 import { MdSearch } from 'react-icons/md'
 
 type SearchInputProps = {
+  placeholder: string
+  search: (query: string) => void
   className?: string
 }
 
-const SearchInput = ({ className }: SearchInputProps) => {
+const SearchInput = ({ placeholder, search, className }: SearchInputProps) => {
   const [query, setQuery] = useState('')
 
   return (
@@ -18,9 +20,18 @@ const SearchInput = ({ className }: SearchInputProps) => {
         type="text"
         value={query}
         onChange={(e) => setQuery(e.target.value)}
-        placeholder="Keyword..."
+        placeholder={placeholder}
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === 'Enter') {
+            e.preventDefault()
+            search(query)
+          }
+        }}
       />
-      <button className="bg-blue rounded-lg h-full px-4 text-white text-sm">
+      <button
+        className="bg-blue rounded-lg h-full px-4 hover:bg-blue-darker text-white text-sm"
+        onClick={() => search(query)}
+      >
         <MdSearch />
       </button>
     </div>

@@ -16,6 +16,7 @@ import VisibilityDropdown from '../components/Common/Visibility/VisibilityDropdo
 import { formatServerErrors, toCamelCase } from '../utils/utils'
 import { AxiosError } from 'axios'
 import BasicError from '../components/Common/BasicError'
+import BoardMembers from '../components/Board/BoardMembers'
 
 const SingleBoard = () => {
   const { id }: any = useParams()
@@ -94,12 +95,14 @@ const SingleBoard = () => {
         <div className="flex w-full justify-between p-8">
           <div>
             {board && (
-              <>
+              <div className="flex items-center">
                 <VisibilityDropdown
                   visibility={visibility!}
                   setVisibility={updateVisibility}
                 />
-              </>
+                {/* BoardMembers */}
+                <BoardMembers members={board.members} />
+              </div>
             )}
           </div>
           <Button
