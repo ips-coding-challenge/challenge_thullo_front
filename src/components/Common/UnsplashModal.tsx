@@ -4,6 +4,8 @@ import { MdSearch } from 'react-icons/md'
 type UnsplashModal = {
   isVisible: boolean
   photos: any[]
+  page: number
+  setPage: (page: number) => void
   selectPhoto: (photo: any) => void
   searchPhotos: (query: string) => void
 }
@@ -11,6 +13,8 @@ type UnsplashModal = {
 const UnsplashModal = ({
   isVisible,
   photos,
+  page,
+  setPage,
   selectPhoto,
   searchPhotos,
 }: UnsplashModal) => {
@@ -67,6 +71,21 @@ const UnsplashModal = ({
           )
         })}
       </ul>
+      <div className="flex justify-between w-full">
+        {page > 1}{' '}
+        <span
+          className="text-sm hover:text-gray3"
+          onClick={() => setPage(page - 1)}
+        >
+          Prev
+        </span>
+        <span
+          className="text-sm hover:text-gray3"
+          onClick={() => setPage(page + 1)}
+        >
+          Next
+        </span>
+      </div>
     </div>
   )
 }
