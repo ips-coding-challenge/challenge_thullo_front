@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { MdSearch } from 'react-icons/md'
+import { DebounceInput } from 'react-debounce-input'
 
 type SearchInputProps = {
   placeholder: string
@@ -14,18 +15,15 @@ const SearchInput = ({ placeholder, search, className }: SearchInputProps) => {
     <div
       className={`rounded-lg shadow-md h-10 flex justify-between items-center p-1 ${className}`}
     >
-      <input
+      <DebounceInput
         style={{ minWidth: 0 }}
         className="mx-2"
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        minLength={2}
         placeholder={placeholder}
-        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-          if (e.key === 'Enter') {
-            e.preventDefault()
-            search(query)
-          }
+        debounceTimeout={300}
+        onChange={(e) => {
+          setQuery(e.target.value)
+          search(e.target.value)
         }}
       />
       <button

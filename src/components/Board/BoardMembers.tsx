@@ -20,6 +20,7 @@ const BoardMembers = ({ members }: BoardMembersProps) => {
       <MembersDropdown
         title="Invite to board"
         subtitle="Search users you want to invite to"
+        members={members}
       />
     </div>
   )

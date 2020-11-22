@@ -55,7 +55,7 @@ const CreateBoardModal = ({
     try {
       const res = await client.post('/boards', {
         name: data.name,
-        cover,
+        cover: cover.urls.regular,
         visibility,
       })
 

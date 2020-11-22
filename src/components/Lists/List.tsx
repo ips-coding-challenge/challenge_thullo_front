@@ -63,7 +63,7 @@ const List = ({ board_id, list }: ListProps) => {
           return copy
         case 'update':
           const taskIndex = old[listIndex].tasks.findIndex(
-            (t) => t.id === newTask!.id
+            (t) => t.id === task!.id
           )
           if (taskIndex > -1) {
             const oldTasks = Array.from(old[listIndex].tasks)
