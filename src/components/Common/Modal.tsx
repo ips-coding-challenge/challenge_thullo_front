@@ -26,7 +26,7 @@ const Modal = ({
         <div className="fixed inset-0 transition-opacity">
           <div className="absolute inset-0 bg-gray3 opacity-50"></div>
         </div>
-        <span className="hidden sm:inline-block sm:align-middle sm:h-screen"></span>
+        <span className="hidden sm:inline-block sm:align-top sm:h-screen"></span>
         &#8203;
         <div
           onClick={(e) => e.stopPropagation()}
