@@ -21,22 +21,22 @@ const MembersDropdown = ({
   const [newMembers, setnewMembers] = useState<User[]>([])
 
   const searchMembers = async (query: string) => {
-    if (query.length === 0) {
-      setnewMembers([])
-      return
-    }
-    try {
-      const res = await client.get(`/members?q=${query}`)
-      console.log('res.data', res.data.data)
-      const users = res.data.data
-      const filtered = users.filter((user: User) => {
-        const index = members?.findIndex((m: User) => m.id === user.id)
-        return index === -1
-      })
-      setnewMembers(filtered)
-    } catch (e) {
-      console.log('searchMembers e', e)
-    }
+    // if (query.length === 0) {
+    //   setnewMembers([])
+    //   return
+    // }
+    // try {
+    //   const res = await client.get(`/members?q=${query}`)
+    //   console.log('res.data', res.data.data)
+    //   const users = res.data.data
+    //   const filtered = users.filter((user: User) => {
+    //     const index = members?.findIndex((m: User) => m.id === user.id)
+    //     return index === -1
+    //   })
+    //   setnewMembers(filtered)
+    // } catch (e) {
+    //   console.log('searchMembers e', e)
+    // }
   }
 
   const selectUser = (member: User) => {

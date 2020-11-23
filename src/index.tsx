@@ -1,15 +1,18 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import 'fontsource-noto-sans'
+import 'react-toastify/dist/ReactToastify.min.css'
 import './styles/tailwind.css'
 import App from './App'
 import { RecoilRoot } from 'recoil'
 import reportWebVitals from './reportWebVitals'
+import { ToastContainer } from 'react-toastify'
 
 ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
       <App />
+      <ToastContainer autoClose={3000} position="top-left" limit={3} />
     </RecoilRoot>
   </React.StrictMode>,
   document.getElementById('root')

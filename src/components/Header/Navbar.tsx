@@ -8,6 +8,7 @@ import { User } from '../../types/types'
 import { MdApps, MdExpandMore } from 'react-icons/md'
 import Button from '../Common/Button'
 import { Link } from 'react-router-dom'
+import MenuDropdown from '../Common/MenuDropdown'
 
 type NavbarProps = {
   name?: string
@@ -47,10 +48,11 @@ const Navbar = ({ name }: NavbarProps) => {
         <div className="ml-4 md:ml-16 flex-none flex items-center">
           <Avatar username={user!.username} />
 
-          <button className="flex items-center">
+          <MenuDropdown />
+          {/* <button className="flex items-center">
             <h4 className="ml-2 md:ml-4 mr-2 font-bold">{user!.username}</h4>
             <MdExpandMore />
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

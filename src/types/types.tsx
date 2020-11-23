@@ -38,3 +38,13 @@ export type TaskType = {
   created_at?: string | null
   updated_at?: string | null
 }
+
+export type InvitationType = {
+  id: number
+  token: string
+  board_id: number
+  user_id: number
+  owner_name: string
+  board_cover: string
+  board_name: string
+}
