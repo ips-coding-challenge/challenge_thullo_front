@@ -6,7 +6,11 @@ import {
   selectedPhotoState,
 } from '../../../state/unsplashState'
 
-const PhotoGallery = () => {
+type PhotoGalleryProps = {
+  onTrigger: Function
+}
+
+const PhotoGallery = ({ onTrigger }: PhotoGalleryProps) => {
   const [photos] = useRecoilState(photosState)
   const setSelectedPhoto = useSetRecoilState(selectedPhotoState)
   const [page, setPage] = useRecoilState(pageState)
@@ -22,6 +26,7 @@ const PhotoGallery = () => {
                 e.preventDefault()
                 console.log('photo selected', photo)
                 setSelectedPhoto(photo)
+                onTrigger()
               }}
               key={photo.id}
             >

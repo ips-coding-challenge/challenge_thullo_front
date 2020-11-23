@@ -38,6 +38,7 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
         })
         onTaskSaved(res.data.data, 'create')
       } else {
+        console.log('task', task)
         res = await client.put(`/tasks/${task.id}`, {
           title: title,
           position: task.position,

@@ -1,26 +1,35 @@
 import React, { useState } from 'react'
 import { MdSearch } from 'react-icons/md'
+import { DebounceInput } from 'react-debounce-input'
 
 type SearchInputProps = {
+  placeholder: string
+  search: (query: string) => void
   className?: string
 }
 
-const SearchInput = ({ className }: SearchInputProps) => {
+const SearchInput = ({ placeholder, search, className }: SearchInputProps) => {
   const [query, setQuery] = useState('')
 
   return (
     <div
       className={`rounded-lg shadow-md h-10 flex justify-between items-center p-1 ${className}`}
     >
-      <input
+      <DebounceInput
         style={{ minWidth: 0 }}
         className="mx-2"
-        type="text"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Keyword..."
+        minLength={2}
+        placeholder={placeholder}
+        debounceTimeout={300}
+        onChange={(e) => {
+          setQuery(e.target.value)
+          search(e.target.value)
+        }}
       />
-      <button className="bg-blue rounded-lg h-full px-4 text-white text-sm">
+      <button
+        className="bg-blue rounded-lg h-full px-4 hover:bg-blue-darker text-white text-sm"
+        onClick={() => search(query)}
+      >
         <MdSearch />
       </button>
     </div>

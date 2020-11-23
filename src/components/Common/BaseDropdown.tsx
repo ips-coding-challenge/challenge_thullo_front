@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { JsxElement } from 'typescript'
 
 type BaseDropdownProps = {
   children: (onTrigger: Function, show: boolean) => any

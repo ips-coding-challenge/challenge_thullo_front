@@ -16,10 +16,12 @@ import VisibilityDropdown from '../components/Common/Visibility/VisibilityDropdo
 import { formatServerErrors, toCamelCase } from '../utils/utils'
 import { AxiosError } from 'axios'
 import BasicError from '../components/Common/BasicError'
+import BoardMembers from '../components/Board/BoardMembers'
+import { boardState } from '../state/boardState'
 
 const SingleBoard = () => {
   const { id }: any = useParams()
-  const [board, setBoard] = useState<Board | null>(null)
+  const [board, setBoard] = useRecoilState<Board | null>(boardState)
   const [lists, setLists] = useRecoilState(listState)
   const [loading, setLoading] = useState<boolean>(true)
   const [visibility, setVisibility] = useState<string | null>(null)
@@ -29,6 +31,7 @@ const SingleBoard = () => {
     try {
       const res = await client.get(`/boards/${id}`)
       const board: Board = res.data.data
+      console.log('board', board)
       setBoard(board)
       setVisibility(board.visibility)
     } catch (e) {
@@ -54,6 +57,10 @@ const SingleBoard = () => {
 
   useEffect(() => {
     init()
+
+    return () => {
+      setBoard(null)
+    }
   }, [])
 
   const updateVisibility = useCallback(
@@ -94,12 +101,14 @@ const SingleBoard = () => {
         <div className="flex w-full justify-between p-8">
           <div>
             {board && (
-              <>
+              <div className="flex items-center">
                 <VisibilityDropdown
                   visibility={visibility!}
                   setVisibility={updateVisibility}
                 />
-              </>
+                {/* BoardMembers */}
+                <BoardMembers members={board.members} />
+              </div>
             )}
           </div>
           <Button

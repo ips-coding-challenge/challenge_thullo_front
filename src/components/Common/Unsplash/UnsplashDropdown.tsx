@@ -109,7 +109,9 @@ const UnsplashDropdown = () => {
                   <div className="lds-dual-ring lds-dual-ring-black"></div>
                 </div>
               )}
-              {!loading && photos.length > 0 && <PhotoGallery />}
+              {!loading && photos.length > 0 && (
+                <PhotoGallery onTrigger={onTrigger} />
+              )}
             </div>
           )}
         </div>
