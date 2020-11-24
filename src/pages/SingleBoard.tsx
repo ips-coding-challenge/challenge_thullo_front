@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { MdAdd, MdMoreHoriz } from 'react-icons/md'
 import { useParams } from 'react-router-dom'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import client from '../api/client'
 import BasicLoader from '../components/BasicLoader'
 import Button from '../components/Common/Button'
@@ -9,7 +9,7 @@ import Navbar from '../components/Header/Navbar'
 import AddList from '../components/Lists/AddList'
 import List from '../components/Lists/List'
 import { listState } from '../state/listState'
-import { Board, ListOfTasks } from '../types/types'
+import { Board, ListOfTasks, TaskType, User } from '../types/types'
 import { DragDropContext, DropResult } from 'react-beautiful-dnd'
 import Lists from '../components/Lists/Lists'
 import VisibilityDropdown from '../components/Common/Visibility/VisibilityDropdown'
@@ -17,12 +17,15 @@ import { formatServerErrors, toCamelCase } from '../utils/utils'
 import { AxiosError } from 'axios'
 import BasicError from '../components/Common/BasicError'
 import BoardMembers from '../components/Board/BoardMembers'
-import { boardState } from '../state/boardState'
+import { boardMembersState, boardState } from '../state/boardState'
+import { tasksState } from '../state/taskState'
 
 const SingleBoard = () => {
   const { id }: any = useParams()
   const [board, setBoard] = useRecoilState<Board | null>(boardState)
+  const setBoardMembers = useSetRecoilState<User[]>(boardMembersState)
   const [lists, setLists] = useRecoilState(listState)
+  const [tasks, setTasks] = useRecoilState(tasksState)
   const [loading, setLoading] = useState<boolean>(true)
   const [visibility, setVisibility] = useState<string | null>(null)
   const [serverErrors, setServerErrors] = useState<string | null>(null)
@@ -31,9 +34,9 @@ const SingleBoard = () => {
     try {
       const res = await client.get(`/boards/${id}`)
       const board: Board = res.data.data
-      console.log('board', board)
       setBoard(board)
       setVisibility(board.visibility)
+      setBoardMembers(board.members)
     } catch (e) {
       console.log('fetchBoard error', e)
     }
@@ -41,7 +44,15 @@ const SingleBoard = () => {
 
   const fetchLists = useCallback(async () => {
     const res = await client.get(`/lists?board_id=${id}`)
-    setLists(res.data.data)
+    const lists = res.data.data
+    const tasks: TaskType[] = []
+    lists.forEach((l: ListOfTasks) => {
+      l.tasks.forEach((t: TaskType) => {
+        tasks.push(t)
+      })
+    })
+    setLists(lists)
+    setTasks(tasks)
   }, [])
 
   const init = async () => {

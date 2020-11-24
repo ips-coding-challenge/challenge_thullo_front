@@ -1,11 +1,19 @@
 import React, { useState } from 'react'
 import { DraggableStateSnapshot } from 'react-beautiful-dnd'
 import { MdCancel, MdEdit } from 'react-icons/md'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
-import { newTaskState } from '../../state/taskState'
-import { TaskType } from '../../types/types'
+import { boardMembersState } from '../../state/boardState'
+import {
+  currentTaskState,
+  newTaskState,
+  taskState,
+} from '../../state/taskState'
+import { TaskType, User } from '../../types/types'
+import BoardMembers from '../Board/BoardMembers'
+import MembersDropdown from '../Board/MembersDropdown'
 import Button from '../Common/Button'
+import Avatar from '../Header/Avatar'
 
 type TaskProps = {
   task: TaskType
@@ -15,6 +23,8 @@ type TaskProps = {
 
 const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
   const [newTask, setNewTask] = useRecoilState(newTaskState)
+  const boardMembers = useRecoilValue(boardMembersState)
+  const [currentTask, setCurrentTask] = useRecoilState(taskState(task!.id!))
   const [title, setTitle] = useState<string>(task.id ? task.title : '')
   const [error, setError] = useState<string | null>(null)
 
@@ -127,6 +137,24 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
           }}
           className="opacity-0 group-hover:opacity-100 flex-none"
         />
+      </div>
+      {/* Assign members dropdown */}
+      <div className="md:relative mt-4 flex gap-1">
+        {currentTask!.assignedMembers &&
+          currentTask!.assignedMembers.length > 0 && (
+            <>
+              {currentTask!.assignedMembers.map((m: User) => (
+                <Avatar key={m.id} username={m.username} />
+              ))}
+            </>
+          )}
+        {currentTask?.assignedMembers?.length! < boardMembers.length && (
+          <MembersDropdown
+            task={task}
+            title="Members"
+            subtitle="Assign members to this task"
+          />
+        )}
       </div>
     </div>
   )

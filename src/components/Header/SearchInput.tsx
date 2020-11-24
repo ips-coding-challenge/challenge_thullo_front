@@ -20,7 +20,7 @@ const SearchInput = ({ placeholder, search, className }: SearchInputProps) => {
         className="mx-2"
         minLength={2}
         placeholder={placeholder}
-        debounceTimeout={300}
+        debounceTimeout={100}
         onChange={(e) => {
           setQuery(e.target.value)
           search(e.target.value)

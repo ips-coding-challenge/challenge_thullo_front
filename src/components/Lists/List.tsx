@@ -7,7 +7,7 @@ import { ListOfTasks, TaskType } from '../../types/types'
 import ListInput from './ListInput'
 import Task from '../Tasks/Task'
 import AddButton from './AddButton'
-import { newTaskState } from '../../state/taskState'
+import { newTaskState, tasksState } from '../../state/taskState'
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 import ListDropdown from './ListDropdown'
 import ListHeading from './ListHeading'
@@ -18,6 +18,7 @@ type ListProps = {
 }
 
 const List = ({ board_id, list }: ListProps) => {
+  const setTasks = useSetRecoilState(tasksState)
   const [newTask, setNewTask] = useRecoilState<TaskType | null>(newTaskState)
   const setLists = useSetRecoilState(listState)
 
@@ -47,6 +48,9 @@ const List = ({ board_id, list }: ListProps) => {
   }, [])
 
   const onTaskSaved = useCallback((task: TaskType, action: string) => {
+    setTasks((old: TaskType[]) => {
+      return old.concat(task)
+    })
     setLists((old: ListOfTasks[]) => {
       const listIndex = old.findIndex((l) => l.id === list.id)
       if (listIndex === -1) {
