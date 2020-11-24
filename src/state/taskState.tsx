@@ -1,4 +1,5 @@
 import { atom, atomFamily, selectorFamily } from 'recoil'
+import { number } from 'yup'
 import { TaskType, User } from '../types/types'
 
 export const tasksState = atom<TaskType[]>({
@@ -20,14 +21,21 @@ export const taskState = atomFamily<TaskType | undefined, number>({
   key: 'taskState',
   default: (id: number) => currentTaskState(id),
 })
-// export const currentTaskState = atomFamily<TaskType | null, TaskType>({
-//   key: 'currentTaskState',
-//   default: (task) => task,
-// })
 
 export const assignedMembersState = selectorFamily<User[] | undefined, number>({
   key: 'assignedMembersState',
   get: (id: number) => ({ get }) => {
     return get(taskState(id))?.assignedMembers
+  },
+})
+
+export const taskModalShowState = atom<{
+  task_id: number | null
+  show: boolean
+}>({
+  key: 'taskModalState',
+  default: {
+    task_id: null,
+    show: false,
   },
 })

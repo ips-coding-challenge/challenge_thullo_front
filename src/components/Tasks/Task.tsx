@@ -7,6 +7,7 @@ import { boardMembersState } from '../../state/boardState'
 import {
   currentTaskState,
   newTaskState,
+  taskModalShowState,
   taskState,
 } from '../../state/taskState'
 import { TaskType, User } from '../../types/types'
@@ -22,9 +23,13 @@ type TaskProps = {
 }
 
 const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
+  // Global state
   const [newTask, setNewTask] = useRecoilState(newTaskState)
   const boardMembers = useRecoilValue(boardMembersState)
   const [currentTask, setCurrentTask] = useRecoilState(taskState(task!.id!))
+  const setTaskModal = useSetRecoilState(taskModalShowState)
+
+  // Local state
   const [title, setTitle] = useState<string>(task.id ? task.title : '')
   const [error, setError] = useState<string | null>(null)
 
@@ -120,14 +125,11 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
           className="h-20 object-cover w-full rounded-lg mb-4"
           src={task.cover}
           alt="cover"
+          onClick={() => setTaskModal({ task_id: task.id!, show: true })}
         />
       )}
       <div className="group flex justify-between transition-opacity duration-300 cursor-pointer">
-        <h3
-          onClick={() => {
-            // TODO open a modal with the task
-          }}
-        >
+        <h3 onClick={() => setTaskModal({ task_id: task.id!, show: true })}>
           {task.title}
         </h3>
         <MdEdit
