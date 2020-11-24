@@ -35,6 +35,7 @@ export type TaskType = {
   list_id: number
   position: number
   cover?: string
+  assignedMembers?: User[]
   created_at?: string | null
   updated_at?: string | null
 }
