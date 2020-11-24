@@ -37,7 +37,7 @@ const InvitationDropdown = () => {
             onClick={() => onTrigger()}
           />
           {show && (
-            <div className="absolute w-auto top-0 bg-white rounded-card shadow-lg mt-10 py-3 px-4 z-10 border border-gray-border">
+            <div className="absolute w-auto top-0 left-0 md:left-auto bg-white rounded-card shadow-lg mt-10 py-3 px-4 z-10 border border-gray-border">
               <h3 className="font-semibold mb-6">Invite to board</h3>
 
               <BaseInput

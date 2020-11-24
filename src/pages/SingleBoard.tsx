@@ -99,7 +99,7 @@ const SingleBoard = () => {
       <div className="flex flex-col flex-auto h-board">
         {serverErrors && <BasicError message={serverErrors} />}
         <div className="flex w-full justify-between p-8">
-          <div>
+          <div className="relative">
             {board && (
               <div className="flex items-center">
                 <VisibilityDropdown

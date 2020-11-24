@@ -24,7 +24,7 @@ const ListDropdown = ({
           {show && (
             <div
               style={{ right: '-9rem' }}
-              className="absolute w-40 top-0 bg-white rounded-card shadow-lg mt-6 py-3 px-4 z-10 border border-gray-border"
+              className="absolute w-full md:w-40 top-0 left-0 md:left-auto bg-white rounded-card shadow-lg mt-6 py-3 px-4 z-10 border border-gray-border"
             >
               <div
                 onClick={() => {

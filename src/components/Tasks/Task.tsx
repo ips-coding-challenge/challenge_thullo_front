@@ -62,7 +62,18 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
   // Add also an edit mode ( TODO )
   if (task.id === null || (newTask && task === newTask)) {
     return (
-      <div>
+      <div
+        className={`${
+          task && task.cover ? 'w-full mb-4 rounded-lg p-4 shadow-md' : ''
+        }`}
+      >
+        {task && task.cover && (
+          <img
+            className="h-20 object-cover w-full rounded-lg mb-4"
+            src={task.cover}
+            alt="cover"
+          />
+        )}
         <textarea
           className="w-full  bg-white rounded-lg p-4 shadow-md"
           value={title}
@@ -90,11 +101,17 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
   }
   return (
     <div
-      className={`w-full mb-4 rounded-lg p-4 shadow-md ${
-        snapshot?.isDragging ? 'bg-gray-200' : 'bg-white'
+      className={`w-full mb-4 rounded-lg p-4 shadow-md transition-all duration-300 ${
+        snapshot?.isDragging ? 'bg-gray-200 transform rotate-6 ' : 'bg-white'
       }`}
     >
-      {task.cover && <img src={task.cover} alt="cover" />}
+      {task.cover && (
+        <img
+          className="h-20 object-cover w-full rounded-lg mb-4"
+          src={task.cover}
+          alt="cover"
+        />
+      )}
       <div className="group flex justify-between transition-opacity duration-300 cursor-pointer">
         <h3
           onClick={() => {

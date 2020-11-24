@@ -26,7 +26,7 @@ const BaseDropdown = ({ children }: BaseDropdownProps) => {
   }
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={ref} className="md:relative">
       {children(onTrigger, show)}
     </div>
   )

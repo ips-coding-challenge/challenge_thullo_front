@@ -81,16 +81,16 @@ const List = ({ board_id, list }: ListProps) => {
   }, [])
 
   return (
-    <div className="relative flex flex-col w-list items-center px-1">
+    <div className="relative flex flex-col w-list items-center px-1 transition-all duration-300">
       <ListHeading board_id={board_id} list={list} />
 
       {/* List of tasks */}
-      <div className="w-full h-auto">
+      <div className="w-full h-auto p-1">
         <Droppable key={list.id} droppableId={`${list.id}`}>
           {(provided, snapshot) => (
             <div
               style={{ minHeight: '30px' }}
-              className={`${snapshot.isDraggingOver ? 'bg-orange-100' : ''}`}
+              className={` ${snapshot.isDraggingOver ? 'bg-gray-100' : ''}`}
               ref={provided.innerRef}
               {...provided.droppableProps}
             >
