@@ -1,16 +1,15 @@
-import { format } from 'path'
 import React, { useCallback, useEffect, useState } from 'react'
-import { MdEdit } from 'react-icons/md'
+import { MdAccountCircle } from 'react-icons/md'
 import { toast } from 'react-toastify'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import client from '../../api/client'
-import { taskModalShowState, taskState } from '../../state/taskState'
-import { TaskType } from '../../types/types'
-import { formatServerErrors } from '../../utils/utils'
-import BasicLoader from '../BasicLoader'
-import Button from '../Common/Button'
-import Modal from '../Common/Modal'
+import { useRecoilState, useSetRecoilState } from 'recoil'
+import TaskCoverSelect from './TaskCoverSelect'
+import TaskCover from './TaskCover'
 import TaskDescription from './TaskDescription'
+import TaskSubtitle from './TaskSubtitle'
+import { taskModalShowState, taskState } from '../../../state/taskState'
+import client from '../../../api/client'
+import { formatServerErrors } from '../../../utils/utils'
+import Modal from '../../Common/Modal'
 
 type TaskModalProps = {
   isVisible: boolean
@@ -46,7 +45,7 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
   if (!task && !loading) return null
 
   return (
-    <Modal isVisible={isVisible} onClose={onClose}>
+    <Modal isVisible={isVisible} onClose={onClose} size="large">
       <>
         {!task && loading && (
           <div className="flex w-full h-full items-center justify-center my-4">
@@ -55,24 +54,23 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
         )}
         {task && !loading && (
           <div className="p-4">
-            {task && task.cover ? (
-              <img
-                className="w-full h-24 bg-gray1 rounded-lg mb-6 object-cover"
-                src={task.cover ? task.cover : ''}
-                alt="cover"
-              />
-            ) : (
-              <div className="w-full h-24 bg-gray1 rounded-lg mb-6"></div>
-            )}
+            <TaskCover id={task.id!} />
 
             <div className="flex w-full">
               {/* Left column */}
-              <div className="flex flex-col w-3/5">
+              <div className="flex flex-col w-8/12">
                 <h3 className="font-semibold">{task.title}</h3>
                 <TaskDescription task={task} />
               </div>
               {/* Right column */}
-              <div></div>
+              <div className="w-4/12">
+                <TaskSubtitle
+                  icon={<MdAccountCircle />}
+                  text="Actions"
+                  className="mb-4"
+                />
+                <TaskCoverSelect id={task.id!} />
+              </div>
             </div>
           </div>
         )}
@@ -81,4 +79,4 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
   )
 }
 
-export default TaskModal
+export default React.memo(TaskModal)

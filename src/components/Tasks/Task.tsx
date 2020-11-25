@@ -15,6 +15,7 @@ import BoardMembers from '../Board/BoardMembers'
 import MembersDropdown from '../Board/MembersDropdown'
 import Button from '../Common/Button'
 import Avatar from '../Header/Avatar'
+import TaskCover from './Modal/TaskCover'
 
 type TaskProps = {
   task: TaskType
@@ -79,16 +80,12 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
     return (
       <div
         className={`${
-          task && task.cover ? 'w-full mb-4 rounded-lg p-4 shadow-md' : ''
+          currentTask && currentTask.cover
+            ? 'w-full mb-4 rounded-lg p-4 shadow-md'
+            : ''
         }`}
       >
-        {task && task.cover && (
-          <img
-            className="h-20 object-cover w-full rounded-lg mb-4"
-            src={task.cover}
-            alt="cover"
-          />
-        )}
+        {currentTask && currentTask.cover && <TaskCover id={task.id!} />}
         <textarea
           className="w-full  bg-white rounded-lg p-4 shadow-md"
           value={title}
@@ -120,17 +117,10 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
         snapshot?.isDragging ? 'bg-gray-200 transform rotate-6 ' : 'bg-white'
       }`}
     >
-      {task.cover && (
-        <img
-          className="h-20 object-cover w-full rounded-lg mb-4"
-          src={task.cover}
-          alt="cover"
-          onClick={() =>
-            setTaskModal(() => {
-              console.log('task', task)
-              return { task_id: task.id!, show: true }
-            })
-          }
+      {currentTask && currentTask.cover && (
+        <TaskCover
+          id={currentTask.id!}
+          onClick={() => setTaskModal({ task_id: task.id!, show: true })}
         />
       )}
       <div className="group flex justify-between transition-opacity duration-300 cursor-pointer">
@@ -155,6 +145,7 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
               ))}
             </>
           )}
+        {console.log('currentTask', currentTask)}
         {currentTask?.assignedMembers?.length! < boardMembers.length && (
           <MembersDropdown
             task={task}

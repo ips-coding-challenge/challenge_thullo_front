@@ -40,13 +40,15 @@ module.exports = {
       width: {
         container: '400px',
         containerBig: '800px',
-        list: '250px'
+        list: '250px',
+        taskModal: '660px'
       },
       height: {
         "board": "calc(100vh - 64px)"
       },
       maxWidth: {
-        container: '1180px'
+        container: '1180px',
+        taskModal: '660px'
       },
       gridAutoColumns: {
         'list': '250px',

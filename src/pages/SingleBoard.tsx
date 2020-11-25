@@ -19,7 +19,7 @@ import BasicError from '../components/Common/BasicError'
 import BoardMembers from '../components/Board/BoardMembers'
 import { boardMembersState, boardState } from '../state/boardState'
 import { taskModalShowState, tasksState } from '../state/taskState'
-import TaskModal from '../components/Tasks/TaskModal'
+import TaskModal from '../components/Tasks/Modal/TaskModal'
 
 const SingleBoard = () => {
   const { id }: any = useParams()

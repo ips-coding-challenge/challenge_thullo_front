@@ -1,4 +1,4 @@
-import { atom, atomFamily, selectorFamily } from 'recoil'
+import { atom, atomFamily, selector, selectorFamily } from 'recoil'
 import { number } from 'yup'
 import { TaskType, User } from '../types/types'
 
@@ -26,6 +26,17 @@ export const assignedMembersState = selectorFamily<User[] | undefined, number>({
   key: 'assignedMembersState',
   get: (id: number) => ({ get }) => {
     return get(taskState(id))?.assignedMembers
+  },
+})
+
+export const taskCoverSelector = selectorFamily<string | undefined, number>({
+  key: 'coverSelector',
+  get: (id: number) => ({ get }) => {
+    const task = get(taskState(id))
+    if (task) {
+      return task.cover
+    }
+    return task
   },
 })
 

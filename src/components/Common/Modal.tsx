@@ -3,11 +3,17 @@ import React from 'react'
 export type ModalProps = {
   isVisible: boolean
   children?: JSX.Element
+  size?: string
   onDelete?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
   onClose?: (
     event: React.MouseEvent<HTMLDivElement | HTMLButtonElement, MouseEvent>
   ) => void
   onClickOutside?: (event: React.MouseEvent) => void
+}
+
+const sizes: any = {
+  default: 'sm:max-w-lg',
+  large: 'sm:max-w-taskModal',
 }
 
 const Modal = ({
@@ -16,6 +22,7 @@ const Modal = ({
   onDelete,
   onClose,
   onClickOutside,
+  size = 'default',
 }: ModalProps) => {
   return !isVisible ? null : (
     <div
@@ -30,7 +37,7 @@ const Modal = ({
         &#8203;
         <div
           onClick={(e) => e.stopPropagation()}
-          className="relative inline-block align-bottom bg-white rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+          className={`relative inline-block align-bottom bg-white rounded-lg text-left shadow-xl transform transition-all sm:my-8 sm:align-middle ${sizes[size]} sm:w-full`}
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-headline"

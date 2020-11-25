@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { MdAdd, MdDescription, MdEdit } from 'react-icons/md'
 import { useSetRecoilState } from 'recoil'
-import client from '../../api/client'
-import { taskState } from '../../state/taskState'
-import { TaskType } from '../../types/types'
-import { formatServerErrors } from '../../utils/utils'
-import Button from '../Common/Button'
+import client from '../../../api/client'
+import { taskState } from '../../../state/taskState'
+import { TaskType } from '../../../types/types'
+import { formatServerErrors } from '../../../utils/utils'
+import Button from '../../Common/Button'
+import TaskSubtitle from './TaskSubtitle'
 
 type TaskDescriptionProps = {
   task: TaskType
@@ -56,10 +57,7 @@ const TaskDescription = ({ task }: TaskDescriptionProps) => {
   return (
     <div className="mt-8">
       <div className="flex items-center">
-        <div className="flex items-center">
-          <MdDescription className="mr-1 text-xs text-gray4" />
-          <span className="mr-2 text-gray4 text-xs">Description</span>
-        </div>
+        <TaskSubtitle icon={<MdDescription />} text="Description" />
         <Button
           variant="bordered"
           text={task.description ? 'Edit' : 'Add'}
