@@ -35,6 +35,7 @@ const List = ({ board_id, list }: ListProps) => {
     const taskToAdd: TaskType = {
       id: null,
       title: '',
+      description: null,
       position:
         list.tasks.length > 0
           ? list.tasks[list.tasks.length - 1].position + 65565

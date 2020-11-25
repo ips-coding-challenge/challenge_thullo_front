@@ -1,13 +1,16 @@
 import { format } from 'path'
 import React, { useCallback, useEffect, useState } from 'react'
+import { MdEdit } from 'react-icons/md'
 import { toast } from 'react-toastify'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
 import { taskModalShowState, taskState } from '../../state/taskState'
 import { TaskType } from '../../types/types'
 import { formatServerErrors } from '../../utils/utils'
 import BasicLoader from '../BasicLoader'
+import Button from '../Common/Button'
 import Modal from '../Common/Modal'
+import TaskDescription from './TaskDescription'
 
 type TaskModalProps = {
   isVisible: boolean
@@ -17,14 +20,14 @@ type TaskModalProps = {
   id: number | null
 }
 const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
-  const [task, setTask] = useState<TaskType | null>(null)
+  const [task, setTask] = useRecoilState(taskState(id!))
   const setTaskModal = useSetRecoilState(taskModalShowState)
   const [loading, setLoading] = useState(true)
 
   const fetchTask = useCallback(async () => {
     try {
       const res = await client.get(`/tasks/${id}`)
-      console.log('res', res.data.data)
+      setTask(res.data.data)
     } catch (e) {
       console.log('e', e)
       toast.error(formatServerErrors(e))
@@ -32,7 +35,7 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [isVisible])
 
   useEffect(() => {
     if (isVisible) {
@@ -61,6 +64,16 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
             ) : (
               <div className="w-full h-24 bg-gray1 rounded-lg mb-6"></div>
             )}
+
+            <div className="flex w-full">
+              {/* Left column */}
+              <div className="flex flex-col w-3/5">
+                <h3 className="font-semibold">{task.title}</h3>
+                <TaskDescription task={task} />
+              </div>
+              {/* Right column */}
+              <div></div>
+            </div>
           </div>
         )}
       </>

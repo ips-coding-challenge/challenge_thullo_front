@@ -125,7 +125,12 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
           className="h-20 object-cover w-full rounded-lg mb-4"
           src={task.cover}
           alt="cover"
-          onClick={() => setTaskModal({ task_id: task.id!, show: true })}
+          onClick={() =>
+            setTaskModal(() => {
+              console.log('task', task)
+              return { task_id: task.id!, show: true }
+            })
+          }
         />
       )}
       <div className="group flex justify-between transition-opacity duration-300 cursor-pointer">

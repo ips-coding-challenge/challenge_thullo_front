@@ -31,6 +31,7 @@ export type ListOfTasks = {
 export type TaskType = {
   id?: number | null
   title: string
+  description: string | null
   board_id: number
   list_id: number
   position: number
