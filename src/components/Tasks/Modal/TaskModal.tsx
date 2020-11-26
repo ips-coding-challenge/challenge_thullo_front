@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { MdAccountCircle } from 'react-icons/md'
 import { toast } from 'react-toastify'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import TaskCoverSelect from './TaskCoverSelect'
 import TaskCover from './TaskCover'
 import TaskDescription from './TaskDescription'
@@ -10,6 +10,7 @@ import { taskModalShowState, taskState } from '../../../state/taskState'
 import client from '../../../api/client'
 import { formatServerErrors } from '../../../utils/utils'
 import Modal from '../../Common/Modal'
+import { currentListState } from '../../../state/listState'
 
 type TaskModalProps = {
   isVisible: boolean
@@ -20,6 +21,7 @@ type TaskModalProps = {
 }
 const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
   const [task, setTask] = useRecoilState(taskState(id!))
+  const list = useRecoilValue(currentListState(task?.list_id))
   const setTaskModal = useSetRecoilState(taskModalShowState)
   const [loading, setLoading] = useState(true)
 
@@ -60,6 +62,10 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
               {/* Left column */}
               <div className="flex flex-col w-8/12">
                 <h3 className="font-semibold">{task.title}</h3>
+                <p className="text-xs text-gray3">
+                  in list{' '}
+                  <span className="font-bold text-black">{list.name}</span>
+                </p>
                 <TaskDescription task={task} />
               </div>
               {/* Right column */}
