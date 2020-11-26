@@ -10,11 +10,12 @@ import {
   taskModalShowState,
   taskState,
 } from '../../state/taskState'
-import { TaskType, User } from '../../types/types'
+import { LabelType, TaskType, User } from '../../types/types'
 import BoardMembers from '../Board/BoardMembers'
 import MembersDropdown from '../Board/MembersDropdown'
 import Button from '../Common/Button'
 import Avatar from '../Header/Avatar'
+import Label from './Modal/Labels/Label'
 import TaskCover from './Modal/TaskCover'
 
 type TaskProps = {
@@ -135,6 +136,16 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
           className="opacity-0 group-hover:opacity-100 flex-none"
         />
       </div>
+
+      {/* Labels */}
+      {currentTask! && currentTask!.labels && currentTask!.labels.length > 0 && (
+        <div className="flex flex-wrap gap-2 mt-4">
+          {currentTask!.labels.map((label: LabelType) => (
+            <Label key={label.id} label={label} can={false} />
+          ))}
+        </div>
+      )}
+
       {/* Assign members dropdown */}
       <div className="md:relative mt-4 flex gap-1">
         {currentTask!.assignedMembers &&
@@ -145,7 +156,6 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
               ))}
             </>
           )}
-        {console.log('currentTask', currentTask)}
         {currentTask?.assignedMembers?.length! < boardMembers.length && (
           <MembersDropdown
             task={task}

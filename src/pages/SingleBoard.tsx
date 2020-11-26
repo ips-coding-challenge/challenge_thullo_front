@@ -20,6 +20,7 @@ import BoardMembers from '../components/Board/BoardMembers'
 import { boardMembersState, boardState } from '../state/boardState'
 import { taskModalShowState, tasksState } from '../state/taskState'
 import TaskModal from '../components/Tasks/Modal/TaskModal'
+import { labelsState } from '../state/labelState'
 
 const SingleBoard = () => {
   const { id }: any = useParams()
@@ -30,6 +31,7 @@ const SingleBoard = () => {
   const [lists, setLists] = useRecoilState(listState)
   const [tasks, setTasks] = useRecoilState(tasksState)
   const [taskModal, setTaskModal] = useRecoilState(taskModalShowState)
+  const setLabels = useSetRecoilState(labelsState)
   // Local state
   const [loading, setLoading] = useState<boolean>(true)
   const [visibility, setVisibility] = useState<string | null>(null)
@@ -60,6 +62,18 @@ const SingleBoard = () => {
     setTasks(tasks)
   }, [])
 
+  const fetchLabels = useCallback(async () => {
+    if (board) {
+      try {
+        const res = await client.get(`/labels?board_id=${board.id}`)
+        console.log('labels', res.data.data)
+        setLabels(res.data.data)
+      } catch (e) {
+        console.log('e', e)
+      }
+    }
+  }, [board])
+
   const init = async () => {
     try {
       await fetchBoard()
@@ -78,6 +92,12 @@ const SingleBoard = () => {
       setBoard(null)
     }
   }, [])
+
+  useEffect(() => {
+    if (board) {
+      fetchLabels()
+    }
+  }, [board])
 
   const updateVisibility = useCallback(
     async (vis: string) => {
