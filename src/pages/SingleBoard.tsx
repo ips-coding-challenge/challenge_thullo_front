@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { MdAdd, MdMoreHoriz } from 'react-icons/md'
 import { useParams } from 'react-router-dom'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../api/client'
 import BasicLoader from '../components/BasicLoader'
 import Button from '../components/Common/Button'
@@ -18,14 +18,21 @@ import { AxiosError } from 'axios'
 import BasicError from '../components/Common/BasicError'
 import BoardMembers from '../components/Board/BoardMembers'
 import { boardMembersState, boardState } from '../state/boardState'
-import { tasksState } from '../state/taskState'
+import { taskModalShowState, tasksState } from '../state/taskState'
+import TaskModal from '../components/Tasks/Modal/TaskModal'
+import { labelsState } from '../state/labelState'
 
 const SingleBoard = () => {
   const { id }: any = useParams()
+
+  // Global state
   const [board, setBoard] = useRecoilState<Board | null>(boardState)
   const setBoardMembers = useSetRecoilState<User[]>(boardMembersState)
   const [lists, setLists] = useRecoilState(listState)
   const [tasks, setTasks] = useRecoilState(tasksState)
+  const [taskModal, setTaskModal] = useRecoilState(taskModalShowState)
+  const setLabels = useSetRecoilState(labelsState)
+  // Local state
   const [loading, setLoading] = useState<boolean>(true)
   const [visibility, setVisibility] = useState<string | null>(null)
   const [serverErrors, setServerErrors] = useState<string | null>(null)
@@ -55,6 +62,18 @@ const SingleBoard = () => {
     setTasks(tasks)
   }, [])
 
+  const fetchLabels = useCallback(async () => {
+    if (board) {
+      try {
+        const res = await client.get(`/labels?board_id=${board.id}`)
+        console.log('labels', res.data.data)
+        setLabels(res.data.data)
+      } catch (e) {
+        console.log('e', e)
+      }
+    }
+  }, [board])
+
   const init = async () => {
     try {
       await fetchBoard()
@@ -73,6 +92,12 @@ const SingleBoard = () => {
       setBoard(null)
     }
   }, [])
+
+  useEffect(() => {
+    if (board) {
+      fetchLabels()
+    }
+  }, [board])
 
   const updateVisibility = useCallback(
     async (vis: string) => {
@@ -136,6 +161,13 @@ const SingleBoard = () => {
           </div>
         </div>
       </div>
+
+      {/* TaskModal */}
+      <TaskModal
+        isVisible={taskModal.show}
+        onClose={() => setTaskModal({ task_id: null, show: false })}
+        id={taskModal.task_id}
+      />
     </div>
   )
 }

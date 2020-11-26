@@ -7,13 +7,16 @@ import { boardMembersState } from '../../state/boardState'
 import {
   currentTaskState,
   newTaskState,
+  taskModalShowState,
   taskState,
 } from '../../state/taskState'
-import { TaskType, User } from '../../types/types'
+import { LabelType, TaskType, User } from '../../types/types'
 import BoardMembers from '../Board/BoardMembers'
 import MembersDropdown from '../Board/MembersDropdown'
 import Button from '../Common/Button'
 import Avatar from '../Header/Avatar'
+import Label from './Modal/Labels/Label'
+import TaskCover from './Modal/TaskCover'
 
 type TaskProps = {
   task: TaskType
@@ -22,9 +25,13 @@ type TaskProps = {
 }
 
 const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
+  // Global state
   const [newTask, setNewTask] = useRecoilState(newTaskState)
   const boardMembers = useRecoilValue(boardMembersState)
   const [currentTask, setCurrentTask] = useRecoilState(taskState(task!.id!))
+  const setTaskModal = useSetRecoilState(taskModalShowState)
+
+  // Local state
   const [title, setTitle] = useState<string>(task.id ? task.title : '')
   const [error, setError] = useState<string | null>(null)
 
@@ -74,16 +81,12 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
     return (
       <div
         className={`${
-          task && task.cover ? 'w-full mb-4 rounded-lg p-4 shadow-md' : ''
+          currentTask && currentTask.cover
+            ? 'w-full mb-4 rounded-lg p-4 shadow-md'
+            : ''
         }`}
       >
-        {task && task.cover && (
-          <img
-            className="h-20 object-cover w-full rounded-lg mb-4"
-            src={task.cover}
-            alt="cover"
-          />
-        )}
+        {currentTask && currentTask.cover && <TaskCover id={task.id!} />}
         <textarea
           className="w-full  bg-white rounded-lg p-4 shadow-md"
           value={title}
@@ -115,19 +118,14 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
         snapshot?.isDragging ? 'bg-gray-200 transform rotate-6 ' : 'bg-white'
       }`}
     >
-      {task.cover && (
-        <img
-          className="h-20 object-cover w-full rounded-lg mb-4"
-          src={task.cover}
-          alt="cover"
+      {currentTask && currentTask.cover && (
+        <TaskCover
+          id={currentTask.id!}
+          onClick={() => setTaskModal({ task_id: task.id!, show: true })}
         />
       )}
       <div className="group flex justify-between transition-opacity duration-300 cursor-pointer">
-        <h3
-          onClick={() => {
-            // TODO open a modal with the task
-          }}
-        >
+        <h3 onClick={() => setTaskModal({ task_id: task.id!, show: true })}>
           {task.title}
         </h3>
         <MdEdit
@@ -138,6 +136,16 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
           className="opacity-0 group-hover:opacity-100 flex-none"
         />
       </div>
+
+      {/* Labels */}
+      {currentTask! && currentTask!.labels && currentTask!.labels.length > 0 && (
+        <div className="flex flex-wrap gap-2 mt-4">
+          {currentTask!.labels.map((label: LabelType) => (
+            <Label key={label.id} label={label} can={false} />
+          ))}
+        </div>
+      )}
+
       {/* Assign members dropdown */}
       <div className="md:relative mt-4 flex gap-1">
         {currentTask!.assignedMembers &&

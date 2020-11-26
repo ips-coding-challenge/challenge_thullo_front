@@ -31,9 +31,11 @@ export type ListOfTasks = {
 export type TaskType = {
   id?: number | null
   title: string
+  description: string | null
   board_id: number
   list_id: number
   position: number
+  labels: LabelType[]
   cover?: string
   assignedMembers?: User[]
   created_at?: string | null
@@ -48,4 +50,11 @@ export type InvitationType = {
   owner_name: string
   board_cover: string
   board_name: string
+}
+
+export type LabelType = {
+  id: number
+  name: string
+  color: string
+  board_id: number
 }

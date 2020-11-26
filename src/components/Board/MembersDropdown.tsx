@@ -22,25 +22,26 @@ type MembersDropdownProps = {
 }
 
 const MembersDropdown = ({ task, title, subtitle }: MembersDropdownProps) => {
+  // Global state
   const members = useRecoilValue(boardMembersState)
-  const [newMembers, setnewMembers] = useState<User[]>(members)
-  const [filtered, setFiltered] = useState<User[]>(members)
   const setCurrentTask = useSetRecoilState(taskState(task.id!))
   const assignedMembers = useRecoilValue(assignedMembersState(task.id!))
+
+  // Local State
+  const [newMembers, setnewMembers] = useState<User[]>(members)
+  const [filtered, setFiltered] = useState<User[]>(members)
 
   const filteredMembers = () => {
     if (assignedMembers && assignedMembers.length > 0) {
       const filtered = newMembers.filter((m: User) => {
         return assignedMembers?.findIndex((am: User) => am.id === m.id) === -1
       })
-      console.log('filtered', filtered)
       setnewMembers(filtered)
       setFiltered(filtered)
     }
   }
 
   useEffect(() => {
-    console.log('assignedMembers', assignedMembers)
     filteredMembers()
   }, [assignedMembers])
 

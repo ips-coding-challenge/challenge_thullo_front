@@ -7,7 +7,11 @@ import { ListOfTasks, TaskType } from '../../types/types'
 import ListInput from './ListInput'
 import Task from '../Tasks/Task'
 import AddButton from './AddButton'
-import { newTaskState, tasksState } from '../../state/taskState'
+import {
+  newTaskState,
+  taskModalShowState,
+  tasksState,
+} from '../../state/taskState'
 import { Draggable, Droppable } from 'react-beautiful-dnd'
 import ListDropdown from './ListDropdown'
 import ListHeading from './ListHeading'
@@ -31,6 +35,8 @@ const List = ({ board_id, list }: ListProps) => {
     const taskToAdd: TaskType = {
       id: null,
       title: '',
+      description: null,
+      labels: [],
       position:
         list.tasks.length > 0
           ? list.tasks[list.tasks.length - 1].position + 65565

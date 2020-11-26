@@ -12,7 +12,7 @@ import Axios from 'axios'
 import client from '../../api/client'
 import VisibilityDropdown from '../Common/Visibility/VisibilityDropdown'
 import UnsplashDropdown from '../Common/Unsplash/UnsplashDropdown'
-import { useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue } from 'recoil'
 import { selectedPhotoState } from '../../state/unsplashState'
 
 const schema = yup.object().shape({
@@ -39,7 +39,7 @@ const CreateBoardModal = ({
     resolver: yupResolver(schema),
   })
 
-  const cover: any = useRecoilValue(selectedPhotoState)
+  const [cover, setCover]: any = useRecoilState(selectedPhotoState)
 
   const [serverErrors, setServerErrors] = useState<any>(null)
   const [visibility, setVisibility] = useState<string>('private')
@@ -61,6 +61,7 @@ const CreateBoardModal = ({
 
       console.log('res', res.data)
       onCreated(res.data.data)
+      setCover(null)
     } catch (e) {
       console.log('Create board error', e)
       setServerErrors(e)

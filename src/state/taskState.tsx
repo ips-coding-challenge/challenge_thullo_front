@@ -1,5 +1,6 @@
-import { atom, atomFamily, selectorFamily } from 'recoil'
-import { TaskType, User } from '../types/types'
+import { atom, atomFamily, selector, selectorFamily } from 'recoil'
+import { number } from 'yup'
+import { LabelType, TaskType, User } from '../types/types'
 
 export const tasksState = atom<TaskType[]>({
   key: 'tasksState',
@@ -20,14 +21,42 @@ export const taskState = atomFamily<TaskType | undefined, number>({
   key: 'taskState',
   default: (id: number) => currentTaskState(id),
 })
-// export const currentTaskState = atomFamily<TaskType | null, TaskType>({
-//   key: 'currentTaskState',
-//   default: (task) => task,
-// })
 
 export const assignedMembersState = selectorFamily<User[] | undefined, number>({
   key: 'assignedMembersState',
   get: (id: number) => ({ get }) => {
     return get(taskState(id))?.assignedMembers
+  },
+})
+
+export const labelsAssignedState = selectorFamily<
+  LabelType[] | undefined,
+  number
+>({
+  key: 'labelsAssignedState',
+  get: (id: number) => ({ get }) => {
+    return get(taskState(id))?.labels
+  },
+})
+
+export const taskCoverSelector = selectorFamily<string | undefined, number>({
+  key: 'coverSelector',
+  get: (id: number) => ({ get }) => {
+    const task = get(taskState(id))
+    if (task) {
+      return task.cover
+    }
+    return task
+  },
+})
+
+export const taskModalShowState = atom<{
+  task_id: number | null
+  show: boolean
+}>({
+  key: 'taskModalState',
+  default: {
+    task_id: null,
+    show: false,
   },
 })
