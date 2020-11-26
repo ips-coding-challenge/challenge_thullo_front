@@ -44,6 +44,12 @@ const CreateBoardModal = ({
   const [serverErrors, setServerErrors] = useState<any>(null)
   const [visibility, setVisibility] = useState<string>('private')
 
+  useEffect(() => {
+    return () => {
+      setCover(null)
+    }
+  }, [])
+
   const createBoard = async (data: any) => {
     setServerErrors(null)
     if (!cover) {

@@ -14,6 +14,7 @@ import { currentListState } from '../../../state/listState'
 import LabelsDropdown from './Labels/LabelsDropdown'
 import { LabelType } from '../../../types/types'
 import Label from './Labels/Label'
+import { selectedPhotoState } from '../../../state/unsplashState'
 
 type TaskModalProps = {
   isVisible: boolean
@@ -26,11 +27,14 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
   const [task, setTask] = useRecoilState(taskState(id!))
   const list = useRecoilValue(currentListState(task?.list_id))
   const setTaskModal = useSetRecoilState(taskModalShowState)
+  const setSelectedPhoto = useSetRecoilState(selectedPhotoState)
   const [loading, setLoading] = useState(true)
 
-  // useEffect(() => {
-  //   console.log('task', task)
-  // }, [task])
+  useEffect(() => {
+    return () => {
+      setSelectedPhoto(null)
+    }
+  }, [])
 
   const fetchTask = useCallback(async () => {
     try {
