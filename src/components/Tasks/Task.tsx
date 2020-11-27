@@ -11,7 +11,6 @@ import {
   taskState,
 } from '../../state/taskState'
 import { LabelType, TaskType, User } from '../../types/types'
-import BoardMembers from '../Board/BoardMembers'
 import MembersDropdown from '../Board/MembersDropdown'
 import Button from '../Common/Button'
 import Avatar from '../Header/Avatar'

@@ -51,7 +51,7 @@ const Button = ({
     <button
       type={type || 'button'}
       style={style}
-      className={`${variants[variant]} ${className} rounded-lg ${sizes[size]} flex items-center justify-center`}
+      className={`${variants[variant]} ${className} rounded-lg ${sizes[size]} flex items-center`}
       onClick={onClick}
       disabled={disabled}
     >
