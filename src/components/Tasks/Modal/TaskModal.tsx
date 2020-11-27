@@ -142,7 +142,7 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
         )}
         {task && !loading && (
           <div className="p-4">
-            <TaskCover id={task.id!} />
+            <TaskCover id={task.id!} large={true} />
 
             <div className="flex w-full">
               {/* Left column */}
@@ -202,7 +202,7 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
                         </div>
                         <MdClose
                           onClick={() => deleteAssignedMember(m)}
-                          className="cursor-pointer text-red-500 hover:text-red-700 text-lg"
+                          className="cursor-pointer bg-red-500 rounded-full text-white text-xl p-1 transition-colors duration-200 hover:text-red-500 hover:bg-white"
                         />
                       </div>
                     ))}

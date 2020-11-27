@@ -44,7 +44,12 @@ const MembersDropdown = ({
         return assignedMembers?.findIndex((am: User) => am.id === m.id) === -1
       })
       setnewMembers(filtered)
+
+      console.log('filtered', filtered)
       setFiltered(filtered)
+    } else {
+      setnewMembers(members)
+      setFiltered(members)
     }
   }
 

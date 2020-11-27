@@ -5,7 +5,9 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
 import { boardMembersState } from '../../state/boardState'
 import {
+  assignedMembersState,
   currentTaskState,
+  labelsAssignedState,
   newTaskState,
   taskModalShowState,
   taskState,
@@ -27,8 +29,10 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
   // Global state
   const [newTask, setNewTask] = useRecoilState(newTaskState)
   const boardMembers = useRecoilValue(boardMembersState)
-  const [currentTask, setCurrentTask] = useRecoilState(taskState(task!.id!))
+  const [currentTask, setCurrentTask] = useRecoilState(taskState(task?.id!))
   const setTaskModal = useSetRecoilState(taskModalShowState)
+  const assignedMembers = useRecoilValue(assignedMembersState(task?.id!))
+  const assignedLabels = useRecoilValue(labelsAssignedState(task?.id!))
 
   // Local state
   const [title, setTitle] = useState<string>(task.id ? task.title : '')
@@ -137,9 +141,9 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
       </div>
 
       {/* Labels */}
-      {currentTask! && currentTask!.labels && currentTask!.labels.length > 0 && (
+      {assignedLabels && assignedLabels.length > 0 && (
         <div className="flex flex-wrap gap-2 mt-4">
-          {currentTask!.labels.map((label: LabelType) => (
+          {assignedLabels.map((label: LabelType) => (
             <Label key={label.id} label={label} can={false} />
           ))}
         </div>
@@ -147,15 +151,14 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
 
       {/* Assign members dropdown */}
       <div className="md:relative mt-4 flex gap-1">
-        {currentTask!.assignedMembers &&
-          currentTask!.assignedMembers.length > 0 && (
-            <>
-              {currentTask!.assignedMembers.map((m: User) => (
-                <Avatar key={m.id} username={m.username} />
-              ))}
-            </>
-          )}
-        {currentTask?.assignedMembers?.length! < boardMembers.length && (
+        {assignedMembers && assignedMembers.length > 0 && (
+          <>
+            {assignedMembers.map((m: User) => (
+              <Avatar key={m.id} username={m.username} />
+            ))}
+          </>
+        )}
+        {assignedMembers && assignedMembers.length! < boardMembers.length && (
           <MembersDropdown
             task={task}
             title="Members"
