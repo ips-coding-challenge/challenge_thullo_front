@@ -24,6 +24,8 @@ import Avatar from '../../Header/Avatar'
 import { boardMembersState } from '../../../state/boardState'
 import MembersDropdown from '../../Board/MembersDropdown'
 import Button from '../../Common/Button'
+import Attachments from './Attachments/Attachments'
+import { filesState } from '../../../state/fileState'
 
 type TaskModalProps = {
   isVisible: boolean
@@ -165,6 +167,8 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
                   </div>
                 )}
                 <TaskDescription task={task} />
+
+                <Attachments />
               </div>
               {/* Right column */}
               <div className="w-4/12">

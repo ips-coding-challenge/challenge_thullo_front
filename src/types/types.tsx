@@ -38,6 +38,7 @@ export type TaskType = {
   labels: LabelType[]
   cover?: string
   assignedMembers?: User[]
+  attachments?: AttachmentType[]
   created_at?: string | null
   updated_at?: string | null
 }
@@ -57,4 +58,20 @@ export type LabelType = {
   name: string
   color: string
   board_id: number
+}
+
+export type AttachmentType = {
+  id: number | string
+  name: string
+  link: string
+  task_id: number
+  user_id: number
+}
+
+export type FileType = {
+  id: string
+  name: string
+  progress: number
+  finished: boolean
+  task_id: number
 }

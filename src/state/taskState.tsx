@@ -1,6 +1,6 @@
 import { atom, atomFamily, selector, selectorFamily } from 'recoil'
 import { number } from 'yup'
-import { LabelType, TaskType, User } from '../types/types'
+import { AttachmentType, LabelType, TaskType, User } from '../types/types'
 
 export const tasksState = atom<TaskType[]>({
   key: 'tasksState',
@@ -36,6 +36,16 @@ export const labelsAssignedState = selectorFamily<
   key: 'labelsAssignedState',
   get: (id: number) => ({ get }) => {
     return get(taskState(id))?.labels
+  },
+})
+
+export const taskAttachmentsState = selectorFamily<
+  AttachmentType[] | undefined,
+  number
+>({
+  key: 'labelsAssignedState',
+  get: (id: number) => ({ get }) => {
+    return get(taskState(id))?.attachments
   },
 })
 
