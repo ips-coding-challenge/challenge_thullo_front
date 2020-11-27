@@ -1,4 +1,5 @@
 import React from 'react'
+import { MdClose } from 'react-icons/md'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../../../api/client'
 import { taskModalShowState, taskState } from '../../../../state/taskState'
@@ -7,8 +8,9 @@ import { LabelType, TaskType } from '../../../../types/types'
 type LabelProps = {
   can: boolean
   label: LabelType
+  deleteLabel?: (label: LabelType) => void
 }
-const Label = ({ can, label }: LabelProps) => {
+const Label = ({ can, label, deleteLabel }: LabelProps) => {
   // Only need if the modal is opened
   const taskId = useRecoilValue(taskModalShowState).task_id
   const setTask = useSetRecoilState(taskState(taskId!))
@@ -42,9 +44,19 @@ const Label = ({ can, label }: LabelProps) => {
     <div
       onClick={addLabelToTask}
       style={{ backgroundColor: label.color }}
-      className={`rounded-2xl w-auto px-4 py-1 cursor-pointer hover:opacity-80 transition-opacity duration-300`}
+      className={`relative rounded-2xl w-auto ${
+        deleteLabel ? 'pl-4 pr-2' : 'px-4'
+      } py-1 cursor-pointer hover:opacity-80 transition-opacity duration-300`}
     >
-      <h5 className="text-white text-xs">{label.name}</h5>
+      <div className="flex justify-between items-center">
+        <h5 className="text-white text-xs">{label.name}</h5>
+        {deleteLabel && (
+          <MdClose
+            className="z-10 bg-white rounded-full text-lg ml-4 p-1 text-red-500 hover:bg-red-500 hover:text-white"
+            onClick={() => deleteLabel(label)}
+          />
+        )}
+      </div>
     </div>
   )
 }
