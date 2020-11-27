@@ -11,6 +11,7 @@ import {
 import { TaskType, User } from '../../types/types'
 import { formatServerErrors } from '../../utils/utils'
 import BaseDropdown from '../Common/BaseDropdown'
+import Button from '../Common/Button'
 import SquareButton from '../Common/SquareButton'
 import Avatar from '../Header/Avatar'
 import SearchInput from '../Header/SearchInput'
@@ -19,9 +20,15 @@ type MembersDropdownProps = {
   task: TaskType
   title: string
   subtitle: string
+  variant?: string
 }
 
-const MembersDropdown = ({ task, title, subtitle }: MembersDropdownProps) => {
+const MembersDropdown = ({
+  task,
+  title,
+  subtitle,
+  variant = 'squared',
+}: MembersDropdownProps) => {
   // Global state
   const members = useRecoilValue(boardMembersState)
   const setCurrentTask = useSetRecoilState(taskState(task.id!))
@@ -82,16 +89,53 @@ const MembersDropdown = ({ task, title, subtitle }: MembersDropdownProps) => {
     }
   }
 
-  return (
-    <BaseDropdown>
-      {(onTrigger, show) => (
-        <>
+  const selectButton = (onTrigger: Function) => {
+    switch (variant) {
+      case 'default': {
+        return (
+          <Button
+            icon={<MdAdd />}
+            alignment="left"
+            variant="default"
+            text="Members"
+            className="w-full mt-4"
+            onClick={() => onTrigger()}
+          />
+        )
+      }
+
+      case 'blue': {
+        return (
+          <Button
+            icon={<MdAdd />}
+            alignment="left"
+            variant="primary"
+            text="Assign a member"
+            onClick={() => onTrigger()}
+          />
+        )
+      }
+      default:
+        return (
           <SquareButton
             onClick={() => onTrigger()}
             icon={<MdAdd className="text-white" />}
           />
+        )
+    }
+  }
+
+  return (
+    <BaseDropdown>
+      {(onTrigger, show) => (
+        <>
+          {selectButton(onTrigger)}
           {show && (
-            <div className="absolute w-list top-0 left-0 md:left-auto bg-white rounded-card shadow-lg md:ml-10 py-3 px-4 z-10 border border-gray-border">
+            <div
+              className={`absolute w-list top-0 bg-white rounded-card shadow-lg ${
+                variant === 'squared' ? 'md:ml-10' : 'md:mt-10'
+              } py-3 px-4 z-10 border border-gray-border`}
+            >
               <h3 className="font-semibold mb-2">{title}</h3>
               <p className="text-sm text-gray3 mb-4">{subtitle}</p>
               <SearchInput placeholder="User..." search={searchMembers} />
@@ -121,4 +165,4 @@ const MembersDropdown = ({ task, title, subtitle }: MembersDropdownProps) => {
   )
 }
 
-export default MembersDropdown
+export default React.memo(MembersDropdown)

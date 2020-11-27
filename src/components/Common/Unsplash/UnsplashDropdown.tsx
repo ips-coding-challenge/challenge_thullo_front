@@ -63,7 +63,7 @@ const UnsplashDropdown = () => {
           <Button
             className="w-full"
             icon={<MdImage />}
-            text="cover"
+            text="Cover"
             alignment="left"
             variant="default"
             onClick={(e) => {

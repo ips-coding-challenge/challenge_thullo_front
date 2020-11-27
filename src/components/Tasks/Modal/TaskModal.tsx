@@ -1,20 +1,28 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { MdAccountCircle } from 'react-icons/md'
+import { MdAccountCircle, MdAdd, MdClose, MdPeople } from 'react-icons/md'
 import { toast } from 'react-toastify'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import TaskCoverSelect from './TaskCoverSelect'
 import TaskCover from './TaskCover'
 import TaskDescription from './TaskDescription'
 import TaskSubtitle from './TaskSubtitle'
-import { taskModalShowState, taskState } from '../../../state/taskState'
+import {
+  assignedMembersState,
+  taskModalShowState,
+  taskState,
+} from '../../../state/taskState'
 import client from '../../../api/client'
 import { formatServerErrors } from '../../../utils/utils'
 import Modal from '../../Common/Modal'
 import { currentListState } from '../../../state/listState'
 import LabelsDropdown from './Labels/LabelsDropdown'
-import { LabelType } from '../../../types/types'
+import { LabelType, User } from '../../../types/types'
 import Label from './Labels/Label'
 import { selectedPhotoState } from '../../../state/unsplashState'
+import Avatar from '../../Header/Avatar'
+import { boardMembersState } from '../../../state/boardState'
+import MembersDropdown from '../../Board/MembersDropdown'
+import Button from '../../Common/Button'
 
 type TaskModalProps = {
   isVisible: boolean
@@ -24,10 +32,14 @@ type TaskModalProps = {
   id: number | null
 }
 const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
+  // Global state
   const [task, setTask] = useRecoilState(taskState(id!))
   const list = useRecoilValue(currentListState(task?.list_id))
   const setTaskModal = useSetRecoilState(taskModalShowState)
   const setSelectedPhoto = useSetRecoilState(selectedPhotoState)
+  const members = useRecoilValue(boardMembersState)
+  const assignedMembers = useRecoilValue(assignedMembersState(task?.id!))
+
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -55,6 +67,36 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
       fetchTask()
     }
   }, [isVisible])
+
+  const deleteAssignedMember = async (m: User) => {
+    try {
+      await client.delete('/assignments', {
+        data: {
+          user_id: m.id,
+          task_id: task?.id!,
+        },
+      })
+
+      setTask((old) => {
+        if (old) {
+          const copy = { ...old }
+          if (copy.assignedMembers) {
+            const index = copy.assignedMembers.findIndex((el) => el.id === m.id)
+            let newAssignedMembers = [...copy.assignedMembers]
+            if (index > -1) {
+              newAssignedMembers.splice(index, 1)
+              return { ...copy, assignedMembers: newAssignedMembers }
+            }
+
+            return old
+          }
+        }
+        return old
+      })
+    } catch (e) {
+      console.log('delete assignedMember error', e)
+    }
+  }
 
   if (!task && !loading) return null
 
@@ -96,6 +138,50 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
                 />
                 <TaskCoverSelect id={task.id!} />
                 <LabelsDropdown id={task.id!} />
+                {assignedMembers && assignedMembers.length === 0 && (
+                  <MembersDropdown
+                    task={task}
+                    variant="default"
+                    title="Members"
+                    subtitle="Assign members to this card"
+                  />
+                )}
+
+                {assignedMembers && assignedMembers.length > 0 && (
+                  <div>
+                    <TaskSubtitle
+                      icon={<MdPeople />}
+                      text="Members"
+                      className="my-4"
+                    />
+                    {assignedMembers.map((m: User) => (
+                      <div
+                        key={m.id}
+                        className="flex items-center justify-between mb-2"
+                      >
+                        <div className="flex items-center">
+                          <Avatar className="mr-4" username={m.username} />
+                          <div>{m.username}</div>
+                        </div>
+                        <MdClose
+                          onClick={() => deleteAssignedMember(m)}
+                          className="cursor-pointer text-red-500 hover:text-red-700 text-lg"
+                        />
+                      </div>
+                    ))}
+
+                    {assignedMembers.length < members.length && (
+                      <div className="mt-4">
+                        <MembersDropdown
+                          task={task}
+                          variant="blue"
+                          title="Members"
+                          subtitle="Assign members to this card"
+                        />
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
           </div>
