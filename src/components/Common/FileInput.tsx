@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { MdAdd } from 'react-icons/md'
 import axios from 'axios'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
@@ -19,10 +19,12 @@ const FileInput = () => {
   const setUploadError = useSetRecoilState(uploadErrorsState)
   // Used to reset error for a task when adding a new attachment
   const setUploadTaskError = useSetRecoilState(uploadErrorForTask(taskId!))
+  const inputFileRef = useRef<HTMLInputElement>(null)
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUploadTaskError((old) => old)
     uploadFiles(e.target.files)
+    e.target.value = ''
   }
 
   const createFormData = (file: any) => {
@@ -154,6 +156,7 @@ const FileInput = () => {
         <span className="text-xs font-semibold">Add</span>
       </div>
       <input
+        ref={inputFileRef}
         className="hidden"
         type="file"
         id="file"
