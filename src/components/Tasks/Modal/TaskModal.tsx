@@ -24,6 +24,8 @@ import Avatar from '../../Header/Avatar'
 import { boardMembersState } from '../../../state/boardState'
 import MembersDropdown from '../../Board/MembersDropdown'
 import Button from '../../Common/Button'
+import Attachments from './Attachments/Attachments'
+import { filesState } from '../../../state/fileState'
 
 type TaskModalProps = {
   isVisible: boolean
@@ -146,7 +148,7 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
 
             <div className="flex w-full">
               {/* Left column */}
-              <div className="flex flex-col w-8/12">
+              <div className="flex flex-col w-8/12 mr-4">
                 <h3 className="font-semibold">{task.title}</h3>
                 <p className="text-xs text-gray3 mb-4">
                   in list{' '}
@@ -165,6 +167,8 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
                   </div>
                 )}
                 <TaskDescription task={task} />
+
+                <Attachments />
               </div>
               {/* Right column */}
               <div className="w-4/12">
