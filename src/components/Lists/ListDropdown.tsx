@@ -14,7 +14,7 @@ const ListDropdown = ({
   deleteList,
 }: ListDropdownProps) => {
   return (
-    <BaseDropdown>
+    <BaseDropdown mobile={true}>
       {(onTrigger, show) => (
         <>
           <MdMoreHoriz

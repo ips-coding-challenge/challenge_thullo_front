@@ -146,9 +146,9 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
           <div className="p-4">
             <TaskCover id={task.id!} large={true} />
 
-            <div className="flex w-full">
+            <div className="flex flex-col md:flex-row w-full">
               {/* Left column */}
-              <div className="flex flex-col w-8/12 mr-4">
+              <div className="flex flex-col w-full md:w-8/12 mr-4">
                 <h3 className="font-semibold">{task.title}</h3>
                 <p className="text-xs text-gray3 mb-4">
                   in list{' '}
@@ -171,7 +171,7 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
                 <Attachments />
               </div>
               {/* Right column */}
-              <div className="w-4/12">
+              <div className="md:w-4/12 w-full">
                 <TaskSubtitle
                   icon={<MdAccountCircle />}
                   text="Actions"

@@ -2,8 +2,9 @@ import React, { useEffect, useRef, useState } from 'react'
 
 type BaseDropdownProps = {
   children: (onTrigger: Function, show: boolean) => any
+  mobile?: boolean
 }
-const BaseDropdown = ({ children }: BaseDropdownProps) => {
+const BaseDropdown = ({ children, mobile }: BaseDropdownProps) => {
   const ref = useRef<HTMLDivElement>(null)
   const [show, setShow] = useState(false)
 
@@ -26,7 +27,7 @@ const BaseDropdown = ({ children }: BaseDropdownProps) => {
   }
 
   return (
-    <div ref={ref} className="md:relative">
+    <div ref={ref} className={`${mobile ? 'md:relative' : 'relative'}`}>
       {children(onTrigger, show)}
     </div>
   )

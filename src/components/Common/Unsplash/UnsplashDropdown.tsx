@@ -33,10 +33,11 @@ const UnsplashDropdown = () => {
 
   const searchPhotos = async (query: string) => {
     if (query.trim().length === 0) {
-      fetchPhotos()
+      // Will refetch the photos
+      setPage(1)
       return
     }
-
+    setLoading(true)
     try {
       const res = await axios.get(
         `https://api.unsplash.com/search/photos/?client_id=${process.env.REACT_APP_UNSPLASH_ACCESS_KEY}${PARAMS}&query=${query}&page=${page}`
@@ -45,6 +46,8 @@ const UnsplashDropdown = () => {
       console.log('res', res.data)
     } catch (e) {
       console.log('Error fetching photos', e)
+    } finally {
+      setLoading(false)
     }
   }
 

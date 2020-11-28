@@ -29,7 +29,7 @@ const InvitationDropdown = () => {
     }
   }
   return (
-    <BaseDropdown>
+    <BaseDropdown mobile={true}>
       {(onTrigger, show) => (
         <>
           <SquareButton
