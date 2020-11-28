@@ -15,7 +15,7 @@ const FileProgressBar = ({ fileId }: FileProgressBarProps) => {
   if (!file) return null
   return (
     <div className="flex items-center justify-between my-2">
-      <div className="w-24 h-12 rounded-lg bg-gray4 mr-4 flex items-center justify-center text-gray2 text-xs font-semibold p-4">
+      <div className="w-24 h-16 flex-none rounded-lg bg-gray4 mr-4 flex items-center justify-center text-gray2 text-xs font-semibold p-4">
         {avatarInitials(file.name)}
       </div>
       <div className="flex flex-col w-full justify-center items-center">

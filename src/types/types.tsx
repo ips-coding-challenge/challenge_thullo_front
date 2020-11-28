@@ -61,11 +61,14 @@ export type LabelType = {
 }
 
 export type AttachmentType = {
-  id: number | string
+  id: number
   name: string
-  link: string
+  url: string
+  public_id: string
+  format?: string | null
   task_id: number
-  user_id: number
+  user_id?: number
+  created_at: string
 }
 
 export type FileType = {
@@ -74,4 +77,10 @@ export type FileType = {
   progress: number
   finished: boolean
   task_id: number
+}
+
+export type UploadError = {
+  task_id: number
+  message: string
+  filename: string
 }

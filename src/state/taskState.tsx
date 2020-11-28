@@ -43,7 +43,7 @@ export const taskAttachmentsState = selectorFamily<
   AttachmentType[] | undefined,
   number
 >({
-  key: 'labelsAssignedState',
+  key: 'taskAttachmentsState',
   get: (id: number) => ({ get }) => {
     return get(taskState(id))?.attachments
   },

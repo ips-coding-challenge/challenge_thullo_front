@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { DraggableStateSnapshot } from 'react-beautiful-dnd'
-import { MdCancel, MdEdit } from 'react-icons/md'
+import { MdAttachFile, MdCancel, MdEdit } from 'react-icons/md'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
 import { boardMembersState } from '../../state/boardState'
@@ -9,6 +9,7 @@ import {
   currentTaskState,
   labelsAssignedState,
   newTaskState,
+  taskAttachmentsState,
   taskModalShowState,
   taskState,
 } from '../../state/taskState'
@@ -33,6 +34,7 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
   const setTaskModal = useSetRecoilState(taskModalShowState)
   const assignedMembers = useRecoilValue(assignedMembersState(task?.id!))
   const assignedLabels = useRecoilValue(labelsAssignedState(task?.id!))
+  const attachments = useRecoilValue(taskAttachmentsState(task?.id!))
 
   // Local state
   const [title, setTitle] = useState<string>(task.id ? task.title : '')
@@ -117,7 +119,7 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
   }
   return (
     <div
-      className={`w-full mb-4 rounded-lg p-4 shadow-md transition-all duration-300 ${
+      className={`w-full mb-4 rounded-lg p-3 shadow-md transition-all duration-300 ${
         snapshot?.isDragging ? 'bg-gray-200 transform rotate-6 ' : 'bg-white'
       }`}
     >
@@ -150,21 +152,33 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
       )}
 
       {/* Assign members dropdown */}
-      <div className="md:relative mt-4 flex gap-1">
-        {assignedMembers && assignedMembers.length > 0 && (
-          <>
-            {assignedMembers.map((m: User) => (
-              <Avatar key={m.id} username={m.username} />
-            ))}
-          </>
-        )}
-        {assignedMembers && assignedMembers.length! < boardMembers.length && (
-          <MembersDropdown
-            task={task}
-            title="Members"
-            subtitle="Assign members to this task"
-          />
-        )}
+      <div className="mt-6 flex justify-between items-center">
+        <div className="md:relative flex gap-1">
+          {assignedMembers && assignedMembers.length > 0 && (
+            <>
+              {assignedMembers.map((m: User) => (
+                <Avatar key={m.id} username={m.username} />
+              ))}
+            </>
+          )}
+          {assignedMembers && assignedMembers.length! < boardMembers.length && (
+            <MembersDropdown
+              task={task}
+              title="Members"
+              subtitle="Assign members to this task"
+            />
+          )}
+        </div>
+
+        {/* Attachments count and comments count */}
+        <div>
+          {attachments && attachments.length > 0 && (
+            <div className="flex items-center text-xs text-gray3">
+              <MdAttachFile />
+              <span>{attachments.length}</span>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   )

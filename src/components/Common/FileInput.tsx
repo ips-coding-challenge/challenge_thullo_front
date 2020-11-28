@@ -2,17 +2,26 @@ import React from 'react'
 import { MdAdd } from 'react-icons/md'
 import axios from 'axios'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { filesState } from '../../state/fileState'
-import { FileType, TaskType } from '../../types/types'
+import {
+  filesState,
+  uploadErrorForTask,
+  uploadErrorsState,
+} from '../../state/fileState'
+import { FileType, TaskType, UploadError } from '../../types/types'
 import { taskModalShowState, taskState } from '../../state/taskState'
 import { nanoid } from 'nanoid'
+import client from '../../api/client'
 
 const FileInput = () => {
   const setFilesState = useSetRecoilState(filesState)
   const taskId = useRecoilValue(taskModalShowState).task_id
   const setTask = useSetRecoilState(taskState(taskId!))
+  const setUploadError = useSetRecoilState(uploadErrorsState)
+  // Used to reset error for a task when adding a new attachment
+  const setUploadTaskError = useSetRecoilState(uploadErrorForTask(taskId!))
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUploadTaskError((old) => old)
     uploadFiles(e.target.files)
   }
 
@@ -36,7 +45,6 @@ const FileInput = () => {
         for (const file of Array.from(files)) {
           const fileId = nanoid()
           setFilesState((old: FileType[]) => {
-            console.log('old fileState', old)
             return old.concat({
               id: fileId,
               name: file.name,
@@ -95,29 +103,40 @@ const FileInput = () => {
         }
 
         const responses = await axios.all(requests)
-        responses.forEach((res: any) => {
+        for (const res of responses) {
           console.log('res', res)
-          setTask((old: TaskType | undefined) => {
-            if (old) {
-              const attachments = old.attachments || []
-              return {
-                ...old,
-                attachments: attachments.concat({
-                  id: res.data.asset_id,
-                  name: res.data.original_filename,
-                  link: res.data.secure_url,
-                  task_id: taskId!,
-                  user_id: 1,
-                }),
+          const attachment = {
+            name: res.data.original_filename + '_' + nanoid(),
+            format: res.data.format,
+            public_id: res.data.public_id,
+            url: res.data.secure_url,
+            task_id: taskId,
+          }
+          try {
+            const response = await client.post('/attachments', attachment)
+            setTask((old: TaskType | undefined) => {
+              if (old) {
+                const attachments = old.attachments || []
+                return {
+                  ...old,
+                  attachments: attachments.concat(response.data.data),
+                }
               }
-            }
-            return old
-          })
-          // setUploadedImages((old) => old.concat(res.data.secure_url))
-        })
-        // setTimeout(() => {
-        //   setStatus('completed')
-        // }, 500)
+              return old
+            })
+          } catch (e) {
+            setUploadError((old: UploadError[]) => {
+              const uploadError: UploadError = {
+                task_id: taskId!,
+                filename: res.data.original_filename,
+                message: e.message,
+              }
+
+              return old.concat(uploadError)
+            })
+            console.log('e', e)
+          }
+        }
       } catch (e) {
         console.log('Error', e)
         // setErrors(e.message)

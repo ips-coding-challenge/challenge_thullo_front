@@ -148,7 +148,7 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
 
             <div className="flex w-full">
               {/* Left column */}
-              <div className="flex flex-col w-8/12">
+              <div className="flex flex-col w-8/12 mr-4">
                 <h3 className="font-semibold">{task.title}</h3>
                 <p className="text-xs text-gray3 mb-4">
                   in list{' '}
