@@ -134,7 +134,7 @@ const SingleBoard = () => {
       <Navbar name={board!.name} />
       <div className="flex flex-col flex-auto h-board">
         {serverErrors && <BasicError message={serverErrors} />}
-        <div className="flex w-full justify-between p-8">
+        <div className="flex flex-col-reverse md:flex-row md:w-full md:justify-between p-8">
           <div className="relative">
             {board && (
               <div className="flex items-center">
@@ -152,6 +152,7 @@ const SingleBoard = () => {
             text="Show menu"
             alignment="left"
             variant="default"
+            className="self-start mb-4 md:mb-0 md:self-end"
           />
         </div>
 
