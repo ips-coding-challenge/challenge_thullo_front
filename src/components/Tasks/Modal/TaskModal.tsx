@@ -26,6 +26,7 @@ import MembersDropdown from '../../Board/MembersDropdown'
 import Button from '../../Common/Button'
 import Attachments from './Attachments/Attachments'
 import { filesState } from '../../../state/fileState'
+import Comments from './Comments/Comments'
 
 type TaskModalProps = {
   isVisible: boolean
@@ -169,6 +170,8 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
                 <TaskDescription task={task} />
 
                 <Attachments />
+
+                <Comments />
               </div>
               {/* Right column */}
               <div className="md:w-4/12 w-full">

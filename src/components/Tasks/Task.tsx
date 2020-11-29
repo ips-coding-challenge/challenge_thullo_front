@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { DraggableStateSnapshot } from 'react-beautiful-dnd'
-import { MdAttachFile, MdCancel, MdEdit } from 'react-icons/md'
+import { MdAttachFile, MdCancel, MdComment, MdEdit } from 'react-icons/md'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
 import { boardMembersState } from '../../state/boardState'
 import {
   assignedMembersState,
+  commentsState,
   currentTaskState,
   labelsAssignedState,
   newTaskState,
@@ -35,6 +36,7 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
   const assignedMembers = useRecoilValue(assignedMembersState(task?.id!))
   const assignedLabels = useRecoilValue(labelsAssignedState(task?.id!))
   const attachments = useRecoilValue(taskAttachmentsState(task?.id!))
+  const comments = useRecoilValue(commentsState(task?.id!))
 
   // Local state
   const [title, setTitle] = useState<string>(task.id ? task.title : '')
@@ -171,7 +173,13 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
         </div>
 
         {/* Attachments count and comments count */}
-        <div>
+        <div className="flex">
+          {comments && comments.length > 0 && (
+            <div className="flex items-center text-xs text-gray3 mr-1">
+              <MdComment />
+              <span>{comments.length}</span>
+            </div>
+          )}
           {attachments && attachments.length > 0 && (
             <div className="flex items-center text-xs text-gray3">
               <MdAttachFile />
