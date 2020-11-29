@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios'
+import { Board, User } from '../types/types'
 
 export const formatServerErrors = (error: AxiosError): string => {
   if (error.response && error.response.data) {
@@ -22,6 +23,19 @@ export const toCamelCase = (str: string): string => {
     if (+match === 0) return '' // or if (/\s+/.test(match)) for white spaces
     return index === 0 ? match.toUpperCase() : match.toLowerCase()
   })
+}
+
+export const isOwner = (user: User, resource: any) => {
+  return resource.user_id === user.id
+}
+
+export const isAdmin = (user: User, board: Board) => {
+  const memberAdmin = board.members.find((m: User) => m.id === user.id)
+
+  if (memberAdmin) {
+    return memberAdmin.role === 'admin'
+  }
+  return false
 }
 
 export const truncate = (str: string, n: number) => {

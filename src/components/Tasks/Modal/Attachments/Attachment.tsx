@@ -1,9 +1,16 @@
 import React from 'react'
-import { useSetRecoilState } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../../../api/client'
+import { boardState } from '../../../../state/boardState'
 import { taskState } from '../../../../state/taskState'
+import { userState } from '../../../../state/userState'
 import { AttachmentType, TaskType } from '../../../../types/types'
-import { avatarInitials, truncate } from '../../../../utils/utils'
+import {
+  avatarInitials,
+  isAdmin,
+  isOwner,
+  truncate,
+} from '../../../../utils/utils'
 import Button from '../../../Common/Button'
 
 type AttachmentProps = {
@@ -11,6 +18,8 @@ type AttachmentProps = {
 }
 
 const Attachment = ({ attachment }: AttachmentProps) => {
+  const user = useRecoilValue(userState)
+  const board = useRecoilValue(boardState)
   const setTask = useSetRecoilState(taskState(attachment.task_id))
 
   const isImage = () => {
@@ -52,6 +61,14 @@ const Attachment = ({ attachment }: AttachmentProps) => {
     }
   }
 
+  const canDelete = () => {
+    const owner = isOwner(user!, attachment)
+    const admin = isAdmin(user!, board!)
+
+    console.log('owner / admin', owner, admin)
+    return owner || admin
+  }
+
   return (
     <div className="flex my-4">
       {isImage() ? (
@@ -79,14 +96,16 @@ const Attachment = ({ attachment }: AttachmentProps) => {
             alignment="left"
             onClick={() => {}}
           />
-          <Button
-            variant="bordered"
-            text="Delete"
-            size="sm"
-            textSize="xs"
-            alignment="left"
-            onClick={deleteAttachment}
-          />
+          {canDelete() && (
+            <Button
+              variant="bordered"
+              text="Delete"
+              size="sm"
+              textSize="xs"
+              alignment="left"
+              onClick={deleteAttachment}
+            />
+          )}
         </div>
       </div>
     </div>
