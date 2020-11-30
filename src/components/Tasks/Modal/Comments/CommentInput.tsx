@@ -1,13 +1,17 @@
 import React, { useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { taskModalShowState, taskState } from '../../../../state/taskState'
+import {
+  commentsState,
+  taskModalShowState,
+  taskState,
+} from '../../../../state/taskState'
 import { userState } from '../../../../state/userState'
 import { avatarInitials } from '../../../../utils/utils'
 import Button from '../../../Common/Button'
 import Avatar from '../../../Header/Avatar'
 import * as yup from 'yup'
 import client from '../../../../api/client'
-import { TaskType } from '../../../../types/types'
+import { CommentType, TaskType } from '../../../../types/types'
 import BasicError from '../../../Common/BasicError'
 import { toast } from 'react-toastify'
 
@@ -18,7 +22,7 @@ export const commentSchema = yup.object().shape({
 const CommentInput = () => {
   const user = useRecoilValue(userState)
   const taskId = useRecoilValue(taskModalShowState).task_id
-  const setTask = useSetRecoilState(taskState(taskId!))
+  const setComments = useSetRecoilState(commentsState(taskId!))
 
   const [content, setContent] = useState<string>('')
   const [error, setError] = useState<string | null>(null)
@@ -35,17 +39,13 @@ const CommentInput = () => {
 
       setContent('')
 
-      toast.success('Comment added')
+      setComments((old: CommentType[] | undefined) => {
+        if (!old) return old
 
-      setTask((old: TaskType | undefined) => {
-        if (old) {
-          const copy = { ...old }
-          copy.comments = [...copy.comments!.concat(res.data.data)]
-
-          return copy
-        }
-        return old
+        return old.concat(res.data.data)
       })
+
+      toast.success('Comment added')
     } catch (e) {
       setError(e.message)
       console.log('e', e)

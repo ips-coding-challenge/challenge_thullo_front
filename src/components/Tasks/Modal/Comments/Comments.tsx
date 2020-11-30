@@ -10,7 +10,7 @@ const Comments = () => {
   const comments = useRecoilValue(commentsState(taskId!))
 
   return (
-    <div className="w-full">
+    <div className="w-full mt-8">
       <CommentInput />
 
       {comments && comments.length > 0 && (

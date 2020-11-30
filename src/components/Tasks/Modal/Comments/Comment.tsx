@@ -1,9 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { toast } from 'react-toastify'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { ValidationError } from 'yup'
 import client from '../../../../api/client'
 import { boardState } from '../../../../state/boardState'
-import { commentsState, taskState } from '../../../../state/taskState'
+import {
+  commentsState,
+  singleCommentState,
+  taskState,
+} from '../../../../state/taskState'
 import { userState } from '../../../../state/userState'
 import { CommentType, TaskType } from '../../../../types/types'
 import { formatServerErrors, isAdmin, isOwner } from '../../../../utils/utils'
@@ -19,7 +24,10 @@ const Comment = ({ comment }: CommentProps) => {
   // Global State
   const user = useRecoilValue(userState)
   const board = useRecoilValue(boardState)
-  const comments = useRecoilValue(commentsState(comment.task_id))
+  const setComments = useSetRecoilState(commentsState(comment.task_id))
+  const [singleComment, setSingleComment] = useRecoilState(
+    singleCommentState({ commentId: comment.id, taskId: comment.task_id })
+  )
 
   // Local State
   const [edit, setEdit] = useState(false)
@@ -43,6 +51,12 @@ const Comment = ({ comment }: CommentProps) => {
         task_id: comment.task_id,
       })
 
+      setSingleComment((old: CommentType | undefined) => {
+        if (!old) return old
+
+        return res.data.data
+      })
+
       setEdit(false)
     } catch (e) {
       if (e instanceof ValidationError) {
@@ -54,14 +68,44 @@ const Comment = ({ comment }: CommentProps) => {
     }
   }
 
+  const deleteComment = async () => {
+    try {
+      await client.delete('/comments', {
+        data: {
+          comment_id: comment.id,
+          task_id: comment.task_id,
+        },
+      })
+
+      setComments((old: CommentType[] | undefined) => {
+        if (!old) return old
+
+        const copy = [...old]
+        const index = copy.findIndex((c: CommentType) => c.id === comment.id)
+        if (index > -1) {
+          copy.splice(index, 1)
+          return copy
+        }
+      })
+
+      toast.warning('Comment deleted')
+    } catch (e) {
+      setError(formatServerErrors(e))
+      console.log('Error', e)
+    }
+  }
+
   return (
     <div className="w-full pt-3 pb-6">
+      {console.log('singleComment', singleComment)}
       <div className="flex justify-between items-start">
         <div className="flex items-center">
-          <Avatar className="mr-4" username={comment.username!} />
+          <Avatar className="mr-4" username={singleComment?.username!} />
           <div>
-            <div className="font-bold">{comment.username}</div>
-            <div className="text-sm text-gray3">{comment.created_at}</div>
+            <div className="font-bold">{singleComment?.username}</div>
+            <div className="text-sm text-gray3">
+              {singleComment?.created_at}
+            </div>
           </div>
         </div>
         {can() && (
@@ -79,6 +123,7 @@ const Comment = ({ comment }: CommentProps) => {
               variant="blank"
               textSize="xs"
               className="ml-1"
+              onClick={deleteComment}
             />
           </div>
         )}
@@ -107,7 +152,7 @@ const Comment = ({ comment }: CommentProps) => {
           </div>
         </div>
       )}
-      {!edit && <div className="mt-4">{comment.content}</div>}
+      {!edit && <div className="mt-4">{singleComment?.content}</div>}
     </div>
   )
 }
