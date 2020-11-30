@@ -40,6 +40,7 @@ export type TaskType = {
   cover?: string
   assignedMembers?: User[]
   attachments?: AttachmentType[]
+  comments?: CommentType[]
   created_at?: string | null
   updated_at?: string | null
 }
@@ -70,6 +71,17 @@ export type AttachmentType = {
   task_id: number
   user_id?: number
   created_at: string
+}
+
+export type CommentType = {
+  id: number
+  content: string
+  task_id: number
+  user_id?: number
+  username?: string
+  avatar?: string
+  created_at: string
+  updated_at: string
 }
 
 export type FileType = {

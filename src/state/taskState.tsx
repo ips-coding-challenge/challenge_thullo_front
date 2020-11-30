@@ -1,6 +1,13 @@
+import { get } from 'react-hook-form'
 import { atom, atomFamily, selector, selectorFamily } from 'recoil'
 import { number } from 'yup'
-import { AttachmentType, LabelType, TaskType, User } from '../types/types'
+import {
+  AttachmentType,
+  CommentType,
+  LabelType,
+  TaskType,
+  User,
+} from '../types/types'
 
 export const tasksState = atom<TaskType[]>({
   key: 'tasksState',
@@ -48,6 +55,40 @@ export const taskAttachmentsState = selectorFamily<
     return get(taskState(id))?.attachments
   },
 })
+
+export const commentsState = atomFamily<CommentType[] | undefined, number>({
+  key: 'commentsState',
+  default: selectorFamily({
+    key: 'commentsSelector',
+    get: (id) => ({ get }) => {
+      return get(taskState(id))?.comments
+    },
+  }),
+})
+
+export const singleCommentState = atomFamily<
+  CommentType | undefined,
+  { commentId: number; taskId: number }
+>({
+  key: 'singleCommentState',
+  default: selectorFamily({
+    key: 'singleCommentSelector',
+    get: ({ commentId, taskId }) => ({ get }) => {
+      return get(commentsState(taskId))?.find(
+        (c: CommentType) => c.id === commentId
+      )
+    },
+  }),
+})
+// export const commentsState = selectorFamily<CommentType[] | undefined, number>({
+//   key: 'commentsState',
+//   get: (id: number) => ({ get }) => {
+//     return get(taskState(id))?.comments
+//   },
+//   set: (id: number) => ({get, set}, value) => {
+
+//   }
+// })
 
 export const taskCoverSelector = selectorFamily<string | undefined, number>({
   key: 'coverSelector',

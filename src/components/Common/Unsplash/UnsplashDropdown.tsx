@@ -6,11 +6,12 @@ import Button from '../Button'
 import BasicLoader from '../../BasicLoader'
 import PhotoGallery from './PhotoGallery'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { pageState, photosState } from '../../../state/unsplashState'
+import { pageState, urlState, photosState } from '../../../state/unsplashState'
 
 const UnsplashDropdown = () => {
   const [page, setPage] = useRecoilState(pageState)
   const [photos, setPhotos] = useRecoilState(photosState)
+  const [currentUrl, setCurrentUrl] = useRecoilState(urlState)
 
   const [query, setQuery] = useState<string>('')
   const [loading, setLoading] = useState(true)
@@ -18,10 +19,12 @@ const UnsplashDropdown = () => {
 
   const fetchPhotos = useCallback(async () => {
     setLoading(true)
+
     try {
-      const res = await axios.get(
-        `https://api.unsplash.com/photos/?client_id=${process.env.REACT_APP_UNSPLASH_ACCESS_KEY}${PARAMS}&page=${page}`
-      )
+      const url = `https://api.unsplash.com/photos/?client_id=${process.env.REACT_APP_UNSPLASH_ACCESS_KEY}${PARAMS}&page=${page}`
+      if (currentUrl === url) return
+      const res = await axios.get(url)
+      setCurrentUrl(url)
       setPhotos(res.data)
       console.log('res', res.data)
     } catch (e) {
@@ -39,9 +42,9 @@ const UnsplashDropdown = () => {
     }
     setLoading(true)
     try {
-      const res = await axios.get(
-        `https://api.unsplash.com/search/photos/?client_id=${process.env.REACT_APP_UNSPLASH_ACCESS_KEY}${PARAMS}&query=${query}&page=${page}`
-      )
+      const url = `https://api.unsplash.com/search/photos/?client_id=${process.env.REACT_APP_UNSPLASH_ACCESS_KEY}${PARAMS}&query=${query}&page=${page}`
+      if (currentUrl === url) return
+      const res = await axios.get(url)
       setPhotos(res.data.results)
       console.log('res', res.data)
     } catch (e) {

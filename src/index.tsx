@@ -12,7 +12,7 @@ ReactDOM.render(
   <React.StrictMode>
     <RecoilRoot>
       <App />
-      <ToastContainer autoClose={3000} position="top-left" limit={3} />
+      <ToastContainer autoClose={1500} position="top-left" limit={3} />
     </RecoilRoot>
   </React.StrictMode>,
   document.getElementById('root')

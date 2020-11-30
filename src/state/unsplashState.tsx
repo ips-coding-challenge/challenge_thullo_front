@@ -5,6 +5,12 @@ export const photosState = atom({
   default: [],
 })
 
+// Allow to cache request
+export const urlState = atom({
+  key: 'urlState',
+  default: '',
+})
+
 export const pageState = atom({
   key: 'pageState',
   default: 1,
