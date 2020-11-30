@@ -11,7 +11,7 @@ import { TaskType } from '../../../../types/types'
 import BasicError from '../../../Common/BasicError'
 import { toast } from 'react-toastify'
 
-const schema = yup.object().shape({
+export const commentSchema = yup.object().shape({
   content: yup.string().min(2).required(),
 })
 
@@ -26,7 +26,7 @@ const CommentInput = () => {
   const addComment = async () => {
     setError(null)
     try {
-      await schema.validate({ content })
+      await commentSchema.validate({ content })
 
       const res = await client.post('comments', {
         content,

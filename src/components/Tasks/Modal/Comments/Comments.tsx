@@ -16,10 +16,10 @@ const Comments = () => {
       {comments && comments.length > 0 && (
         <div className="mt-6">
           {comments.map((c: CommentType, index: number) => (
-            <>
-              <Comment key={c.id} comment={c} />
+            <div key={c.id}>
+              <Comment comment={c} />
               {index < comments.length - 1 && <hr />}
-            </>
+            </div>
           ))}
         </div>
       )}
