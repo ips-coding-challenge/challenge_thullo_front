@@ -23,5 +23,5 @@ export const boardDescriptionState = atomFamily({
 
 export const boardMenuState = atom<boolean>({
   key: 'boardMenuState',
-  default: true,
+  default: false,
 })

@@ -3,12 +3,14 @@ import { MdAdd, MdDescription, MdEdit } from 'react-icons/md'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
 import { boardDescriptionState, boardState } from '../../state/boardState'
+import { userState } from '../../state/userState'
 import { Board } from '../../types/types'
-import { formatServerErrors } from '../../utils/utils'
+import { formatServerErrors, isAdmin } from '../../utils/utils'
 import Button from '../Common/Button'
 import TaskSubtitle from '../Tasks/Modal/TaskSubtitle'
 
 const BoardDescription = () => {
+  const user = useRecoilValue(userState)
   const board = useRecoilValue(boardState)
   const [boardDescription, setBoardDescription] = useRecoilState(
     boardDescriptionState(board?.id!)
@@ -53,15 +55,17 @@ const BoardDescription = () => {
     <div className="mt-8">
       <div className="flex items-center">
         <TaskSubtitle icon={<MdDescription />} text="Description" />
-        <Button
-          variant="bordered"
-          text={board?.description ? 'Edit' : 'Add'}
-          size="sm"
-          textSize="xs"
-          alignment="left"
-          icon={board?.description ? <MdEdit /> : <MdAdd />}
-          onClick={() => setEdit((val) => (val = !val))}
-        />
+        {isAdmin(user!, board!) && (
+          <Button
+            variant="bordered"
+            text={board?.description ? 'Edit' : 'Add'}
+            size="sm"
+            textSize="xs"
+            alignment="left"
+            icon={board?.description ? <MdEdit /> : <MdAdd />}
+            onClick={() => setEdit((val) => (val = !val))}
+          />
+        )}
       </div>
       {edit && (
         <>

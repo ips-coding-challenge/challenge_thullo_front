@@ -4,11 +4,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { ValidationError } from 'yup'
 import client from '../../../../api/client'
 import { boardState } from '../../../../state/boardState'
-import {
-  commentsState,
-  singleCommentState,
-  taskState,
-} from '../../../../state/taskState'
+import { commentsState, singleCommentState } from '../../../../state/taskState'
 import { userState } from '../../../../state/userState'
 import { CommentType, TaskType } from '../../../../types/types'
 import {
@@ -20,6 +16,7 @@ import {
 import Button from '../../../Common/Button'
 import Avatar from '../../../Header/Avatar'
 import { commentSchema } from './CommentInput'
+import nl2br from 'react-nl2br'
 
 type CommentProps = {
   comment: CommentType
@@ -157,7 +154,7 @@ const Comment = ({ comment }: CommentProps) => {
           </div>
         </div>
       )}
-      {!edit && <div className="mt-4">{singleComment?.content}</div>}
+      {!edit && <div className="mt-4">{nl2br(singleComment?.content)}</div>}
     </div>
   )
 }

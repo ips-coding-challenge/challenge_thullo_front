@@ -33,12 +33,8 @@ const BoardMenuMembers = () => {
           user_id: member.id,
         },
       })
-      setBoardMembers((old: User[]) => {
-        const copy = [...old]
-        const index = copy.findIndex((m: User) => m.id === member.id)
-        copy.splice(index, 1)
-        return copy
-      })
+      // Easier in this case to handle assignment/comments/etc...
+      window.location.reload()
     } catch (e) {
       console.log('e', e)
     }

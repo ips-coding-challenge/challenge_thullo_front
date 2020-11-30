@@ -24,6 +24,7 @@
     "react-dom": "^17.0.1",
     "react-hook-form": "^6.9.6",
     "react-icons": "^3.11.0",
+    "react-nl2br": "^1.0.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "react-toastify": "^6.1.0",

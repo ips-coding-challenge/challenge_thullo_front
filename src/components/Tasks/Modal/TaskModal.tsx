@@ -174,7 +174,7 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
                 <Comments />
               </div>
               {/* Right column */}
-              <div className="md:w-4/12 w-full">
+              <div className="md:w-4/12 w-full mt-8 md:mt-0">
                 <TaskSubtitle
                   icon={<MdAccountCircle />}
                   text="Actions"
