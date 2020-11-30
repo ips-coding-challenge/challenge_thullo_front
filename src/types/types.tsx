@@ -14,6 +14,8 @@ export type Board = {
   cover: string
   user_id: number
   username: string
+  avatar?: string
+  description?: string
   members: User[]
   visibility: string
   created_at?: string | null

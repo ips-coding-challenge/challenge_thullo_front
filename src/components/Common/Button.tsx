@@ -23,6 +23,8 @@ const variants: any = {
   default: 'bg-gray1 hover:bg-gray5 text-gray3',
   blank: 'bg-white hover:bg-gray5 text-gray3',
   bordered: 'bg-white border border-gray3 text-gray3 hover:bg-gray5',
+  'bordered-danger':
+    'bg-white border border-red-500 text-red-500 hover:border-red-700 hover:text-red-700',
 }
 
 const sizes: any = {

@@ -11,7 +11,12 @@ import {
 } from '../../../../state/taskState'
 import { userState } from '../../../../state/userState'
 import { CommentType, TaskType } from '../../../../types/types'
-import { formatServerErrors, isAdmin, isOwner } from '../../../../utils/utils'
+import {
+  commentDate,
+  formatServerErrors,
+  isAdmin,
+  isOwner,
+} from '../../../../utils/utils'
 import Button from '../../../Common/Button'
 import Avatar from '../../../Header/Avatar'
 import { commentSchema } from './CommentInput'
@@ -103,8 +108,8 @@ const Comment = ({ comment }: CommentProps) => {
           <Avatar className="mr-4" username={singleComment?.username!} />
           <div>
             <div className="font-bold">{singleComment?.username}</div>
-            <div className="text-sm text-gray3">
-              {singleComment?.created_at}
+            <div className="text-xs text-gray3">
+              {commentDate(singleComment?.created_at!)}
             </div>
           </div>
         </div>

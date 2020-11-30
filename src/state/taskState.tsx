@@ -80,15 +80,6 @@ export const singleCommentState = atomFamily<
     },
   }),
 })
-// export const commentsState = selectorFamily<CommentType[] | undefined, number>({
-//   key: 'commentsState',
-//   get: (id: number) => ({ get }) => {
-//     return get(taskState(id))?.comments
-//   },
-//   set: (id: number) => ({get, set}, value) => {
-
-//   }
-// })
 
 export const taskCoverSelector = selectorFamily<string | undefined, number>({
   key: 'coverSelector',

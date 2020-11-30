@@ -1,17 +1,15 @@
 import React from 'react'
 import { useRecoilValue } from 'recoil'
+import { boardMembersState } from '../../state/boardState'
 import { userState } from '../../state/userState'
 import { User } from '../../types/types'
 import Avatar from '../Header/Avatar'
 import InvitationDropdown from '../Invitations/InvitationDropdown'
 import MembersDropdown from './MembersDropdown'
 
-type BoardMembersProps = {
-  members: User[]
-}
-
-const BoardMembers = ({ members }: BoardMembersProps) => {
+const BoardMembers = () => {
   const user = useRecoilValue(userState)
+  const members = useRecoilValue(boardMembersState)
   return (
     <div className="ml-4 flex items-center">
       <div className="flex gap-1">

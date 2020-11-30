@@ -13,6 +13,7 @@
     "@types/react-dom": "^16.9.8",
     "autoprefixer": "^9",
     "axios": "^0.21.0",
+    "date-fns": "^2.16.1",
     "fontsource-noto-sans": "^3.0.10",
     "nanoid": "^3.1.16",
     "postcss": "^7",
