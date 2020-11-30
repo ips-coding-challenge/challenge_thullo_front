@@ -1,17 +1,17 @@
 import React from 'react'
 import { useRecoilValue } from 'recoil'
+import { boardMembersState, boardState } from '../../state/boardState'
 import { userState } from '../../state/userState'
 import { User } from '../../types/types'
+import { isAdmin } from '../../utils/utils'
 import Avatar from '../Header/Avatar'
 import InvitationDropdown from '../Invitations/InvitationDropdown'
 import MembersDropdown from './MembersDropdown'
 
-type BoardMembersProps = {
-  members: User[]
-}
-
-const BoardMembers = ({ members }: BoardMembersProps) => {
+const BoardMembers = () => {
+  const board = useRecoilValue(boardState)
   const user = useRecoilValue(userState)
+  const members = useRecoilValue(boardMembersState)
   return (
     <div className="ml-4 flex items-center">
       <div className="flex gap-1">
@@ -27,7 +27,7 @@ const BoardMembers = ({ members }: BoardMembersProps) => {
 
         {/* Invite member dropdown */}
       </div>
-      <InvitationDropdown />
+      {isAdmin(user!, board!) && <InvitationDropdown />}
     </div>
   )
 }

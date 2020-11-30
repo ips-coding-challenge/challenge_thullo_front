@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { MdAdd, MdMoreHoriz } from 'react-icons/md'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../api/client'
 import BasicLoader from '../components/BasicLoader'
@@ -17,13 +17,19 @@ import { formatServerErrors, toCamelCase } from '../utils/utils'
 import { AxiosError } from 'axios'
 import BasicError from '../components/Common/BasicError'
 import BoardMembers from '../components/Board/BoardMembers'
-import { boardMembersState, boardState } from '../state/boardState'
+import {
+  boardMembersState,
+  boardMenuState,
+  boardState,
+} from '../state/boardState'
 import { taskModalShowState, tasksState } from '../state/taskState'
 import TaskModal from '../components/Tasks/Modal/TaskModal'
 import { labelsState } from '../state/labelState'
+import BoardMenu from '../components/Board/BoardMenu'
 
 const SingleBoard = () => {
   const { id }: any = useParams()
+  const history = useHistory()
 
   // Global state
   const [board, setBoard] = useRecoilState<Board | null>(boardState)
@@ -32,6 +38,7 @@ const SingleBoard = () => {
   const [tasks, setTasks] = useRecoilState(tasksState)
   const [taskModal, setTaskModal] = useRecoilState(taskModalShowState)
   const setLabels = useSetRecoilState(labelsState)
+  const openBoardMenu = useSetRecoilState(boardMenuState)
   // Local state
   const [loading, setLoading] = useState<boolean>(true)
   const [visibility, setVisibility] = useState<string | null>(null)
@@ -45,6 +52,10 @@ const SingleBoard = () => {
       setVisibility(board.visibility)
       setBoardMembers(board.members)
     } catch (e) {
+      console.log('e', e.response)
+      if (e.response && e.response.status === 403) {
+        history.push('/')
+      }
       console.log('fetchBoard error', e)
     }
   }, [])
@@ -143,7 +154,7 @@ const SingleBoard = () => {
                   setVisibility={updateVisibility}
                 />
                 {/* BoardMembers */}
-                <BoardMembers members={board.members} />
+                <BoardMembers />
               </div>
             )}
           </div>
@@ -153,6 +164,7 @@ const SingleBoard = () => {
             alignment="left"
             variant="default"
             className="self-start mb-4 md:mb-0 md:self-end"
+            onClick={() => openBoardMenu(true)}
           />
         </div>
 
@@ -169,6 +181,9 @@ const SingleBoard = () => {
         onClose={() => setTaskModal({ task_id: null, show: false })}
         id={taskModal.task_id}
       />
+
+      {/* BoardMenu */}
+      <BoardMenu />
     </div>
   )
 }

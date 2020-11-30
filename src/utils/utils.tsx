@@ -1,4 +1,5 @@
 import { AxiosError } from 'axios'
+import { format } from 'date-fns'
 import { Board, User } from '../types/types'
 
 export const formatServerErrors = (error: AxiosError): string => {
@@ -40,4 +41,12 @@ export const isAdmin = (user: User, board: Board) => {
 
 export const truncate = (str: string, n: number) => {
   return str.length > n ? str.substr(0, n - 1) + '...' : str
+}
+
+export const boardDate = (date: string) => {
+  return format(new Date(date), 'd MMMM, y')
+}
+
+export const commentDate = (date: string) => {
+  return format(new Date(date), "d MMMM 'at' HH:mm")
 }

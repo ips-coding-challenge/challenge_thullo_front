@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { DraggableStateSnapshot } from 'react-beautiful-dnd'
 import { MdAttachFile, MdCancel, MdComment, MdEdit } from 'react-icons/md'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
@@ -119,6 +119,7 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
       </div>
     )
   }
+
   return (
     <div
       className={`w-full mb-4 rounded-lg p-3 shadow-md transition-all duration-300 ${
