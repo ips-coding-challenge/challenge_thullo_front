@@ -23,7 +23,7 @@ const SearchInput = ({
     >
       <DebounceInput
         style={{ minWidth: 0 }}
-        className="mx-2"
+        className="mx-2 w-full"
         minLength={2}
         placeholder={placeholder}
         debounceTimeout={debounceTimeout}

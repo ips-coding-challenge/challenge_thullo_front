@@ -145,7 +145,7 @@ const SingleBoard = () => {
       <Navbar name={board!.name} />
       <div className="flex flex-col flex-auto h-board">
         {serverErrors && <BasicError message={serverErrors} />}
-        <div className="flex flex-col-reverse md:flex-row md:w-full md:justify-between p-8">
+        <div className="flex flex-col-reverse sm:flex-row sm:w-full sm:justify-between sm:items-center p-4 md:p-8">
           <div className="relative">
             {board && (
               <div className="flex items-center">
@@ -163,12 +163,12 @@ const SingleBoard = () => {
             text="Show menu"
             alignment="left"
             variant="default"
-            className="self-start mb-4 md:mb-0 md:self-end"
+            className="self-start mb-4 sm:mb-0 sm:self-end"
             onClick={() => openBoardMenu(true)}
           />
         </div>
 
-        <div className="flex-auto overflow-hidden px-6">
+        <div className="flex-auto overflow-hidden md:px-6">
           <div className="bg-boardBg rounded-lg h-full">
             <Lists board={board!} />
           </div>

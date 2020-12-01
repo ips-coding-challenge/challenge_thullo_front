@@ -138,7 +138,7 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
   return (
     <Modal isVisible={isVisible} onClose={onClose} size="large">
       <>
-        {!task && loading && (
+        {loading && (
           <div className="flex w-full h-full items-center justify-center my-4">
             <div className="lds-dual-ring lds-dual-ring-black"></div>
           </div>

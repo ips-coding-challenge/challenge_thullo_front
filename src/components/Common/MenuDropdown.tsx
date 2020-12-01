@@ -26,6 +26,10 @@ const MenuDropdown = () => {
           </button>
           {show && (
             <ul className="absolute w-auto top-0 right-0 bg-white rounded-card shadow-lg mt-10 py-3 px-4 z-10 border border-gray-border">
+              <Link to="/">
+                <li className="dropdown-item">Boards</li>
+              </Link>
+              <hr />
               <Link to="/invitations">
                 <li className="dropdown-item">Invitations</li>
               </Link>
