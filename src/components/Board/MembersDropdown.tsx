@@ -45,7 +45,6 @@ const MembersDropdown = ({
       })
       setnewMembers(filtered)
 
-      console.log('filtered', filtered)
       setFiltered(filtered)
     } else {
       setnewMembers(members)
