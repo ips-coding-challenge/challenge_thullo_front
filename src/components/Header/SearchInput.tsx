@@ -6,9 +6,15 @@ type SearchInputProps = {
   placeholder: string
   search: (query: string) => void
   className?: string
+  debounceTimeout?: number
 }
 
-const SearchInput = ({ placeholder, search, className }: SearchInputProps) => {
+const SearchInput = ({
+  placeholder,
+  search,
+  className,
+  debounceTimeout = 100,
+}: SearchInputProps) => {
   const [query, setQuery] = useState('')
 
   return (
@@ -20,7 +26,7 @@ const SearchInput = ({ placeholder, search, className }: SearchInputProps) => {
         className="mx-2"
         minLength={2}
         placeholder={placeholder}
-        debounceTimeout={100}
+        debounceTimeout={debounceTimeout}
         onChange={(e) => {
           setQuery(e.target.value)
           search(e.target.value)

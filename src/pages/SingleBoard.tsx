@@ -8,7 +8,7 @@ import Button from '../components/Common/Button'
 import Navbar from '../components/Header/Navbar'
 import AddList from '../components/Lists/AddList'
 import List from '../components/Lists/List'
-import { listState } from '../state/listState'
+import { listFilteredState, listState } from '../state/listState'
 import { Board, ListOfTasks, TaskType, User } from '../types/types'
 import { DragDropContext, DropResult } from 'react-beautiful-dnd'
 import Lists from '../components/Lists/Lists'
@@ -34,8 +34,9 @@ const SingleBoard = () => {
   // Global state
   const [board, setBoard] = useRecoilState<Board | null>(boardState)
   const setBoardMembers = useSetRecoilState<User[]>(boardMembersState)
-  const [lists, setLists] = useRecoilState(listState)
-  const [tasks, setTasks] = useRecoilState(tasksState)
+  const setLists = useSetRecoilState(listState)
+  const setFilteredLists = useSetRecoilState(listFilteredState)
+  const setTasks = useSetRecoilState(tasksState)
   const [taskModal, setTaskModal] = useRecoilState(taskModalShowState)
   const setLabels = useSetRecoilState(labelsState)
   const openBoardMenu = useSetRecoilState(boardMenuState)
@@ -70,6 +71,7 @@ const SingleBoard = () => {
       })
     })
     setLists(lists)
+    setFilteredLists(lists)
     setTasks(tasks)
   }, [])
 
