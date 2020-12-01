@@ -4,9 +4,9 @@ import {
   DraggableLocation,
   DropResult,
 } from 'react-beautiful-dnd'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
-import { listState } from '../../state/listState'
+import { listFilteredState, listState } from '../../state/listState'
 import { Board, ListOfTasks, TaskType } from '../../types/types'
 import AddList from './AddList'
 import List from './List'
@@ -23,7 +23,8 @@ type InitialData = {
 }
 
 const Lists = ({ board }: ListsProps) => {
-  const [lists, setLists] = useRecoilState(listState)
+  const lists = useRecoilValue(listFilteredState)
+  const setLists = useSetRecoilState(listState)
 
   const reorder = useCallback(
     async (

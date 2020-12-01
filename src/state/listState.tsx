@@ -1,8 +1,13 @@
-import { atom, atomFamily, selectorFamily } from 'recoil'
+import { atom, atomFamily, selector, selectorFamily } from 'recoil'
 import { ListOfTasks } from '../types/types'
 
 export const listState = atom<ListOfTasks[]>({
   key: 'list',
+  default: [],
+})
+
+export const listFilteredState = atom<ListOfTasks[]>({
+  key: 'listFiltered',
   default: [],
 })
 
