@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { MdAdd, MdDescription, MdEdit } from 'react-icons/md'
+import nl2br from 'react-nl2br'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
 import { boardDescriptionState, boardState } from '../../state/boardState'
@@ -82,7 +83,9 @@ const BoardDescription = () => {
           <Button text="Save" onClick={saveDescription} variant="primary" />
         </>
       )}
-      {boardDescription && !edit && <p className="mt-4">{boardDescription}</p>}
+      {boardDescription && !edit && (
+        <p className="mt-4">{nl2br(boardDescription)}</p>
+      )}
     </div>
   )
 }

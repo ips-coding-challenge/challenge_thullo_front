@@ -23,7 +23,7 @@ const Invitations = () => {
   return (
     <div className="flex flex-col">
       <Navbar />
-      <div className="container mx-auto mt-6">
+      <div className="container mx-auto mt-6 p-8">
         <h1 className="text-2xl mb-4">Invitations</h1>
         {invitations.length > 0 && (
           <>
