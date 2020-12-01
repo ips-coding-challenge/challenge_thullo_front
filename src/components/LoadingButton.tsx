@@ -19,7 +19,7 @@ const LoadingButton = ({
     <button
       {...rest}
       type="submit"
-      className={`relative w-full mt-2 mb-8 bg-orange-500 text-white rounded-lg py-3 px-4 hover:bg-orange-600 transition-colors duration-200`}
+      className={`relative w-full mt-2 mb-8 bg-yellow-500 text-white rounded-lg py-3 px-4 hover:bg-orange-600 transition-colors duration-200`}
     >
       {loading && (
         <div
