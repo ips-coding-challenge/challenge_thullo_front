@@ -1,5 +1,5 @@
 import { send } from 'process'
-import React from 'react'
+import React, { useState } from 'react'
 import { MdAdd, MdSend } from 'react-icons/md'
 import { toast } from 'react-toastify'
 import { useRecoilValue } from 'recoil'
@@ -10,21 +10,29 @@ import { formatServerErrors } from '../../utils/utils'
 import BaseDropdown from '../Common/BaseDropdown'
 import BaseInput from '../Common/BaseInput'
 import SquareButton from '../Common/SquareButton'
+import * as yup from 'yup'
+
+const schema = yup.object().shape({
+  email: yup.string().email().required(),
+})
 
 const InvitationDropdown = () => {
   const currentBoard = useRecoilValue<Board | null>(boardState)
 
-  const sendInvitation = async (username: string) => {
-    console.log('username', username)
-
+  const sendInvitation = async (email: string) => {
     try {
+      await schema.validate({ email })
       await client.post('/invitations', {
         board_id: currentBoard!.id,
-        username,
+        email,
       })
-      toast.success('Invitation send!')
+      toast.success('Invitation sent!')
     } catch (e) {
-      toast.error(formatServerErrors(e))
+      if (e instanceof yup.ValidationError) {
+        toast.error(e.message)
+      } else {
+        toast.error(formatServerErrors(e))
+      }
       console.log('e', e)
     }
   }
@@ -43,8 +51,8 @@ const InvitationDropdown = () => {
               <BaseInput
                 placeholder="Enter username"
                 icon={<MdSend />}
-                onClick={(username) => {
-                  sendInvitation(username)
+                onClick={(email) => {
+                  sendInvitation(email)
                   onTrigger()
                 }}
               />
