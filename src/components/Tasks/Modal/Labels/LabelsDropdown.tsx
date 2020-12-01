@@ -49,6 +49,11 @@ const LabelsDropdown = ({ id }: LabelsDropdownProps) => {
         board_id: board!.id,
       })
 
+      await client.post(`/tasks/${id}/labels`, {
+        task_id: id,
+        label_id: res.data.data.id,
+      })
+
       setLabels((old: LabelType[]) => {
         const copy = [...old]
         return copy.concat(res.data.data)
