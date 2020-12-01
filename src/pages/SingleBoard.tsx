@@ -35,7 +35,6 @@ const SingleBoard = () => {
   const [board, setBoard] = useRecoilState<Board | null>(boardState)
   const setBoardMembers = useSetRecoilState<User[]>(boardMembersState)
   const setLists = useSetRecoilState(listState)
-  const setFilteredLists = useSetRecoilState(listFilteredState)
   const setTasks = useSetRecoilState(tasksState)
   const [taskModal, setTaskModal] = useRecoilState(taskModalShowState)
   const setLabels = useSetRecoilState(labelsState)
@@ -71,7 +70,6 @@ const SingleBoard = () => {
       })
     })
     setLists(lists)
-    setFilteredLists(lists)
     setTasks(tasks)
   }, [])
 

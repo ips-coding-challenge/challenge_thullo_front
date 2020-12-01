@@ -4,7 +4,7 @@ import {
   DraggableLocation,
   DropResult,
 } from 'react-beautiful-dnd'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
 import { listFilteredState, listState } from '../../state/listState'
 import { Board, ListOfTasks, TaskType } from '../../types/types'
