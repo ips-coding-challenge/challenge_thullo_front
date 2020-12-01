@@ -29,13 +29,13 @@ const Navbar = ({ name }: NavbarProps) => {
   }
 
   return (
-    <div className="w-full h-16 shadow-md flex flex-none px-2 md:px-6 justify-between items-center">
+    <div className="w-full h-16 shadow-md flex px-2 md:px-6 justify-between items-center">
       <div className="hidden md:flex">
         <img src={Logo} alt="Thullo logo" />
         {name && (
-          <div className="flex justify-center items-center ml-20">
+          <div className="flex justify-center items-center lg:ml-20 mx-2">
             <h1 className="font-semibold border-r border-gray4 pr-3">{name}</h1>
-            <Link to="/">
+            <Link to="/" className="flex-none">
               <Button
                 icon={<MdApps />}
                 text="All Boards"
@@ -48,14 +48,14 @@ const Navbar = ({ name }: NavbarProps) => {
         )}
       </div>
 
-      <div className="flex w-full md:w-auto justify-between">
+      <div className="flex items-center w-full md:w-auto justify-between md:justify-start">
         <SearchInput
-          className="w-3/5 flex-auto mr-1"
+          className="w-full"
           placeholder="Keywords..."
           search={search}
           debounceTimeout={300}
         />
-        <div className="ml-4 md:ml-16 flex-none flex items-center">
+        <div className="ml-4 lg:ml-16 flex-none flex items-center">
           <Avatar username={user!.username} />
 
           <MenuDropdown />
