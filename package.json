@@ -37,7 +37,7 @@
   "scripts": {
     "build:style": "tailwindcss build src/styles/index.css -o src/styles/tailwind.css",
     "start": "npm run build:style && react-scripts start",
-    "build": "npm run build:style && react-scripts build",
+    "build": "cross-env NODE_ENV=production npm run build:style && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -62,6 +62,7 @@
   "devDependencies": {
     "@types/react-beautiful-dnd": "^13.0.0",
     "@types/react-router-dom": "^5.1.6",
-    "@types/yup": "^0.29.9"
+    "@types/yup": "^0.29.9",
+    "cross-env": "^7.0.3"
   }
 }

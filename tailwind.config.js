@@ -1,6 +1,8 @@
+console.log("process.env", process.env.NODE_ENV)
+
 module.exports = {
   purge: {
-    enabled: true,
+    enabled: process.env.NODE_ENV === "production",
     content: [
       './src/**/*.html',
       './src/**/*.js',
