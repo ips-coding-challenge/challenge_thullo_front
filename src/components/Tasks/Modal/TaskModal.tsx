@@ -1,5 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { MdAccountCircle, MdAdd, MdClose, MdPeople } from 'react-icons/md'
+import {
+  MdAccountCircle,
+  MdAdd,
+  MdClose,
+  MdDelete,
+  MdPeople,
+} from 'react-icons/md'
 import { toast } from 'react-toastify'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import TaskCoverSelect from './TaskCoverSelect'
@@ -12,22 +18,22 @@ import {
   taskState,
 } from '../../../state/taskState'
 import client from '../../../api/client'
-import { formatServerErrors } from '../../../utils/utils'
+import { formatServerErrors, isAdmin, isOwner } from '../../../utils/utils'
 import Modal from '../../Common/Modal'
-import { currentListState } from '../../../state/listState'
+import { currentListState, listState } from '../../../state/listState'
 import LabelsDropdown from './Labels/LabelsDropdown'
-import { LabelType, User } from '../../../types/types'
+import { LabelType, ListOfTasks, TaskType, User } from '../../../types/types'
 import Label from './Labels/Label'
 import { selectedPhotoState } from '../../../state/unsplashState'
 import Avatar from '../../Header/Avatar'
-import { boardMembersState } from '../../../state/boardState'
+import { boardMembersState, boardState } from '../../../state/boardState'
 import MembersDropdown from '../../Board/MembersDropdown'
 import Button from '../../Common/Button'
 import Attachments from './Attachments/Attachments'
-import { filesState } from '../../../state/fileState'
 import Comments from './Comments/Comments'
 import { taskLabelsState } from '../../../state/labelState'
 import Labels from './Labels/Labels'
+import { userState } from '../../../state/userState'
 
 type TaskModalProps = {
   isVisible: boolean
@@ -38,8 +44,12 @@ type TaskModalProps = {
 }
 const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
   // Global state
+  const board = useRecoilValue(boardState)
+  const user = useRecoilValue(userState)
   const [task, setTask] = useRecoilState(taskState(id!))
   const list = useRecoilValue(currentListState(task?.list_id))
+  // const [lists, setLists] = useRecoilState(listState)
+  const setLists = useSetRecoilState(listState)
   const setTaskModal = useSetRecoilState(taskModalShowState)
   const setSelectedPhoto = useSetRecoilState(selectedPhotoState)
   const members = useRecoilValue(boardMembersState)
@@ -103,6 +113,58 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
     }
   }
 
+  const deleteTask = useCallback(async () => {
+    if (!window.confirm('Are you sure that you want to delete this task?'))
+      return
+
+    if (task) {
+      // const originalLists = [...lists]
+      const originalTask = { ...task }
+      try {
+        setLists((lists: ListOfTasks[]) => {
+          const listIndex = lists.findIndex(
+            (l: ListOfTasks) => l.id === task.list_id
+          )
+
+          if (listIndex === -1) {
+            return lists
+          }
+
+          const listsCopy = [...lists]
+
+          const taskIndex = listsCopy[listIndex].tasks.findIndex(
+            (t: TaskType) => t.id === task.id
+          )
+
+          if (taskIndex === -1) return lists
+          const taskCopy = [...listsCopy[listIndex].tasks]
+          taskCopy.splice(taskIndex, 1)
+          listsCopy[listIndex] = { ...listsCopy[listIndex], tasks: taskCopy }
+
+          return listsCopy
+        })
+        setTask(undefined)
+        await client.delete('/tasks', {
+          data: {
+            task_id: task.id,
+            board_id: task.board_id,
+          },
+        })
+      } catch (e) {
+        // setLists(originalLists)
+        setTask(originalTask)
+        console.log('e', e)
+      }
+    }
+  }, [task])
+
+  const canDelete = () => {
+    const owner = isOwner(user!, task)
+    const admin = isAdmin(user!, board!)
+
+    return owner || admin
+  }
+
   if (!task && !loading) return null
 
   return (
@@ -135,57 +197,70 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
                 <Comments />
               </div>
               {/* Right column */}
-              <div className="md:w-4/12 w-full mt-8 md:mt-0">
-                <TaskSubtitle
-                  icon={<MdAccountCircle />}
-                  text="Actions"
-                  className="mb-4"
-                />
-                <TaskCoverSelect id={task.id!} />
-                <LabelsDropdown id={task.id!} />
-                {assignedMembers && assignedMembers.length === 0 && (
-                  <MembersDropdown
-                    task={task}
-                    variant="default"
-                    title="Members"
-                    subtitle="Assign members to this card"
+              <div className="md:w-4/12 w-full mt-8 md:mt-0 h-auto flex flex-col justify-between">
+                <div className="w-full">
+                  <TaskSubtitle
+                    icon={<MdAccountCircle />}
+                    text="Actions"
+                    className="mb-4"
                   />
-                )}
-
-                {assignedMembers && assignedMembers.length > 0 && (
-                  <div>
-                    <TaskSubtitle
-                      icon={<MdPeople />}
-                      text="Members"
-                      className="my-4"
+                  <TaskCoverSelect id={task.id!} />
+                  <LabelsDropdown id={task.id!} />
+                  {assignedMembers && assignedMembers.length === 0 && (
+                    <MembersDropdown
+                      task={task}
+                      variant="default"
+                      title="Members"
+                      subtitle="Assign members to this card"
                     />
-                    {assignedMembers.map((m: User) => (
-                      <div
-                        key={m.id}
-                        className="flex items-center justify-between mb-2"
-                      >
-                        <div className="flex items-center">
-                          <Avatar className="mr-4" username={m.username} />
-                          <div>{m.username}</div>
-                        </div>
-                        <MdClose
-                          onClick={() => deleteAssignedMember(m)}
-                          className="cursor-pointer bg-red-500 rounded-full text-white text-xl p-1 transition-colors duration-200 hover:text-red-500 hover:bg-white"
-                        />
-                      </div>
-                    ))}
+                  )}
 
-                    {assignedMembers.length < members.length && (
-                      <div className="mt-4">
-                        <MembersDropdown
-                          task={task}
-                          variant="blue"
-                          title="Members"
-                          subtitle="Assign members to this card"
-                        />
-                      </div>
-                    )}
-                  </div>
+                  {assignedMembers && assignedMembers.length > 0 && (
+                    <div>
+                      <TaskSubtitle
+                        icon={<MdPeople />}
+                        text="Members"
+                        className="my-4"
+                      />
+                      {assignedMembers.map((m: User) => (
+                        <div
+                          key={m.id}
+                          className="flex items-center justify-between mb-2"
+                        >
+                          <div className="flex items-center">
+                            <Avatar className="mr-4" username={m.username} />
+                            <div>{m.username}</div>
+                          </div>
+                          <MdClose
+                            onClick={() => deleteAssignedMember(m)}
+                            className="cursor-pointer bg-red-500 rounded-full text-white text-xl p-1 transition-colors duration-200 hover:text-red-500 hover:bg-white"
+                          />
+                        </div>
+                      ))}
+
+                      {assignedMembers.length < members.length && (
+                        <div className="mt-4">
+                          <MembersDropdown
+                            task={task}
+                            variant="blue"
+                            title="Members"
+                            subtitle="Assign members to this card"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+                {/* Delete task button */}
+                {canDelete() && (
+                  <Button
+                    className="mt-3 md:mt-0"
+                    variant="bordered-danger"
+                    text="Delete"
+                    icon={<MdDelete />}
+                    alignment="left"
+                    onClick={deleteTask}
+                  />
                 )}
               </div>
             </div>

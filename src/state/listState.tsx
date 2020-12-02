@@ -55,3 +55,14 @@ export const currentListState = selectorFamily({
     set(currentListState(id), value)
   },
 })
+
+// Ok but need more refactoring
+// export const currentListState = atomFamily({
+//   key: 'currentList',
+//   default: selectorFamily({
+//     key: 'currentListItem',
+//     get: (id) => ({ get }) => {
+//       return get(listState).find((l: ListOfTasks) => l.id === id)
+//     },
+//   }),
+// })
