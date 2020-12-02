@@ -14,7 +14,6 @@ import TaskDescription from './TaskDescription'
 import TaskSubtitle from './TaskSubtitle'
 import {
   assignedMembersState,
-  labelsAssignedState,
   taskModalShowState,
   taskState,
 } from '../../../state/taskState'
@@ -32,6 +31,8 @@ import MembersDropdown from '../../Board/MembersDropdown'
 import Button from '../../Common/Button'
 import Attachments from './Attachments/Attachments'
 import Comments from './Comments/Comments'
+import { taskLabelsState } from '../../../state/labelState'
+import Labels from './Labels/Labels'
 
 type TaskModalProps = {
   isVisible: boolean
@@ -50,7 +51,6 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
   const setSelectedPhoto = useSetRecoilState(selectedPhotoState)
   const members = useRecoilValue(boardMembersState)
   const assignedMembers = useRecoilValue(assignedMembersState(task?.id!))
-  const assignedLabels = useRecoilValue(labelsAssignedState(task?.id!))
 
   const [loading, setLoading] = useState(true)
 
@@ -107,36 +107,6 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
       })
     } catch (e) {
       console.log('delete assignedMember error', e)
-    }
-  }
-
-  const deleteLabel = async (label: LabelType) => {
-    try {
-      await client.delete(`/tasks/${task?.id!}/labels`, {
-        data: {
-          task_id: task?.id!,
-          label_id: label.id,
-        },
-      })
-
-      setTask((old) => {
-        if (old) {
-          const copy = { ...old }
-          if (copy.labels) {
-            const index = copy.labels.findIndex((el) => el.id === label.id)
-            let newlabels = [...copy.labels]
-            if (index > -1) {
-              newlabels.splice(index, 1)
-              return { ...copy, labels: newlabels }
-            }
-
-            return old
-          }
-        }
-        return old
-      })
-    } catch (e) {
-      console.log('deleteFromTask error', e)
     }
   }
 
@@ -207,18 +177,9 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
                   in list{' '}
                   <span className="font-bold text-black">{list.name}</span>
                 </p>
-                {assignedLabels && assignedLabels.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {assignedLabels.map((label: LabelType) => (
-                      <Label
-                        can={false}
-                        key={label.id}
-                        label={label}
-                        deleteLabel={deleteLabel}
-                      />
-                    ))}
-                  </div>
-                )}
+
+                <Labels taskId={task.id} />
+
                 <TaskDescription task={task} />
 
                 <Attachments />

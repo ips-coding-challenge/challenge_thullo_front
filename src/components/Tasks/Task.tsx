@@ -4,11 +4,10 @@ import { MdAttachFile, MdCancel, MdComment, MdEdit } from 'react-icons/md'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
 import { boardMembersState } from '../../state/boardState'
+import { taskLabelsState } from '../../state/labelState'
 import {
   assignedMembersState,
   commentsState,
-  currentTaskState,
-  labelsAssignedState,
   newTaskState,
   taskAttachmentsState,
   taskModalShowState,
@@ -34,7 +33,7 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
   const currentTask = useRecoilValue(taskState(task?.id!))
   const setTaskModal = useSetRecoilState(taskModalShowState)
   const assignedMembers = useRecoilValue(assignedMembersState(task?.id!))
-  const assignedLabels = useRecoilValue(labelsAssignedState(task?.id!))
+  const assignedLabels = useRecoilValue(taskLabelsState(task?.id!))
   const attachments = useRecoilValue(taskAttachmentsState(task?.id!))
   const comments = useRecoilValue(commentsState(task?.id!))
 
