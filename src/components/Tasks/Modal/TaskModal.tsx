@@ -18,7 +18,7 @@ import {
   taskState,
 } from '../../../state/taskState'
 import client from '../../../api/client'
-import { formatServerErrors } from '../../../utils/utils'
+import { formatServerErrors, isAdmin, isOwner } from '../../../utils/utils'
 import Modal from '../../Common/Modal'
 import { currentListState, listState } from '../../../state/listState'
 import LabelsDropdown from './Labels/LabelsDropdown'
@@ -26,13 +26,14 @@ import { LabelType, ListOfTasks, TaskType, User } from '../../../types/types'
 import Label from './Labels/Label'
 import { selectedPhotoState } from '../../../state/unsplashState'
 import Avatar from '../../Header/Avatar'
-import { boardMembersState } from '../../../state/boardState'
+import { boardMembersState, boardState } from '../../../state/boardState'
 import MembersDropdown from '../../Board/MembersDropdown'
 import Button from '../../Common/Button'
 import Attachments from './Attachments/Attachments'
 import Comments from './Comments/Comments'
 import { taskLabelsState } from '../../../state/labelState'
 import Labels from './Labels/Labels'
+import { userState } from '../../../state/userState'
 
 type TaskModalProps = {
   isVisible: boolean
@@ -43,6 +44,8 @@ type TaskModalProps = {
 }
 const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
   // Global state
+  const board = useRecoilValue(boardState)
+  const user = useRecoilValue(userState)
   const [task, setTask] = useRecoilState(taskState(id!))
   const list = useRecoilValue(currentListState(task?.list_id))
   // const [lists, setLists] = useRecoilState(listState)
@@ -155,6 +158,13 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
     }
   }, [task])
 
+  const canDelete = () => {
+    const owner = isOwner(user!, task)
+    const admin = isAdmin(user!, board!)
+
+    return owner || admin
+  }
+
   if (!task && !loading) return null
 
   return (
@@ -242,14 +252,16 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
                   )}
                 </div>
                 {/* Delete task button */}
-                <Button
-                  className="mt-3 md:mt-0"
-                  variant="bordered-danger"
-                  text="Delete"
-                  icon={<MdDelete />}
-                  alignment="left"
-                  onClick={deleteTask}
-                />
+                {canDelete() && (
+                  <Button
+                    className="mt-3 md:mt-0"
+                    variant="bordered-danger"
+                    text="Delete"
+                    icon={<MdDelete />}
+                    alignment="left"
+                    onClick={deleteTask}
+                  />
+                )}
               </div>
             </div>
           </div>
