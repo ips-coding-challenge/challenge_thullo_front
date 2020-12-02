@@ -31,7 +31,7 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
   // Global state
   const [newTask, setNewTask] = useRecoilState(newTaskState)
   const boardMembers = useRecoilValue(boardMembersState)
-  const [currentTask, setCurrentTask] = useRecoilState(taskState(task?.id!))
+  const currentTask = useRecoilValue(taskState(task?.id!))
   const setTaskModal = useSetRecoilState(taskModalShowState)
   const assignedMembers = useRecoilValue(assignedMembersState(task?.id!))
   const assignedLabels = useRecoilValue(labelsAssignedState(task?.id!))
