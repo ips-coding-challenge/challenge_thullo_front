@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { labelsState } from '../../../../state/labelState'
-import { labelsAssignedState, taskState } from '../../../../state/taskState'
+import { labelsState, taskLabelsState } from '../../../../state/labelState'
 import { LabelType } from '../../../../types/types'
 import Label from './Label'
 
@@ -10,7 +9,7 @@ type LabelsAvailableProps = {
 }
 
 const LabelsAvailable = ({ id }: LabelsAvailableProps) => {
-  const labelsAssigned = useRecoilValue(labelsAssignedState(id))
+  const labelsAssigned = useRecoilValue(taskLabelsState(id))
   const labels = useRecoilValue(labelsState)
 
   const [available, setAvailable] = useState<LabelType[]>(labels)

@@ -2,6 +2,7 @@ import React from 'react'
 import { MdClose } from 'react-icons/md'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../../../api/client'
+import { taskLabelsState } from '../../../../state/labelState'
 import { taskModalShowState, taskState } from '../../../../state/taskState'
 import { LabelType, TaskType } from '../../../../types/types'
 
@@ -13,7 +14,7 @@ type LabelProps = {
 const Label = ({ can, label, deleteLabel }: LabelProps) => {
   // Only need if the modal is opened
   const taskId = useRecoilValue(taskModalShowState).task_id
-  const setTask = useSetRecoilState(taskState(taskId!))
+  const setLabels = useSetRecoilState(taskLabelsState(taskId!))
 
   const addLabelToTask = async () => {
     if (!taskId || !can) {
@@ -25,16 +26,12 @@ const Label = ({ can, label, deleteLabel }: LabelProps) => {
         task_id: taskId,
         label_id: label.id,
       })
-      setTask((old: TaskType | undefined) => {
-        if (old) {
-          return {
-            ...old,
-            labels: old?.labels.concat(label),
-          }
-        }
-        return old
+
+      setLabels((labels: LabelType[] | undefined) => {
+        if (!labels) return labels
+
+        return labels.concat(label)
       })
-      // console.log('res', res.data)
     } catch (e) {
       console.log('e', e)
     }
