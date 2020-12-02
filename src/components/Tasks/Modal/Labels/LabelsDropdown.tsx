@@ -12,7 +12,7 @@ import * as yup from 'yup'
 import BasicError from '../../../Common/BasicError'
 import LabelsAvailable from './LabelsAvailable'
 import client from '../../../../api/client'
-import { labelsState } from '../../../../state/labelState'
+import { labelsState, taskLabelsState } from '../../../../state/labelState'
 import { taskState } from '../../../../state/taskState'
 
 const schema = yup.object().shape({
@@ -28,7 +28,8 @@ const LabelsDropdown = ({ id }: LabelsDropdownProps) => {
   // Global state
   const board = useRecoilValue(boardState)
   const setLabels = useSetRecoilState(labelsState)
-  const setTask = useSetRecoilState(taskState(id))
+  const addLabelToTask = useSetRecoilState(taskLabelsState(id))
+  // const setTask = useSetRecoilState(taskState(id))
 
   // Local state
   const [labelName, setLabelName] = useState<string>('')
@@ -58,14 +59,17 @@ const LabelsDropdown = ({ id }: LabelsDropdownProps) => {
         const copy = [...old]
         return copy.concat(res.data.data)
       })
-      setTask((old: TaskType | undefined) => {
-        if (old) {
-          return {
-            ...old,
-            labels: old?.labels.concat(res.data.data),
-          }
-        }
-        return old
+      // setTask((old: TaskType | undefined) => {
+      //   if (old) {
+      //     return {
+      //       ...old,
+      //       labels: old?.labels.concat(res.data.data),
+      //     }
+      //   }
+      //   return old
+      // })
+      addLabelToTask((labels: LabelType[] | undefined) => {
+        return labels?.concat(res.data.data)
       })
       setLabelName('')
       setLabelColor(null)
@@ -133,4 +137,4 @@ const LabelsDropdown = ({ id }: LabelsDropdownProps) => {
   )
 }
 
-export default LabelsDropdown
+export default React.memo(LabelsDropdown)
