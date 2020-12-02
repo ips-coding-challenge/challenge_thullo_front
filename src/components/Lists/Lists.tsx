@@ -7,6 +7,7 @@ import {
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
 import { listFilteredState, listState } from '../../state/listState'
+import { tasksState, taskState } from '../../state/taskState'
 import { Board, ListOfTasks, TaskType } from '../../types/types'
 import AddList from './AddList'
 import List from './List'
@@ -25,6 +26,7 @@ type InitialData = {
 const Lists = ({ board }: ListsProps) => {
   const lists = useRecoilValue(listFilteredState)
   const setLists = useSetRecoilState(listState)
+  const setTasks = useSetRecoilState(tasksState)
 
   const reorder = useCallback(
     async (
@@ -175,6 +177,17 @@ const Lists = ({ board }: ListsProps) => {
           position: task.position,
           board_id: task.board_id,
           list_id: listId ? listId : task.list_id,
+        })
+
+        setTasks((oldTasks: TaskType[]) => {
+          const index = oldTasks.findIndex((t: TaskType) => t.id === task.id)
+
+          const copy = [...oldTasks]
+          if (index > -1) {
+            copy[index] = res.data.data
+            return copy
+          }
+          return oldTasks
         })
 
         console.log('updateTask res', res.data.data)

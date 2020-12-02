@@ -48,8 +48,8 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
   const user = useRecoilValue(userState)
   const [task, setTask] = useRecoilState(taskState(id!))
   const list = useRecoilValue(currentListState(task?.list_id))
-  // const [lists, setLists] = useRecoilState(listState)
-  const setLists = useSetRecoilState(listState)
+  const [lists, setLists] = useRecoilState(listState)
+  // const setLists = useSetRecoilState(listState)
   const setTaskModal = useSetRecoilState(taskModalShowState)
   const setSelectedPhoto = useSetRecoilState(selectedPhotoState)
   const members = useRecoilValue(boardMembersState)
@@ -118,7 +118,7 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
       return
 
     if (task) {
-      // const originalLists = [...lists]
+      const originalLists = [...lists]
       const originalTask = { ...task }
       try {
         setLists((lists: ListOfTasks[]) => {
@@ -132,26 +132,31 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
 
           const listsCopy = [...lists]
 
+          console.log('listCopy', listsCopy)
           const taskIndex = listsCopy[listIndex].tasks.findIndex(
             (t: TaskType) => t.id === task.id
           )
 
+          console.log('taskIndex', taskIndex)
           if (taskIndex === -1) return lists
           const taskCopy = [...listsCopy[listIndex].tasks]
           taskCopy.splice(taskIndex, 1)
+
+          console.log('taskCopy', taskCopy)
           listsCopy[listIndex] = { ...listsCopy[listIndex], tasks: taskCopy }
 
           return listsCopy
         })
-        setTask(undefined)
+
         await client.delete('/tasks', {
           data: {
             task_id: task.id,
             board_id: task.board_id,
           },
         })
+        setTask(undefined)
       } catch (e) {
-        // setLists(originalLists)
+        setLists(originalLists)
         setTask(originalTask)
         console.log('e', e)
       }
