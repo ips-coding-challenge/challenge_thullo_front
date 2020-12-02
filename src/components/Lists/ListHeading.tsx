@@ -1,12 +1,7 @@
 import React, { useCallback, useState } from 'react'
-import { MdMoreHoriz } from 'react-icons/md'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
-import {
-  currentListState,
-  listItemState,
-  listState,
-} from '../../state/listState'
+import { listItemState, listState } from '../../state/listState'
 import { ListOfTasks } from '../../types/types'
 import ListDropdown from './ListDropdown'
 import ListInput from './ListInput'

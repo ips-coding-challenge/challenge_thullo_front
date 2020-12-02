@@ -102,7 +102,7 @@ const MembersDropdown = ({
             alignment="left"
             variant="default"
             text="Members"
-            className="w-full mt-4"
+            className="w-full mt-3"
             onClick={() => onTrigger()}
           />
         )
