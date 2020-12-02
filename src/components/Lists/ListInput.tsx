@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
-import {
-  currentListState,
-  listItemState,
-  listState,
-} from '../../state/listState'
+import { listItemState, listState } from '../../state/listState'
 import { ListOfTasks } from '../../types/types'
 import BasicInput from '../Form/BasicInput'
 
