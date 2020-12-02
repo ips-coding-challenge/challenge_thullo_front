@@ -18,9 +18,7 @@ const BoardDescription = () => {
   )
   const [edit, setEdit] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
-  const [description, setDescription] = useState<string>(
-    board?.description || ''
-  )
+  const [description, setDescription] = useState<string>(boardDescription || '')
   const ref = useRef<HTMLTextAreaElement>(null)
 
   const saveDescription = useCallback(async () => {
@@ -33,11 +31,7 @@ const BoardDescription = () => {
 
       setEdit(false)
 
-      setBoardDescription((old: any) => {
-        if (!old) return old
-
-        return res.data.data.description
-      })
+      setBoardDescription(res.data.data.description)
 
       console.log('res', res.data)
     } catch (e) {
@@ -59,11 +53,11 @@ const BoardDescription = () => {
         {isAdmin(user!, board!) && (
           <Button
             variant="bordered"
-            text={board?.description ? 'Edit' : 'Add'}
+            text={boardDescription ? 'Edit' : 'Add'}
             size="sm"
             textSize="xs"
             alignment="left"
-            icon={board?.description ? <MdEdit /> : <MdAdd />}
+            icon={boardDescription ? <MdEdit /> : <MdAdd />}
             onClick={() => setEdit((val) => (val = !val))}
           />
         )}
