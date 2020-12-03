@@ -132,7 +132,10 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
         />
       )}
       <div className="group flex justify-between transition-opacity duration-300 cursor-pointer">
-        <h3 onClick={() => setTaskModal({ task_id: task.id!, show: true })}>
+        <h3
+          className="flex-1"
+          onClick={() => setTaskModal({ task_id: task.id!, show: true })}
+        >
           {task.title}
         </h3>
         <MdEdit

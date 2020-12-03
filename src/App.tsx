@@ -1,5 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  useHistory,
+} from 'react-router-dom'
 import PublicRoute from './components/PublicRoute'
 import PrivateRoute from './components/PrivateRoute'
 import Boards from './pages/Boards'
@@ -13,6 +18,7 @@ import SingleBoard from './pages/SingleBoard'
 import Invitations from './pages/Invitations'
 
 function App() {
+  const history = useHistory()
   const [user, setUser] = useRecoilState(userState)
   const [init, setInit] = useState(true)
 
@@ -23,6 +29,10 @@ function App() {
         console.log('res fetchUser', res.data)
         setUser(res.data.data)
       } catch (e) {
+        if (e.status === 401) {
+          localStorage.removeItem('token')
+          history.push('/login')
+        }
         console.log('e', e)
       } finally {
         setInit(false)

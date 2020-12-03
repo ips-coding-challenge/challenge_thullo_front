@@ -9,7 +9,6 @@ type BoardCardProps = {
 }
 
 const BoardCard = ({ board }: BoardCardProps) => {
-  console.log('board', board)
   const othersText = () => {
     const count = board.members.length - 3
     let text = '+ '

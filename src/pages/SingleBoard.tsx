@@ -140,6 +140,10 @@ const SingleBoard = () => {
     return <BasicLoader />
   }
 
+  if (!loading && !board) {
+    return <div>An error occured, please retry</div>
+  }
+
   return (
     <div className="flex flex-col">
       <Navbar name={board!.name} />

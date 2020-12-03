@@ -54,6 +54,7 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
   const setSelectedPhoto = useSetRecoilState(selectedPhotoState)
   const members = useRecoilValue(boardMembersState)
   const assignedMembers = useRecoilValue(assignedMembersState(task?.id!))
+  const setShowModal = useSetRecoilState(taskModalShowState)
 
   const [loading, setLoading] = useState(true)
 
@@ -154,7 +155,14 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
             board_id: task.board_id,
           },
         })
+
         setTask(undefined)
+        setShowModal(() => {
+          return {
+            task_id: null,
+            show: false,
+          }
+        })
       } catch (e) {
         setLists(originalLists)
         setTask(originalTask)
