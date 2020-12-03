@@ -10,30 +10,30 @@ import PrivateRoute from './components/PrivateRoute'
 import Boards from './pages/Boards'
 import Login from './pages/Login'
 import Register from './pages/Register'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { userState } from './state/userState'
 import client from './api/client'
 import BasicLoader from './components/BasicLoader'
 import SingleBoard from './pages/SingleBoard'
 import Invitations from './pages/Invitations'
+import Profile from './pages/Profile'
 
 function App() {
   const history = useHistory()
-  const [user, setUser] = useRecoilState(userState)
+  const setUser = useSetRecoilState(userState)
   const [init, setInit] = useState(true)
 
   const fetchUser = useCallback(async () => {
     if (localStorage.getItem('token')) {
       try {
         const res = await client.get('/me')
-        console.log('res fetchUser', res.data)
         setUser(res.data.data)
       } catch (e) {
+        console.log('e', e)
         if (e.status === 401) {
           localStorage.removeItem('token')
           history.push('/login')
         }
-        console.log('e', e)
       } finally {
         setInit(false)
       }
@@ -67,6 +67,9 @@ function App() {
         </PrivateRoute>
         <PrivateRoute exact path="/invitations">
           <Invitations />
+        </PrivateRoute>
+        <PrivateRoute exact path="/profile">
+          <Profile />
         </PrivateRoute>
         <PrivateRoute exact path="/">
           <Boards />

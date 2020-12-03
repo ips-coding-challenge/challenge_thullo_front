@@ -34,6 +34,7 @@ import Comments from './Comments/Comments'
 import { taskLabelsState } from '../../../state/labelState'
 import Labels from './Labels/Labels'
 import { userState } from '../../../state/userState'
+import { uploadErrorGeneralState } from '../../../state/fileState'
 
 type TaskModalProps = {
   isVisible: boolean

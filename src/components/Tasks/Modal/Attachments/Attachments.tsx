@@ -1,7 +1,11 @@
 import React from 'react'
 import { MdDescription } from 'react-icons/md'
 import { useRecoilValue } from 'recoil'
-import { uploadErrorForTask } from '../../../../state/fileState'
+import {
+  uploadErrorForTask,
+  uploadErrorGeneralState,
+  uploadErrorsState,
+} from '../../../../state/fileState'
 import {
   taskAttachmentsState,
   taskModalShowState,
@@ -16,6 +20,7 @@ const Attachments = () => {
   const taskId = useRecoilValue(taskModalShowState).task_id
   const attachments = useRecoilValue(taskAttachmentsState(taskId!))
   const uploadErrors = useRecoilValue(uploadErrorForTask(taskId!))
+  const uploadErrorGeneral = useRecoilValue(uploadErrorGeneralState)
 
   return (
     <div className="mt-8">
@@ -23,6 +28,13 @@ const Attachments = () => {
         <TaskSubtitle icon={<MdDescription />} text="Attachments" />
         <FileInput />
       </div>
+      {uploadErrorGeneral.length > 0 && (
+        <div>
+          {uploadErrorGeneral.map((e: string) => (
+            <p className="text-danger mt-2 text-xs">{e}</p>
+          ))}
+        </div>
+      )}
 
       {uploadErrors && uploadErrors.length > 0 && (
         <div className="bg-red-500 p-2 w-full my-2 rounded-lg">

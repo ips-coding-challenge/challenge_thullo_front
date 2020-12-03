@@ -40,6 +40,11 @@ export const fileProgressState = selectorFamily<FileType | undefined, string>({
   },
 })
 
+export const uploadErrorGeneralState = atom<string[]>({
+  key: 'uploadErrorGeneralState',
+  default: [],
+})
+
 export const uploadErrorsState = atom<UploadError[]>({
   key: 'uploadErrorsState',
   default: [],

@@ -72,12 +72,11 @@ const MembersDropdown = ({
     // Invite User or assign it to the task
 
     try {
-      const res = await client.post('/assignments', {
+      await client.post('/assignments', {
         task_id: task.id,
         user_id: member.id,
       })
 
-      console.log('add user to task', res.data)
       setCurrentTask((old: TaskType | undefined) => {
         if (old) {
           return {

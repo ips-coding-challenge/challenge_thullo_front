@@ -34,6 +34,10 @@ const MenuDropdown = () => {
                 <li className="dropdown-item">Invitations</li>
               </Link>
               <hr />
+              <Link to="/profile">
+                <li className="dropdown-item">Profile</li>
+              </Link>
+              <hr />
               <li className="dropdown-item" onClick={logout}>
                 Logout
               </li>
