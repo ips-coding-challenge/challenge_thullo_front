@@ -21,6 +21,7 @@ const BoardMembers = () => {
             <Avatar
               key={member.id}
               username={member.username}
+              avatar={member.avatar}
               className="mr-4"
             />
           ))}

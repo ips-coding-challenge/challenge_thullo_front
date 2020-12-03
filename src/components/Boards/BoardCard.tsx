@@ -33,7 +33,12 @@ const BoardCard = ({ board }: BoardCardProps) => {
         <div className="flex items-center">
           {board.members.slice(0, 3).map((member: User, index: number) => {
             return (
-              <Avatar key={index} className="mr-2" username={member.username} />
+              <Avatar
+                key={index}
+                className="mr-2"
+                avatar={member.avatar}
+                username={member.username}
+              />
             )
           })}
           {board.members.length > 3 && (

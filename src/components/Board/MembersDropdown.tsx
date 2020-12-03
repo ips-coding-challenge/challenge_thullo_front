@@ -153,7 +153,11 @@ const MembersDropdown = ({
                         className="flex items-center p-2 rounded-lg cursor-pointer hover:bg-gray1 transition-colors duration-300"
                         onClick={() => selectUser(member)}
                       >
-                        <Avatar className="mr-4" username={member.username} />
+                        <Avatar
+                          className="mr-4"
+                          avatar={member.avatar}
+                          username={member.username}
+                        />
                         <span className="font-semibold">{member.username}</span>
                       </li>
                     ))}

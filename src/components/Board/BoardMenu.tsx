@@ -33,7 +33,11 @@ const BoardMenu = () => {
 
       {/* Board creator */}
       <div className="flex items-center mt-4">
-        <Avatar username={board.username!} className="mr-4" />
+        <Avatar
+          avatar={board.avatar}
+          username={board.username!}
+          className="mr-4"
+        />
         <div>
           <p className="font-bold">{board.username}</p>
           <p className="text-xs text-gray3">{boardDate(board.created_at!)}</p>

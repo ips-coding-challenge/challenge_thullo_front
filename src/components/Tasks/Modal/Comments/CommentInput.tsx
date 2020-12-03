@@ -55,7 +55,11 @@ const CommentInput = () => {
   return (
     <div className="rounded-lg border border-gray-border shadow-lg p-4">
       <div className="flex">
-        <Avatar className="mr-4" username={user!.username} />
+        <Avatar
+          className="mr-4"
+          avatar={user!.avatar}
+          username={user!.username}
+        />
         <div className="w-full mb-2">
           <textarea
             className="w-full text-sm p-1"

@@ -1,5 +1,6 @@
 import { atom, atomFamily, selector, selectorFamily } from 'recoil'
 import { LabelType, ListOfTasks, TaskType } from '../types/types'
+import { taskLabelsState } from './labelState'
 import { labelsAssignedState } from './taskState'
 
 // SearchQuery
@@ -16,7 +17,9 @@ export const listState = atom<ListOfTasks[]>({
 export const listFilteredState = selector<ListOfTasks[]>({
   key: 'listFiltered',
   get: ({ get }) => {
+    console.log('called')
     const query = get(queryState)
+    if (query === '') return get(listState)
     const lists = get(listState)
 
     let newLists: ListOfTasks[] = []
@@ -24,7 +27,7 @@ export const listFilteredState = selector<ListOfTasks[]>({
     lists.forEach((el: ListOfTasks) => {
       let toReturn: Set<TaskType> = new Set()
       el.tasks.forEach((t: TaskType) => {
-        const labels = get(labelsAssignedState(t.id!))
+        const labels = get(taskLabelsState(t.id!))
         if (t.title.toLowerCase().includes(query.toLowerCase())) {
           toReturn.add(t)
         }

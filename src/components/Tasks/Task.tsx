@@ -162,7 +162,7 @@ const Task = ({ task, onTaskSaved, snapshot }: TaskProps) => {
           {assignedMembers && assignedMembers.length > 0 && (
             <>
               {assignedMembers.map((m: User) => (
-                <Avatar key={m.id} username={m.username} />
+                <Avatar key={m.id} avatar={m.avatar} username={m.username} />
               ))}
             </>
           )}

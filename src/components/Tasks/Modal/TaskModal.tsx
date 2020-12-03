@@ -242,7 +242,11 @@ const TaskModal = ({ id, isVisible, onClose }: TaskModalProps) => {
                           className="flex items-center justify-between mb-2"
                         >
                           <div className="flex items-center">
-                            <Avatar className="mr-4" username={m.username} />
+                            <Avatar
+                              className="mr-4"
+                              avatar={m.avatar}
+                              username={m.username}
+                            />
                             <div>{m.username}</div>
                           </div>
                           <MdClose

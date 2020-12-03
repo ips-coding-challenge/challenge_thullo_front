@@ -1,6 +1,8 @@
 import axios, { AxiosResponse } from 'axios'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
+import BasicLoader from '../components/BasicLoader'
+import BasicError from '../components/Common/BasicError'
 import Button from '../components/Common/Button'
 import Avatar from '../components/Header/Avatar'
 import Navbar from '../components/Header/Navbar'
@@ -11,8 +13,9 @@ import { User } from '../types/types'
 
 const Profile = () => {
   const [user, setUser] = useRecoilState(userState)
+  const [progress, setProgress] = useState(0)
 
-  const { loading, errors: mutateErrors, result, mutate } = useMutate(
+  const { loading, errors: mutateErrors, result, mutate } = useMutate<User>(
     '/users',
     'PUT'
   )
@@ -26,6 +29,7 @@ const Profile = () => {
     },
     onUploadProgress: (e, f) => {
       console.log('onUploadProgress called')
+      setProgress(() => Math.floor((e.loaded / e.total) * 100))
     },
     onUploadFinished: (e, f) => {
       console.log('onUploadFinshed called')
@@ -33,32 +37,31 @@ const Profile = () => {
     handleResponses: async (responses: AxiosResponse<any>[]) => {
       console.log('responses', responses)
       for (const res of responses) {
-        console.log('res', res.data)
+        console.log('res.data', res.data)
+        const finalUrl = `https://res.cloudinary.com/trucmachin/image/upload/c_thumb,w_400,g_face/v1607022210/${res.data.public_id}.${res.data.format}`
         await mutate({
-          id: 1,
-          avatar: res.data.secure_url,
-        })
-        setUser((user: User | null) => {
-          if (!user) return user
-
-          return { ...user, avatar: res.data.secure_url }
+          avatar: finalUrl || res.data.secure_url,
         })
       }
-      // setIsUploading(false)
     },
   })
 
   useEffect(() => {
-    console.log('isUploading', isUploading)
-  }, [isUploading])
+    if (result) {
+      setUser((user: User | null) => {
+        if (!user) return user
+        return { ...user, avatar: result?.avatar }
+      })
+    }
+  }, [result])
   return (
     <div className="flex flex-col">
       <Navbar />
       <div className="container mx-auto mt-6 p-8">
         <h1 className="text-2xl mb-4">Profile</h1>
         <hr />
-        {loading && <div>Loading....</div>}
-        {mutateErrors && mutateErrors.map((e: any) => <div>{e.message}</div>)}
+        {mutateErrors &&
+          mutateErrors.map((e: any) => <BasicError message={e.message} />)}
         <div className="flex flex-col mt-8 w-list mx-auto items-center justify-center">
           {user?.avatar ? (
             <img
@@ -73,6 +76,13 @@ const Profile = () => {
               textSize="text-4xl"
               username={user?.username!}
             />
+          )}
+          {isUploading && (
+            <div className="w-full flex justify-center items-center">
+              <div className="mt-1 text-gray3 text-sm">
+                Uploading... {progress}%
+              </div>
+            </div>
           )}
           {!isUploading && (
             <label htmlFor="file" className="flex">
