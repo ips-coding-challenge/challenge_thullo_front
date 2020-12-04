@@ -4,16 +4,19 @@ import 'fontsource-noto-sans'
 import './styles/tailwind.css'
 import 'react-toastify/dist/ReactToastify.min.css'
 import App from './App'
+import { BrowserRouter as Router } from 'react-router-dom'
 import { RecoilRoot } from 'recoil'
 import reportWebVitals from './reportWebVitals'
 import { ToastContainer } from 'react-toastify'
 
 ReactDOM.render(
   <React.StrictMode>
-    <RecoilRoot>
-      <App />
-      <ToastContainer autoClose={1500} position="top-left" limit={3} />
-    </RecoilRoot>
+    <Router>
+      <RecoilRoot>
+        <App />
+        <ToastContainer autoClose={1500} position="top-left" limit={3} />
+      </RecoilRoot>
+    </Router>
   </React.StrictMode>,
   document.getElementById('root')
 )

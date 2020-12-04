@@ -6,6 +6,7 @@ import { Link, useHistory } from 'react-router-dom'
 import { useSetRecoilState } from 'recoil'
 import * as yup from 'yup'
 import client from '../api/client'
+import GithubLink from '../components/Common/GithubLink'
 import Input from '../components/Form/Input'
 import LoadingButton from '../components/LoadingButton'
 import { userState } from '../state/userState'
@@ -48,7 +49,8 @@ const Register = () => {
   }
   return (
     <div className="container flex flex-col justify-center items-center h-screen mx-auto">
-      <h1 className="text-3xl mb-4">Register</h1>
+      <h1 className="text-3xl">Register</h1>
+      <GithubLink />
       <form className="w-container" onSubmit={handleSubmit(registerUser)}>
         {serverErrors && (
           <p className="text-red-500 mb-4">{serverErrors.message}</p>
