@@ -102,7 +102,11 @@ const Comment = ({ comment }: CommentProps) => {
       {console.log('singleComment', singleComment)}
       <div className="flex justify-between items-start">
         <div className="flex items-center">
-          <Avatar className="mr-4" username={singleComment?.username!} />
+          <Avatar
+            className="mr-4"
+            avatar={singleComment?.avatar}
+            username={singleComment?.username!}
+          />
           <div>
             <div className="font-bold">{singleComment?.username}</div>
             <div className="text-xs text-gray3">

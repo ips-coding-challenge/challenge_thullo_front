@@ -5,6 +5,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil'
 import {
   filesState,
   uploadErrorForTask,
+  uploadErrorGeneralState,
   uploadErrorsState,
 } from '../../state/fileState'
 import { FileType, TaskType, UploadError } from '../../types/types'
@@ -20,6 +21,9 @@ const FileInput = () => {
   // Used to reset error for a task when adding a new attachment
   const setUploadTaskError = useSetRecoilState(uploadErrorForTask(taskId!))
   const inputFileRef = useRef<HTMLInputElement>(null)
+  // Allow to display an error for example if there is too much file uploaded at once
+  // Or ( TODO ) limit the file format allowed to be uploaded
+  const setUploadErrorGeneral = useSetRecoilState(uploadErrorGeneralState)
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUploadTaskError((old) => old)
@@ -39,8 +43,35 @@ const FileInput = () => {
     return formData
   }
 
+  const isValid = (files: FileList): boolean => {
+    let isValid = true
+
+    if (files?.length > 2) {
+      setUploadErrorGeneral((old) => {
+        return old.concat('You can only upload 2 files at the same time')
+      })
+      isValid = false
+    }
+    for (const f of Array.from(files)) {
+      if (Math.round(f.size / 1024 / 1024) > 5) {
+        setUploadErrorGeneral((old) => {
+          return old.concat('You can only upload file which are less than 5mb')
+        })
+        isValid = false
+      }
+    }
+
+    return isValid
+  }
+
   const uploadFiles = async (files: FileList | null) => {
+    setUploadErrorGeneral([])
     if (files) {
+      // Validate file size and number
+      if (!isValid(files)) {
+        return
+      }
+
       try {
         let requests: any[] = []
 

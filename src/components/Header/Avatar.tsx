@@ -4,15 +4,32 @@ import { avatarInitials } from '../../utils/utils'
 
 type AvatarProps = {
   username: string
+  avatar?: string | null
   className?: string
+  width?: string
+  height?: string
+  textSize?: string
 }
 
-const Avatar = ({ username, className }: AvatarProps) => {
-  return (
+const Avatar = ({
+  username,
+  avatar,
+  className,
+  width = 'w-8',
+  height = 'h-8',
+  textSize,
+}: AvatarProps) => {
+  return avatar ? (
+    <img
+      src={avatar}
+      className={`${width} ${height} rounded-lg ${className} object-cover`}
+      alt="avatar"
+    />
+  ) : (
     <div
-      className={`w-8 h-8 rounded-lg bg-gray4 p-4 text-sm text-white flex justify-center items-center ${className}`}
+      className={`${width} ${height} rounded-lg bg-gray4 p-4 text-sm text-white flex justify-center items-center ${className}`}
     >
-      <div>{avatarInitials(username)}</div>
+      <div className={textSize}>{avatarInitials(username)}</div>
     </div>
   )
 }

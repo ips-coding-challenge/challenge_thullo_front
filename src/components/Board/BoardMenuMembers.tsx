@@ -51,7 +51,11 @@ const BoardMenuMembers = () => {
               className="flex justify-between items-center py-2 rounded-lg"
             >
               <div className="flex items-center">
-                <Avatar className="mr-4" username={member.username} />
+                <Avatar
+                  className="mr-4"
+                  avatar={member.avatar}
+                  username={member.username}
+                />
                 <span className="font-semibold">{member.username}</span>
               </div>
               {isAdmin(user!, board!) ? (
