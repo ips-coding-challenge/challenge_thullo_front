@@ -9,7 +9,6 @@ export const useMutate = <M>(url: string, method?: string) => {
   const mutate = useCallback(async (data: any) => {
     setErrors([])
     setLoading(true)
-    console.log('dataToSend', data)
     try {
       switch (method) {
         case 'PUT': {

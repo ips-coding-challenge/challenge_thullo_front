@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import BasicLoader from '../components/BasicLoader'
 import BasicError from '../components/Common/BasicError'
@@ -15,7 +15,7 @@ const Profile = () => {
   const [user, setUser] = useRecoilState(userState)
   const [progress, setProgress] = useState(0)
 
-  const { loading, errors: mutateErrors, result, mutate } = useMutate<User>(
+  const { errors: serverErrors, result, mutate } = useMutate<User>(
     '/users',
     'PUT'
   )
@@ -37,9 +37,8 @@ const Profile = () => {
     handleResponses: async (responses: AxiosResponse<any>[]) => {
       console.log('responses', responses)
       for (const res of responses) {
-        console.log('res.data', res.data)
         const finalUrl = `https://res.cloudinary.com/trucmachin/image/upload/c_thumb,w_400,g_face/v1607022210/${res.data.public_id}.${res.data.format}`
-        await mutate({
+        mutate({
           avatar: finalUrl || res.data.secure_url,
         })
       }
@@ -54,14 +53,30 @@ const Profile = () => {
       })
     }
   }, [result])
+
+  const renderProgress = useCallback(() => {
+    return (
+      <div className="mt-1 text-gray3 text-sm">Uploading... {progress}%</div>
+    )
+  }, [progress])
+
   return (
     <div className="flex flex-col">
       <Navbar />
       <div className="container mx-auto mt-6 p-8">
         <h1 className="text-2xl mb-4">Profile</h1>
         <hr />
-        {mutateErrors &&
-          mutateErrors.map((e: any) => <BasicError message={e.message} />)}
+        {/* Cloudinary | Validation Error */}
+        {errors &&
+          errors.map((e: any, index: number) => (
+            <BasicError key={index} message={e.message} />
+          ))}
+        {/* Server errors */}
+        {serverErrors &&
+          serverErrors.map((e: any, index: number) => (
+            <BasicError key={index} message={e.message} />
+          ))}
+
         <div className="flex flex-col mt-8 w-list mx-auto items-center justify-center">
           {user?.avatar ? (
             <img
@@ -79,9 +94,7 @@ const Profile = () => {
           )}
           {isUploading && (
             <div className="w-full flex justify-center items-center">
-              <div className="mt-1 text-gray3 text-sm">
-                Uploading... {progress}%
-              </div>
+              {renderProgress()}
             </div>
           )}
           {!isUploading && (
@@ -110,4 +123,4 @@ const Profile = () => {
   )
 }
 
-export default Profile
+export default React.memo(Profile)
