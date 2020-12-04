@@ -30,8 +30,10 @@ const Attachments = () => {
       </div>
       {uploadErrorGeneral.length > 0 && (
         <div>
-          {uploadErrorGeneral.map((e: string) => (
-            <p className="text-danger mt-2 text-xs">{e}</p>
+          {uploadErrorGeneral.map((e: string, index: number) => (
+            <p key={index} className="text-danger mt-2 text-xs">
+              {e}
+            </p>
           ))}
         </div>
       )}

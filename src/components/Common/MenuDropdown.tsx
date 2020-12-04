@@ -3,6 +3,7 @@ import { MdExpandMore } from 'react-icons/md'
 import { Link, useHistory, useLocation } from 'react-router-dom'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { userState } from '../../state/userState'
+import { truncate } from '../../utils/utils'
 import BaseDropdown from './BaseDropdown'
 
 const MenuDropdown = () => {
@@ -21,7 +22,9 @@ const MenuDropdown = () => {
       {(onTrigger, show) => (
         <>
           <button onClick={() => onTrigger()} className="flex items-center">
-            <h4 className="ml-2 md:ml-4 mr-2 font-bold">{user!.username}</h4>
+            <h4 className="ml-2 md:ml-4 mr-2 font-bold">
+              {truncate(user!.username, 10)}
+            </h4>
             <MdExpandMore />
           </button>
           {show && (

@@ -9,6 +9,7 @@ import client from '../api/client'
 import { useSetRecoilState } from 'recoil'
 import { userState } from '../state/userState'
 import { Link, useHistory } from 'react-router-dom'
+import GithubLink from '../components/Common/GithubLink'
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),
@@ -47,7 +48,9 @@ const Login = () => {
   }
   return (
     <div className="container flex flex-col justify-center items-center h-screen mx-auto px-6">
-      <h1 className="text-3xl mb-4">Login</h1>
+      <h1 className="text-3xl">Login</h1>
+      <GithubLink />
+
       <form className="w-full md:w-container" onSubmit={handleSubmit(login)}>
         {serverErrors && (
           <p className="text-red-500 mb-4">{serverErrors.message}</p>
