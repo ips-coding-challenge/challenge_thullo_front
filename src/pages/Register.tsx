@@ -48,10 +48,13 @@ const Register = () => {
     }
   }
   return (
-    <div className="container flex flex-col justify-center items-center h-screen mx-auto">
+    <div className="container flex flex-col justify-center items-center h-screen mx-auto px-6">
       <h1 className="text-3xl">Register</h1>
       <GithubLink />
-      <form className="w-container" onSubmit={handleSubmit(registerUser)}>
+      <form
+        className="w-full md:w-container"
+        onSubmit={handleSubmit(registerUser)}
+      >
         {serverErrors && (
           <p className="text-red-500 mb-4">{serverErrors.message}</p>
         )}
