@@ -1,15 +1,15 @@
 import React from 'react'
+import { MdApps } from 'react-icons/md'
+import { Link, matchPath, useLocation } from 'react-router-dom'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import { userState } from '../../state/userState'
 import Logo from '../../assets/Logo.svg'
+import { queryState } from '../../state/listState'
+import { userState } from '../../state/userState'
+import { User } from '../../types/types'
+import Button from '../Common/Button'
+import MenuDropdown from '../Common/MenuDropdown'
 import Avatar from './Avatar'
 import SearchInput from './SearchInput'
-import { User } from '../../types/types'
-import { MdApps } from 'react-icons/md'
-import Button from '../Common/Button'
-import { Link, matchPath, useLocation } from 'react-router-dom'
-import MenuDropdown from '../Common/MenuDropdown'
-import { queryState } from '../../state/listState'
 
 type NavbarProps = {
   name?: string

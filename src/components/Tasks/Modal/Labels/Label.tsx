@@ -3,8 +3,8 @@ import { MdClose } from 'react-icons/md'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../../../api/client'
 import { taskLabelsState } from '../../../../state/labelState'
-import { taskModalShowState, taskState } from '../../../../state/taskState'
-import { LabelType, TaskType } from '../../../../types/types'
+import { taskModalShowState } from '../../../../state/taskState'
+import { LabelType } from '../../../../types/types'
 
 type LabelProps = {
   can: boolean

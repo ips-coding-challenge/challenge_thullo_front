@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import { labelsState, taskLabelsState } from '../../../../state/labelState'
 import { LabelType } from '../../../../types/types'
 import Label from './Label'

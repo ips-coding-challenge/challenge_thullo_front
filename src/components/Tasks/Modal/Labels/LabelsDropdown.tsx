@@ -1,19 +1,16 @@
 import React, { useState } from 'react'
 import { MdLabel } from 'react-icons/md'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
+import * as yup from 'yup'
+import client from '../../../../api/client'
 import { boardState } from '../../../../state/boardState'
-import { LabelType, TaskType } from '../../../../types/types'
+import { labelsState, taskLabelsState } from '../../../../state/labelState'
+import { LabelType } from '../../../../types/types'
 import BaseDropdown from '../../../Common/BaseDropdown'
-import BaseInput from '../../../Common/BaseInput'
 import Button from '../../../Common/Button'
 import TaskSubtitle from '../TaskSubtitle'
 import LabelColors from './LabelColors'
-import * as yup from 'yup'
-import BasicError from '../../../Common/BasicError'
 import LabelsAvailable from './LabelsAvailable'
-import client from '../../../../api/client'
-import { labelsState, taskLabelsState } from '../../../../state/labelState'
-import { taskState } from '../../../../state/taskState'
 
 const schema = yup.object().shape({
   labelName: yup.string().min(2).required(),

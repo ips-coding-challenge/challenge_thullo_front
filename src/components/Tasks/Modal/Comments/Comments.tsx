@@ -2,8 +2,8 @@ import React from 'react'
 import { useRecoilValue } from 'recoil'
 import { commentsState, taskModalShowState } from '../../../../state/taskState'
 import { CommentType } from '../../../../types/types'
-import CommentInput from './CommentInput'
 import Comment from './Comment'
+import CommentInput from './CommentInput'
 
 const Comments = () => {
   const taskId = useRecoilValue(taskModalShowState).task_id

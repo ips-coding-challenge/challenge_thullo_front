@@ -1,7 +1,6 @@
 import React from 'react'
 import { useRecoilValue } from 'recoil'
 import { fileState } from '../../../../state/fileState'
-import { FileType } from '../../../../types/types'
 import { avatarInitials, truncate } from '../../../../utils/utils'
 import FileProgressFill from './FileProgressFill'
 

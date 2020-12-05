@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { DraggableStateSnapshot } from 'react-beautiful-dnd'
-import { MdAttachFile, MdCancel, MdComment, MdEdit } from 'react-icons/md'
+import { MdAttachFile, MdComment, MdEdit } from 'react-icons/md'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
 import { boardMembersState } from '../../state/boardState'

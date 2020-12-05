@@ -1,8 +1,8 @@
-import { send } from 'process'
-import React, { useState } from 'react'
+import React from 'react'
 import { MdAdd, MdSend } from 'react-icons/md'
 import { toast } from 'react-toastify'
 import { useRecoilValue } from 'recoil'
+import * as yup from 'yup'
 import client from '../../api/client'
 import { boardState } from '../../state/boardState'
 import { Board } from '../../types/types'
@@ -10,7 +10,6 @@ import { formatServerErrors } from '../../utils/utils'
 import BaseDropdown from '../Common/BaseDropdown'
 import BaseInput from '../Common/BaseInput'
 import SquareButton from '../Common/SquareButton'
-import * as yup from 'yup'
 
 const schema = yup.object().shape({
   email: yup.string().email().required(),

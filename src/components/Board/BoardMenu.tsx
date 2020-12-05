@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { MdAccountCircle, MdClose } from 'react-icons/md'
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { boardMenuState, boardState } from '../../state/boardState'

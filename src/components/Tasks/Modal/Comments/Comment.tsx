@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
+import nl2br from 'react-nl2br'
 import { toast } from 'react-toastify'
 import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
 import { ValidationError } from 'yup'
@@ -6,7 +7,7 @@ import client from '../../../../api/client'
 import { boardState } from '../../../../state/boardState'
 import { commentsState, singleCommentState } from '../../../../state/taskState'
 import { userState } from '../../../../state/userState'
-import { CommentType, TaskType } from '../../../../types/types'
+import { CommentType } from '../../../../types/types'
 import {
   commentDate,
   formatServerErrors,
@@ -16,7 +17,6 @@ import {
 import Button from '../../../Common/Button'
 import Avatar from '../../../Header/Avatar'
 import { commentSchema } from './CommentInput'
-import nl2br from 'react-nl2br'
 
 type CommentProps = {
   comment: CommentType

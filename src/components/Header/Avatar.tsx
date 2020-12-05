@@ -1,5 +1,4 @@
 import React from 'react'
-import { User } from '../../types/types'
 import { avatarInitials } from '../../utils/utils'
 
 type AvatarProps = {

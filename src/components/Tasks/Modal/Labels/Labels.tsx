@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilState } from 'recoil'
 import client from '../../../../api/client'
 import { taskLabelsState } from '../../../../state/labelState'
 import { LabelType } from '../../../../types/types'

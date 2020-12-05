@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { MdSearch } from 'react-icons/md'
 import { DebounceInput } from 'react-debounce-input'
+import { MdSearch } from 'react-icons/md'
 
 type SearchInputProps = {
   placeholder: string

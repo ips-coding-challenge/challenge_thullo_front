@@ -1,19 +1,13 @@
 import React, { useState } from 'react'
+import { toast } from 'react-toastify'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
-import {
-  commentsState,
-  taskModalShowState,
-  taskState,
-} from '../../../../state/taskState'
-import { userState } from '../../../../state/userState'
-import { avatarInitials } from '../../../../utils/utils'
-import Button from '../../../Common/Button'
-import Avatar from '../../../Header/Avatar'
 import * as yup from 'yup'
 import client from '../../../../api/client'
-import { CommentType, TaskType } from '../../../../types/types'
-import BasicError from '../../../Common/BasicError'
-import { toast } from 'react-toastify'
+import { commentsState, taskModalShowState } from '../../../../state/taskState'
+import { userState } from '../../../../state/userState'
+import { CommentType } from '../../../../types/types'
+import Button from '../../../Common/Button'
+import Avatar from '../../../Header/Avatar'
 
 export const commentSchema = yup.object().shape({
   content: yup.string().min(2).required(),

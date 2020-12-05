@@ -5,7 +5,6 @@ import BasicLoader from '../components/BasicLoader'
 import BoardCard from '../components/Boards/BoardCard'
 import CreateBoardModal from '../components/Boards/CreateBoardModal'
 import Button from '../components/Common/Button'
-import UnsplashModal from '../components/Common/UnsplashModal'
 import Layout from '../components/Layout'
 
 const Boards = () => {

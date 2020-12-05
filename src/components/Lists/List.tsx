@@ -1,19 +1,12 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { MdAdd, MdMoreHoriz } from 'react-icons/md'
+import React, { useCallback } from 'react'
+import { Draggable, Droppable } from 'react-beautiful-dnd'
+import { MdAdd } from 'react-icons/md'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import client from '../../api/client'
-import { listFilteredState, listState } from '../../state/listState'
+import { listState } from '../../state/listState'
+import { newTaskState, tasksState } from '../../state/taskState'
 import { ListOfTasks, TaskType } from '../../types/types'
-import ListInput from './ListInput'
 import Task from '../Tasks/Task'
 import AddButton from './AddButton'
-import {
-  newTaskState,
-  taskModalShowState,
-  tasksState,
-} from '../../state/taskState'
-import { Draggable, Droppable } from 'react-beautiful-dnd'
-import ListDropdown from './ListDropdown'
 import ListHeading from './ListHeading'
 
 type ListProps = {

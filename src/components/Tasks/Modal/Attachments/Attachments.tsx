@@ -4,7 +4,6 @@ import { useRecoilValue } from 'recoil'
 import {
   uploadErrorForTask,
   uploadErrorGeneralState,
-  uploadErrorsState,
 } from '../../../../state/fileState'
 import {
   taskAttachmentsState,

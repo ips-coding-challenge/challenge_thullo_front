@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { MdAdd } from 'react-icons/md'
-import AddButton from './AddButton'
 import { ListOfTasks } from '../../types/types'
+import AddButton from './AddButton'
 import ListInput from './ListInput'
 
 type AddListProps = {

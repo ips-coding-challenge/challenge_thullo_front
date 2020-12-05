@@ -1,4 +1,4 @@
-import { atom, atomFamily, selectorFamily } from 'recoil'
+import { atom, selectorFamily } from 'recoil'
 import { FileType, UploadError } from '../types/types'
 
 // {task_id, status}

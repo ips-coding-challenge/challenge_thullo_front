@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import { Board, User } from '../../types/types'
-import { avatarInitials } from '../../utils/utils'
 import Avatar from '../Header/Avatar'
 
 type BoardCardProps = {

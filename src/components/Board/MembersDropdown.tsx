@@ -3,11 +3,7 @@ import { MdAdd } from 'react-icons/md'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
 import { boardMembersState } from '../../state/boardState'
-import {
-  assignedMembersState,
-  currentTaskState,
-  taskState,
-} from '../../state/taskState'
+import { assignedMembersState, taskState } from '../../state/taskState'
 import { TaskType, User } from '../../types/types'
 import { formatServerErrors } from '../../utils/utils'
 import BaseDropdown from '../Common/BaseDropdown'

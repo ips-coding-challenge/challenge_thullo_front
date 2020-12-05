@@ -1,6 +1,6 @@
 import React from 'react'
 import { useRecoilValue } from 'recoil'
-import { taskCoverSelector, taskState } from '../../../state/taskState'
+import { taskState } from '../../../state/taskState'
 
 type TaskCoverProps = {
   id: number

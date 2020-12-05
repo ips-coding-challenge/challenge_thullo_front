@@ -1,7 +1,4 @@
 import React from 'react'
-import { IconType } from 'react-icons'
-import { MdPublic } from 'react-icons/md'
-import { JsxElement } from 'typescript'
 
 type VisibilityItemProps = {
   title: string

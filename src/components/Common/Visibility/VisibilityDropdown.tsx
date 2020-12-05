@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { MdLock, MdLockOpen, MdPublic } from 'react-icons/md'
+import React from 'react'
+import { MdLock, MdPublic } from 'react-icons/md'
 import { toCamelCase } from '../../../utils/utils'
 import BaseDropdown from '../BaseDropdown'
 import Button from '../Button'

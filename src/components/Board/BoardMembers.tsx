@@ -6,7 +6,6 @@ import { User } from '../../types/types'
 import { isAdmin } from '../../utils/utils'
 import Avatar from '../Header/Avatar'
 import InvitationDropdown from '../Invitations/InvitationDropdown'
-import MembersDropdown from './MembersDropdown'
 
 const BoardMembers = () => {
   const board = useRecoilValue(boardState)

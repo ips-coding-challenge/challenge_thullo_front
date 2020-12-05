@@ -1,12 +1,11 @@
+import axios from 'axios'
 import React, { useCallback, useEffect, useState } from 'react'
 import { MdImage, MdSearch } from 'react-icons/md'
+import { useRecoilState } from 'recoil'
+import { pageState, photosState, urlState } from '../../../state/unsplashState'
 import BaseDropdown from '../BaseDropdown'
-import axios from 'axios'
 import Button from '../Button'
-import BasicLoader from '../../BasicLoader'
 import PhotoGallery from './PhotoGallery'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
-import { pageState, urlState, photosState } from '../../../state/unsplashState'
 
 const UnsplashDropdown = () => {
   const [page, setPage] = useRecoilState(pageState)

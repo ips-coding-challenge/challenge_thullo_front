@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
 import { listItemState, listState } from '../../state/listState'
 import { ListOfTasks } from '../../types/types'

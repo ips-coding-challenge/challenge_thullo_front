@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React from 'react'
 import { MdMoreHoriz } from 'react-icons/md'
 import BaseDropdown from '../Common/BaseDropdown'
 

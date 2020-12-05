@@ -1,17 +1,17 @@
+import axios from 'axios'
+import { nanoid } from 'nanoid'
 import React, { useRef } from 'react'
 import { MdAdd } from 'react-icons/md'
-import axios from 'axios'
 import { useRecoilValue, useSetRecoilState } from 'recoil'
+import client from '../../api/client'
 import {
   filesState,
   uploadErrorForTask,
   uploadErrorGeneralState,
   uploadErrorsState,
 } from '../../state/fileState'
-import { FileType, TaskType, UploadError } from '../../types/types'
 import { taskModalShowState, taskState } from '../../state/taskState'
-import { nanoid } from 'nanoid'
-import client from '../../api/client'
+import { FileType, TaskType, UploadError } from '../../types/types'
 
 const FileInput = () => {
   const setFilesState = useSetRecoilState(filesState)

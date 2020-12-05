@@ -1,4 +1,4 @@
-import { atom, atomFamily, selector, selectorFamily } from 'recoil'
+import { atom, atomFamily, selector } from 'recoil'
 import { Board, User } from '../types/types'
 
 export const boardState = atom<Board | null>({

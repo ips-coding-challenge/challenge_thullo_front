@@ -1,6 +1,4 @@
-import { get } from 'react-hook-form'
-import { atom, atomFamily, selector, selectorFamily } from 'recoil'
-import { number } from 'yup'
+import { atom, atomFamily, selectorFamily } from 'recoil'
 import {
   AttachmentType,
   CommentType,

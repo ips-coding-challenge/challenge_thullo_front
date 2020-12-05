@@ -7,7 +7,7 @@ import {
 import { useRecoilValue, useSetRecoilState } from 'recoil'
 import client from '../../api/client'
 import { listFilteredState, listState } from '../../state/listState'
-import { tasksState, taskState } from '../../state/taskState'
+import { tasksState } from '../../state/taskState'
 import { Board, ListOfTasks, TaskType } from '../../types/types'
 import AddList from './AddList'
 import List from './List'
