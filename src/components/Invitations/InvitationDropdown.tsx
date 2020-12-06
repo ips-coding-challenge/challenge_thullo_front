@@ -48,7 +48,7 @@ const InvitationDropdown = () => {
               <h3 className="font-semibold mb-6">Invite to board</h3>
 
               <BaseInput
-                placeholder="Enter username"
+                placeholder="Enter user's email"
                 icon={<MdSend />}
                 onClick={(email) => {
                   sendInvitation(email)

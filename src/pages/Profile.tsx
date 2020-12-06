@@ -1,16 +1,18 @@
 import { AxiosResponse } from 'axios'
 import React, { useCallback, useEffect, useState } from 'react'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useSetRecoilState } from 'recoil'
 import BasicError from '../components/Common/BasicError'
 import Avatar from '../components/Header/Avatar'
 import Navbar from '../components/Header/Navbar'
 import { useMutate } from '../hooks/useMutate'
 import { useUploadFile } from '../hooks/useUploadFile'
+import { tasksState } from '../state/taskState'
 import { userState } from '../state/userState'
-import { User } from '../types/types'
+import { TaskType, User } from '../types/types'
 
 const Profile = () => {
   const [user, setUser] = useRecoilState(userState)
+  const setTasks = useSetRecoilState(tasksState)
   const [progress, setProgress] = useState(0)
 
   const { errors: serverErrors, result, mutate } = useMutate<User>(
@@ -36,7 +38,7 @@ const Profile = () => {
       console.log('responses', responses)
       for (const res of responses) {
         const finalUrl = `https://res.cloudinary.com/trucmachin/image/upload/c_thumb,w_400,g_face/v1607022210/${res.data.public_id}.${res.data.format}`
-        mutate({
+        await mutate({
           avatar: finalUrl || res.data.secure_url,
         })
       }
