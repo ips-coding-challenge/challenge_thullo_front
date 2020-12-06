@@ -75,6 +75,13 @@ const Login = () => {
           required
         />
 
+        <div className="my-2 text-sm">
+          <p>Don't want to create an account?</p>
+          <p className="text-blue">
+            Try <strong>demo@test.com</strong> with <strong>password</strong>
+          </p>
+        </div>
+
         <p className="text-gray-600 mb-4 text-right hover:text-gray-800">
           <Link to="/register">Not registered yet?</Link>
         </p>
