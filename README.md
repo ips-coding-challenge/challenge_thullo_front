@@ -6,7 +6,7 @@
 
 ### Desktop
 
-![thullo](https://res.cloudinary.com/trucmachin/image/upload/v1606416415/thullo_wip_rifcms.gif)
+![thullo](https://res.cloudinary.com/trucmachin/image/upload/v1607264331/screen_thullo_s1pln9.jpg)
 
 If you're interested taking the challenge, it's over there: https://devchallenges.io/challenges/wP0LbGgEeKhpFHUpPpDh
 
